@@ -1,0 +1,96 @@
+/* Body & Defaults */
+
+body {
+    margin: 40px auto;
+    max-width: 800px;
+    line-height: 1.6;
+    font-size: 18px;
+    color: #444;
+    padding: 0 10px
+}
+
+/* Footer */
+
+#site-footer {
+    margin-bottom: 64px;
+    margin-top: 64px;
+    text-align: center;
+}
+
+#site-footer p {
+    margin: 0;
+}
+
+#footer-menu {
+    font-weight: bold;
+    font-size: 20px;
+}
+
+/* Headlines */
+
+h1, h2, h3 {
+    line-height: 1.2
+}
+
+/* Links */
+
+a {
+    text-decoration: underline;
+    color: #444;
+}
+
+a:hover {
+    color: black;
+}
+
+/* Tables */
+
+table {
+    border-collapse: collapse;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+table, th, td {
+    border: 1px solid black;
+}
+
+th, td {
+    padding: 2px 5px;
+}
+
+/* Figures */
+
+/* figure {
+    text-align: center;
+} */
+
+figure {
+    max-width: 100%;
+    height: auto;
+    margin: 0;
+    text-align: center;
+}
+
+figure figcaption {
+    text-align: center;
+    font-size: small;
+}
+
+img {
+    display: block;
+    max-width: 100%;
+    height: auto;
+    margin: auto;
+    border-radius: 4px;
+}
+
+/* Mathjax */
+
+.has-jax {
+    font: inherit;
+    background: inherit;
+    border: 0;
+    padding: 0;
+    color: inherit;
+}

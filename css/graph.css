@@ -1,0 +1,98 @@
+/* DAG */
+
+.half-full tspan {
+    fill: #444;
+    font-size: 12px;
+    letter-spacing: 0px;
+}
+
+.node rect {
+    fill: transparent;
+    stroke-width: 5px;
+    stroke: steelblue;
+}
+
+.edgePath path {
+    stroke: #444;
+    fill: #444;
+    stroke-width: 1.5px;
+}
+
+.match-non-goal-path rect {
+    stroke: orange;
+}
+
+.match-goal-path rect {
+    fill: orange;
+    stroke: orange;
+}
+
+.match-goal-path tspan {
+    fill: #000;
+}
+
+.predict-goal-path rect {
+    fill: steelblue;
+    stroke: steelblue;
+}
+
+.predict-goal-path tspan {
+    fill: #000;
+}
+
+@supports (width: 100vw) {
+    figure.half-full {
+        max-width: 100vw;
+        width: 1000px;
+        position: relative;
+        left: 50%;
+        right: 50%;
+        margin-left: -500px;
+        margin-right: -500px;
+    }
+    @media only screen and (max-width: 1000px) {
+        figure.half-full {
+            max-width: 100vw;
+            width: 100%;
+            left: 0;
+            right: 0;
+            margin: 0;
+            overflow-y: auto;
+        }
+    }
+}
+
+/* Tree */
+
+.node circle {
+    fill: white;
+    stroke: steelblue;
+    stroke-width: 3px;
+}
+
+.node text {
+    font: 12px sans-serif;
+    fill: #444;
+}
+
+.link {
+    fill: none;
+    stroke: #7d828a;
+    stroke-width: 2px;
+}
+
+circle:hover {
+    transform: scale(1.1, 1.1);
+}
+
+circle.match {
+    stroke: orange;
+}
+
+circle.match[data-goal-path="true"] {
+    fill: orange;
+}
+
+circle.predict[data-goal-path="true"] {
+    fill: steelblue;
+}

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Vim and Tmux as Alternative to Juno for Julia Development</title>
+    <link rel="stylesheet" href="/css/default.css">
+    
+    <link rel="stylesheet" href="/lib/highlight.js/styles/default.css">
+<script src="/lib/highlight.js/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+    
+</head>
+
+<body>
+    <article>
+        <header>
+            <div><span class="date">Feb 15, 2020</span></div>
+            <h1>Vim and Tmux as Alternative to Juno for Julia Development</h1>
+        </header>
+        <div class="content">
+            <p>I spend a lot of time coding in Julia at the moment. And while Juno is fine mostly, I was exploring a more lightweight (and fun) alternative based on Vim, Tmux, and the Julia REPL.</p>
+<h2>Integrating the Julia REPL with Vim</h2>
+<p>Following <a href="http://www.serhatcevikel.com/?p=56">this post</a> by Serhat Cevikel about Vim as an IDE for Julia, I set up a similar configuration with <em>Tmux</em> instead of <em>Screen</em>. As in the original post, we need the following prerequisites:</p>
+<ul>
+<li><a href="https://www.vim.org/">Vim</a></li>
+<li><a href="https://github.com/tmux/tmux">Tmux</a> </li>
+<li><a href="https://github.com/jpalardy/vim-slime">vim-slime</a> plugin</li>
+<li><a href="https://julialang.org/downloads/">Julia</a></li>
+</ul>
+<p>After installing all required packages, we need to configure Vim by adding the following lines to our <em>.vimrc</em>:</p>
+<pre><code class="language-vim">&quot; set slime target (tmux instead of screen)
+let g:slime_target = &quot;tmux&quot;
+&quot; set target pane that code is sent to (optional)
+let g:slime_default_config = {&quot;socket_name&quot;: &quot;default&quot;, &quot;target_pane&quot;: &quot;0.1&quot;}
+</code></pre>
+<p>The optional second line assumes that Tmux window 0 has at least two panes and the Julia REPL runs in pane 1. To configure this on startup, I wrote a simple bash script that creates a Tmux window with two panes: a Vim session with the file argument provided to the script, and the Julia REPL that will be the target of <em>vim-slime</em>.</p>
+<pre><code class="language-bash">#!/bin/bash
+tmux new \; \
+	send-keys &quot;vim $1&quot; Enter \; \
+	split-window -v \; \
+	rename-window julia \; \
+	send-keys &quot;julia&quot; Enter \; \
+	select-pane -t 0 \; 
+</code></pre>
+<p>After opening a file with this script, we can select Julia code in Vim's visual mode and send it to the REPL for execution by pressing <code>C-c C-c</code> (you can keep pressing control and tap <code>c</code> twice). The first time this is done in a session, we need to confirm the default slime configuration we set in our .vimrc by pressing enter twice. </p>
+<p>For long stack traces, we'll want to scroll the REPL pane. In Tmux you can scroll with the navigation keys after entering the scroll mode by typing <code>C-b [</code> from within the pane. You can quit this mode by typing <code>q</code>. Since this is inconvenient, especially on a German keyboard, I enabled mouse scrolling with the following line in <em>.tmux.config</em>:</p>
+<pre><code class="language-bash">set -g mouse on
+</code></pre>
+<p>With this option you need to press shift while selecting text in order to copy from the pane.</p>
+<h2>Language Support</h2>
+<p>There is a very nice plugin called <a href="https://github.com/JuliaEditorSupport/julia-vim">julia-vim</a> which provides basic support for editing Julia files (indentation, syntax highlighting) and additional functionality such as converting LaTeX to Unicode symbols and block-wise movements.</p>
+<p>Further language support (autcomplete, goto definition, documentation on hover) should be available via <a href="https://github.com/julia-vscode/LanguageServer.jl">LanguageServer.jl</a>, an implementation of Microsoft's <a href="https://microsoft.github.io/language-server-protocol/">Language Server Protocol</a> for Julia. I briefly tried to set it up with <a href="https://github.com/autozimu/LanguageClient-neovim/">LanguageClient-neovim</a> and <a href="https://github.com/ncm2/ncm2">ncm2</a>, but alas, without success. I'll have to try again in a quiet hour.</p>
+<h2>File Explorer</h2>
+<p>Another central feature of Atom and most IDEs is a file explorer. For Vim there is a nice plugin called <a href="https://github.com/preservim/nerdtree">NERDTree</a>. For convenience I defined two key mappings in my <em>.vimrc</em> to access basic features:</p>
+<pre><code class="language-vim">&quot; open/close NERDTree
+map &lt;F2&gt; :NERDTreeToggle&lt;CR&gt;
+&quot; reveal file in tree
+map &lt;F3&gt; :NERDTreeFind&lt;CR&gt;
+</code></pre>
+<p>The first command toggles NERDTree in a little window at the left side. The second command is NERDTree's equivalent of Atom's &quot;reveal in tree&quot; functionality.</p>
+<h2>Git Integration</h2>
+<p>I mostly use Git via the command line, together with <a href="https://git-scm.com/docs/gitk">gitk</a>, so for me being able to split the bottom pane (<code>C-b %</code>) vertically and having a terminal on the right side is already an improvement. I know that there are several popular plugins for working with Git from within Vim, namely </p>
+<ul>
+<li><a href="https://github.com/tpope/vim-fugitive">vim-fugitive</a>, a seemingly quite comprehensive Git wrapper,</li>
+<li><a href="https://github.com/airblade/vim-gitgutter">vim-gitgutter</a>, a plugin that shows git diffs and has a lot of other functionality, and</li>
+<li><a href="https://github.com/Xuyuanp/nerdtree-git-plugin">nerdtree-git-plugin</a>, which extends NERDTree to show the Git status.</li>
+</ul>
+<p>However, so far I haven't tried any of them.</p>
+<h2>Killing the Monster</h2>
+<p>This line in <em>.tmux.conf</em> creates a shortcut for killing the active session:</p>
+<pre><code class="language-bash">bind X confirm-before kill-session
+</code></pre>
+<p>To load Tmux config changes immediately (without restarting the server), you can run <code>tmux source-file ~/.tmux.conf</code> on the command line. Afterwards you can leave your custom IDE by typing <code>C-b X</code> and confirming your action.</p>
+
+        </div>
+    </article>
+    <footer id="site-footer">
+        <nav>
+            <p id="footer-menu"><a href="/">Home</a> | <a href="/about.html">About</a></p>
+        </nav>
+        <p>&copy; 2018-2020 Tobias Kolditz</p>
+    </footer>
+    
+</body>
+
+</html>

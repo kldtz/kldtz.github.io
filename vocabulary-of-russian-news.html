@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>How Many Words Do You Need to Know to Understand Russian News?</title>
+    <link rel="stylesheet" href="/css/default.css">
+    
+    
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML" defer>
+</script>
+<script type="text/x-mathjax-config" defer>
+MathJax.Hub.Config({
+  tex2jax: {
+    inlineMath: [['$','$'], ['\\(','\\)']],
+    displayMath: [['$$','$$'], ['\[','\]']],
+    processEscapes: true,
+    processEnvironments: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+    TeX: { equationNumbers: { autoNumber: "AMS" },
+         extensions: ["AMSmath.js", "AMSthm.js", "AMSsymbols.js", "physics.js"] }
+  }
+});
+</script>
+<script type="text/javascript" defer>
+  MathJax.Hub.Queue(function() {    
+    var all = MathJax.Hub.getAllJax(), i;
+    for (i = 0; i < all.length; i++) {
+        all[i].SourceElement().parentNode.className = 'has-jax';
+    }
+});
+</script>
+</head>
+
+<body>
+    <article>
+        <header>
+            <div><span class="date">Dec 30, 2018</span></div>
+            <h1>How Many Words Do You Need to Know to Understand Russian News?</h1>
+        </header>
+        <div class="content">
+            <p>That's a question I ask myself every time I painstakingly try to figure out at least the gist of an article from a Russian newspaper. To answer the question, I performed some lexical frequency analysis on a corpus of Russian news articles. As expected from Zipf's law, a relatively small number of different words makes up a large percentage of the whole corpus. Unfortunately, to understand at least 90% of all tokens, we still need to know around 7,000 different lexemes.</p>
+<h2>Data</h2>
+<p>The data which all frequency counts in this post are based on are taken from the <a href="http://www.statmt.org/wmt15/translation-task.html#download">shared task on machine translation</a> at the EMNLP 2015 Workshop on Statistical Machine Translation (Lisbon, Portugal). More specifically, I used the news crawl articles from 2014, a subset of the monolingual language model training data, consisting of more than 190 million tokens.</p>
+<h2>Basic Concepts</h2>
+<p>What is a word? When people talk about different 'words' in the context of natural language processing (NLP), they usually mean <strong>tokens</strong> (strings of characters delimited by white space and sometimes punctuation), or <strong>token types</strong> (distinct tokens). In the context of language learning, knowing a 'word' usually means knowing a <strong>lexeme</strong>, a unit of lexical meaning often represented by a <strong>lemma</strong> (aka canonical/citation/dictionary form, headword). Inflected forms of a lexeme are called <strong>word-forms</strong>. </p>
+<p>Here is a brief example: For the (rather nonsensical) string <em>&quot;Peter walks, I walk, people walk&quot;</em> our tokenizer (which ignores punctuation) gives us the following list of six tokens: <em>Peter, walks, I, walk, people, walk</em>. Since <em>walk</em> appears twice, this list contains only five token types and five different word-forms<a name="fn-1"></a><sup><a href="#1">1</a></sup>. Both <em>walk</em> and <em>walks</em> belong to the same lexeme, which is represented by the lemma <em>walk</em> (under which we could find it in a dictionary of English), so we have four different lexemes.</p>
+<p>In a <a href="https://en.wikipedia.org/wiki/Synthetic_language">synthetic language</a> like Russian, often a larger set of word-forms belongs to a single lexeme. Given some knowledge about Russian morphology, knowing the lemma in most cases is enough to understand all inflected forms. Thus instead of counting types, we should count lexemes or lemmas to get a good estimate of the number of words we need to know to read Russian news articles.</p>
+<h2>Corpus Analysis</h2>
+<p>Tokenization and lemmatization is performed with <a href="https://tech.yandex.ru/mystem/">Yandex MyStem</a> via Denis Sukhonin's <a href="https://github.com/nlpub/pymystem3">Python wrapper</a>. Tokens containing non-word characters, digits or latin characters are excluded from the analysis. If MyStem does not find a lemma, we fall back to the token string (this happens for less than 0.4% of all tokens), so each token is assigned exactly one lemma.</p>
+<p>For each lemma, we count the number of token occurences that are word-forms of the corresponding lexeme, the absolute frequency <em>f</em>. By sorting all lemmas in reverse order of their frequency, we can assign each of them a rank <em>r</em> and compute the cumulative percentage of all tokens belonging to lemmas of up to rank $r$, the cumulative relative frequency $cf_r$. </p>
+<h3>Zipf's Law</h3>
+<p>This is the result for the ten most frequent lemmas:</p>
+<table><thead><tr><th align="left">Rank <em>r</em></th><th align="left">Lemma</th><th align="right">Frequency <em>f</em></th><th align="right"><em>cf<sub>r</sub> (%)</em></th></tr></thead><tbody>
+<tr><td align="left">1</td><td align="left">в</td><td align="right">8,644,175</td><td align="right">4.4</td></tr>
+<tr><td align="left">2</td><td align="left">и</td><td align="right">5,178,798</td><td align="right">7.1</td></tr>
+<tr><td align="left">3</td><td align="left">на</td><td align="right">3,863,065</td><td align="right">9.1</td></tr>
+<tr><td align="left">4</td><td align="left">не</td><td align="right">2,278,345</td><td align="right">10.2</td></tr>
+<tr><td align="left">5</td><td align="left">что</td><td align="right">2,216,003</td><td align="right">11.4</td></tr>
+<tr><td align="left">6</td><td align="left">с</td><td align="right">2,214,009</td><td align="right">12.5</td></tr>
+<tr><td align="left">7</td><td align="left">быть</td><td align="right">2,170,487</td><td align="right">13.6</td></tr>
+<tr><td align="left">8</td><td align="left">по</td><td align="right">1,916,732</td><td align="right">14.6</td></tr>
+<tr><td align="left">9</td><td align="left">год</td><td align="right">1,288,221</td><td align="right">15.3</td></tr>
+<tr><td align="left">10</td><td align="left">который</td><td align="right">1,153,170</td><td align="right">15.9</td></tr>
+</tbody></table>
+<p>We see that these ten lemmas alone cover almost 16% of all tokens in the corpus and that most of them are <a href="https://en.wikipedia.org/wiki/Function_word">function words</a>. To get a better overview of the frequency distribution we can plot the absolute frequency of the 10,000 most frequent lemmas against their rank.</p>
+<figure class="middle">
+    <img src="/img/absolute_lemma_frequencies.png"
+         alt="Log-log plot of absolute lemma frequency against rank"/> <figcaption>
+            <p>Fig. 1: Log-log plot of actual (blue) and predicted (orange) absolute lemma frequency against rank</p>
+        </figcaption>
+</figure>
+<p>The empirical relation between absolute frequency and rank in this log-log plot (blue) can be approximated<a name="fn-2"></a><sup><a href="#2">2</a></sup> by a straight line with negative slope (orange), which shows that frequency and rank are inversely proportional<a name="fn-3"></a><sup><a href="#3">3</a></sup>. We have a few words with very high frequency and a long tail of words with low frequencies. This phenomenon is known as one of several incarnations of <strong>Zipf's law</strong>, which for word frequencies can be stated simply<a name="fn-4"></a><sup><a href="#4">4</a></sup> as</p>
+<div>
+$$f(r) = Cr^{-1} $$
+</div>
+<p>where $r$ is the frequency rank, <code>$f(r)$</code> is the absolute frequency of the lemma with rank <code>$r$</code>, and <code>$C$</code> is a constant of approximately 0.1 times the corpus size in tokens $N_T$ <a href="#zipf-1949">(Zipf, 1949, ch. 2 III)</a>. Plotting this function with <code>$C=0.1 \cdot N_T$</code> for the first 10,000 ranks gives us the orange line in Fig. 1.</p>
+<h3>Estimating the Necessary Passive Vocabulary</h3>
+<p>Based on Fig. 1 we can expect to cover a large share of tokens with only a small number of highly frequent lemmas. To see how our text understanding (or at least token coverage<a name="fn-5"></a><sup><a href="#5">5</a></sup>) varies as a function of the number of most frequent words we know, let's have a look at the cumulative relative frequencies of the 10,000 most frequent lemmas:</p>
+<figure class="middle">
+    <img src="/img/cumulative-relative-freq.png"
+         alt="Cumulative relative token frequency against rank"/> <figcaption>
+            <p>Fig.&nbsp;2: Cumulative relative token frequency against rank</p>
+        </figcaption>
+</figure>
+<p>If we know the 1,000 most frequent lemmas, we will be able to understand roughly 60% of all tokens we encounter in Russian news articles; with the 3,000 most frequent lemmas we cover over 80%. To read comfortably without frequent recourse to a dictionary, we probably need to know more than 90% of all tokens, that is, at least 7,000 lemmas.</p>
+<p>Fig. 2 also shows why it's generally easier to make noticeable progress in the early stages of learning a language than in later stages. Knowing only a few more highly frequent words has huge effects on our text understanding, whereas adding a few more lesser frequent words has only little effect: The first 2,000 lemmas improve our text understanding by more than 75%, adding 2,000 lemmas to a vocabulary of 8,000 lemmas only yields around 2% improvement. Even worse, learning these later 2,000 lemmas is far more difficult, as the probability of encountering them again is low, hence they are not reinforced merely by reading random authentic texts.</p>
+<h2>Discussion</h2>
+<p>So with 7,000 lexemes we can understand 90% of all newspaper texts. This number seems high - do we really need that many? There are several factors that make this a rather pessimistic estimate.</p>
+<p>The lemmas used here are generated programmatically. As mentioned above, in less than 0.4% of all cases this didn't work at all. However, I didn't evaluate the quality of the generated lemmas -- from what I've seen they look good, but there could be a certain percentage of errors that artificially inflate their number. Additionally, any misspelling potentially creates a new 'false lemma'.</p>
+<p>Some lexemes can be derived from others (or a common root) by regular morphological processes, e.g., <em>inform</em> &gt; <em>information</em>, <em>informative</em>. If they share a core meaning, they maybe don’t need to be learned separately. Such related lexemes (with all their word-forms) make up <strong>word families</strong>. To get a more optimistic estimate of the necessary vocabulary size, we should count word families instead of lexemes. However, the semantic relations between such derivates can be opaque, either because their meaning is not fully compositional right from the beginning or because the morphological processes are not productive anymore and the lexical semantics of the derivates have developed in different directions. Thus we might not be able to correctly guess the meaning of one lexeme based on another from the same word family as the following English examples from <a href="#newmeyer-2009">Newmeyer (2009)</a> show:</p>
+<ol>
+<li>Idiosyncratic meaning relations (<a href="#newmeyer-2009">Newmeyer 2009, p. 94</a>)</li>
+<li>profess ('declare openly'), professor ('university teacher'), profession ('career')</li>
+<li>ignore ('pay no attention to'), ignorance ('lack of knowledge'), ignoramus ('very stupid person')</li>
+<li>person (‘human individual’), personal (‘private’), personable (‘friendly’), personality (‘character’),
+personalize (‘tailor to the individual’), impersonate (‘pass oneself off as’)</li>
+<li>social (‘pertaining to society’; ‘interactive with others’), socialist (‘follower of a particular political
+doctrine’), socialite (‘member of high society’)</li>
+</ol>
+<p>For our analysis we make the simplifying assumption that there is a one-to-one correspondence between tokens and lexemes. In reality, lexemes can consist of multiple tokens, e.g., <em>San Francisco</em>. More generally, we often learn <a href="https://en.wikipedia.org/wiki/Collocation">collocations</a> instead of single words.</p>
+<p>Another point that should be addressed are names, e.g., of people, places, companies and brands. All of these are counted as ordinary lexemes in this analysis. But often articles introduce names to the reader, which means he or she doesn't need to know them in advance. Even if names aren't introduced explicitly, they usually stand out, information about their referents can be inferred, and not knowing them doesn't necessarily hinder comprehension.</p>
+<p>Finally, the corpus used for this analysis is quite large and heterogeneous. People usually don't read random newspaper articles, instead they follow their interests -- maybe they are interested in sports, politics, world news, or the latest developments at the stock market. The vocabulary of any of these sub-domains will be far more restricted, thus we can hope to read articles about our favorite topics knowing far less than 7,000 lexemes.</p>
+<hr>
+<p><a name="1" href="#fn-1"><sup>1</sup></a> Note that the concept of <em>token types</em> comes from natural language processing and is not identical with the linguistic concept of <em>word-forms</em>. If our tokenizer would split on whitespace only, punctuation characters would be considered tokens, but not word-forms. Similarly, in the case of missing spaces, several adjacent word-forms may become one token.</p>
+<p><a name="2" href="#fn-2"><sup>2</sup></a> Because frequency and rank are estimated on the same corpus, the empirical distribution might seem more regular than it actually is due to correlated errors <a href="#piantadosi-2014">(Piantadosi, 2014)</a>. However, for our purposes this error is negligible.</p>
+<p><a name="3" href="#fn-3"><sup>3</sup></a> This relationship only appears linear in a log-log plot: <code>$\log(\frac{C}{r}) = - \log(r) + \log(C)$</code>.</p>
+<p><a name="4" href="#fn-4"><sup>4</sup></a> A more general version of this power law was proposed by <a href="#mandelbrot-1953">Mandelbrot (1953)</a>: <code>$f(r) = C (r + a)^{-b}$</code> where <code>$a$</code> and <code>$b$</code> are constants (in our case <code>$a=0$</code> and <code>$b=1$</code>).</p>
+<p><a name="5" href="#fn-5"><sup>5</sup></a> There seems to be a linear relationship between the percentage of known words and reading comprehension, but it's not the only factor, see <a href="#schmitt-2011">Schmitt et al. (2011)</a>.</p>
+<hr>
+<p><a name="mandelbrot-1953"></a> Mandelbrot, B. (1953). An informational theory of the statistical structure of language. Communication theory, 84, 486-502.</p>
+<p><a name="newmeyer-2009"></a> Newmeyer, F. (2009). Current challenges to the lexicalist hypothesis. Time and again: Theoretical perspectives on formal linguistics, 91-117.</p>
+<p><a name="piantadosi-2014"></a> Piantadosi, S. T. (2014). Zipf’s word frequency law in natural language: A critical review and future directions. Psychonomic bulletin &amp; review, 21(5), 1112-1130.</p>
+<p><a name="schmitt-2011"></a> Schmitt, N., Jiang, X., &amp; Grabe, W. (2011). The percentage of words known in a text and reading comprehension. The Modern Language Journal, 95(1), 26-43.</p>
+<p><a name="zipf-1949"></a> Zipf, G. K. (1949). Human behavior and the principle of least effort: An introduction to human ecology. Cambridge, MA: Addison-Wesley.</p>
+
+        </div>
+    </article>
+    <footer id="site-footer">
+        <nav>
+            <p id="footer-menu"><a href="/">Home</a> | <a href="/about.html">About</a></p>
+        </nav>
+        <p>&copy; 2018-2020 Tobias Kolditz</p>
+    </footer>
+    
+</body>
+
+</html>

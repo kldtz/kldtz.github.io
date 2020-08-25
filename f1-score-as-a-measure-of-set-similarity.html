@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>F1 Score as a Measure of Set Similarity</title>
+    <link rel="stylesheet" href="/css/default.css">
+    
+    
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML" defer>
+</script>
+<script type="text/x-mathjax-config" defer>
+MathJax.Hub.Config({
+  tex2jax: {
+    inlineMath: [['$','$'], ['\\(','\\)']],
+    displayMath: [['$$','$$'], ['\[','\]']],
+    processEscapes: true,
+    processEnvironments: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+    TeX: { equationNumbers: { autoNumber: "AMS" },
+         extensions: ["AMSmath.js", "AMSthm.js", "AMSsymbols.js", "physics.js"] }
+  }
+});
+</script>
+<script type="text/javascript" defer>
+  MathJax.Hub.Queue(function() {    
+    var all = MathJax.Hub.getAllJax(), i;
+    for (i = 0; i < all.length; i++) {
+        all[i].SourceElement().parentNode.className = 'has-jax';
+    }
+});
+</script>
+</head>
+
+<body>
+    <article>
+        <header>
+            <div><span class="date">Mar 26, 2019</span></div>
+            <h1>F1 Score as a Measure of Set Similarity</h1>
+        </header>
+        <div class="content">
+            <p>In machine learning the F1 score is often used to evaluate the performance of classifiers. In this context it is usually thought of in terms of true positives, false positives and false negatives from a binary contingency table. However, thinking of the F1 score as a simple measure of set similarity may give us better intuitions about its properties and limitations.</p>
+<h2>F1 Score from Two Sets</h2>
+<p>Given a set $R$ of expected or <strong>real elements</strong> and a set $P$ of <strong>predicted elements</strong>, we can define the sets of <strong>true positives</strong> $TP$, <strong>false positives</strong> $FP$ and <strong>false negatives</strong> $FN$ via basic set operations.</p>
+<div>
+$$\begin{align}
+TP &= R \cap P\\
+FP &= P \setminus R\\
+FN &= R \setminus P
+\end{align}$$
+</div>
+<p>Based on these sets, we can define <strong>precision</strong> $p$, aka <em>confidence</em> or <em>true positive accuracy</em>, and <strong>recall</strong> $r$, aka <em>sensitivity</em> or <em>true positive rate</em>.</p>
+<div>
+$$\begin{align}
+p &= \frac{|R \cap P|}{|P|} = \frac{|TP|}{|TP| + |FP|}\\
+r &= \frac{|R \cap P|}{|R|} = \frac{|TP|}{|TP| + |FN|}
+\end{align}$$
+</div>
+<p>The <strong>F1 score</strong> is usually introduced as the harmonic mean of precision and recall or in terms of true positives, false positives and false negatives. The latter avoids division by zero if $|TP| = 0$ as long as $|FP| \neq 0$ or $|FN| \neq 0$. </p>
+<div>
+$$\begin{align}
+F_1 &= \frac{2pr}{p + r}\\
+    &= \frac{2|TP|}{2|TP| + |FP| + |FN|}
+\end{align}$$
+</div>
+<h2>Dice Coefficient</h2>
+<p>If we don't care about precision and recall, we can state $F_1$ most easily in terms of the two sets $R$ and $P$ directly, namely as the cardinality of the intersection of $R$ and $P$ (the number of true positives) normalized by the arithmetic mean of $|R|$ and $|P|$.</p>
+<p>$$
+F_1 = \frac{2|R \cap P|}{|R| + |P|} = \frac{|R \cap P|}{\frac{1}{2}(|R| + |P|)}
+$$</p>
+<p>In this form the $F_1$ score is known under the name of <strong>(Sørensen–)Dice coefficient</strong>. It is symmetric, thus the semantics attached to $R$ and $P$ don't really matter. Since we have $0 \leq F_1 \leq 1$, we can define the <strong>Dice distance</strong> $d_D$ as a semimetric of set distance within the same range by subtracting $F_1$ from one:</p>
+<p>$$
+d_D = 1 - F_1
+$$</p>
+<p>It is a semimetric because it satisfies non-negativity, identity of indiscernibles and symmetry, which is easy to see from the definition of $F_1$ in terms of $R$ and $P$, but does not satisfy the triangle inequality, e.g. for the three sets <code>$A = \{a\}$</code>, <code>$B = \{b\}$</code>, and <code>$AB = \{a, b\}$</code> we get $d_D(A, B) = 1$, $d_D(A, AB) = \frac{1}{3}$ and $d_D(AB, B) = \frac{1}{3}$, thus
+$$
+d_D(A,B) \not\leq d_D(A, AB) + d_D(AB, B).
+$$</p>
+<h2>Digression: Jaccard Coefficient</h2>
+<p>The Dice coefficient is not the only measure of set similarity. Another (earlier) example of this kind of statistic is the <strong>Jaccard coefficient</strong> $J$, aka <em>Intersection over Union (IoU)</em>: the cadinality of the intersection of $R$ and $P$ divided by the cardinality of their union. It may also be stated in terms of true positives, false negatives and false positives, or in terms of $F_1$.</p>
+<div>$$
+\begin{align}
+J &= \frac{|R \cap P|}{|R \cup P|}\label{intersection_over_union}\\
+&= \frac{|TP|}{|TP| + |FN| + |FP|}\label{jaccard_tp_fn_fp}\\
+&= \frac{F_1}{2 - F_1}\label{jaccard_f1}\\
+\end{align}
+$$</div>
+<p>The <strong>Jaccard distance</strong> $d_J = 1 - J$ is a metric, as it satisfies not only non-negativity, identity of indiscernibles and symmetry, but also the triangle inequality (in contrast to $d_D$).</p>
+<h2>Set Similarity vs. Classifier Performance</h2>
+<p>Assume that $R$ and $P$ are two subsets of another set $S$, that is, we no longer have only two sets $R$ and $P$, but two binary partitions of $S$, nameley the expected or real partition <code>$X = \{R, S \setminus R\}$</code> and the predicted partition <code>$Y = \{P, S \setminus P\}$</code>. With this superset $S$, we can define the set of <strong>true negatives</strong> $TN$ as the intersection of the relative complements of $R$ and $P$ in $S$:</p>
+<div>$$
+TN = (S \setminus R) \cap (S \setminus P)
+$$</div>
+<p>At this point we have all the information necessary for filling out the traditional binary contingency table.</p>
+<table><thead><tr><th></th><th align="center">R</th><th align="center">S \ R</th><th align="center">S</th></tr></thead><tbody>
+<tr><td><strong>P</strong></td><td align="center">|TP|</td><td align="center">|FP|</td><td align="center">|P|</td></tr>
+<tr><td><strong>S \ P</strong></td><td align="center">|FN|</td><td align="center">|TN|</td><td align="center">|S \ P|</td></tr>
+<tr><td><strong>S</strong></td><td align="center">|R|</td><td align="center">|S \ R|</td><td align="center">|S|</td></tr>
+</tbody></table>
+<p>Note that $TN$ is not defined if we have only two sets and thus does not affect the F score. For some tasks this is a desired property, e.g., in Information Retrieval (IR) or Named Entity Recognition (NER), where the set of true negatives can be ill-defined, uncountable or just extremely large. </p>
+<p>If we have a fixed set of items and our classifier assigns exactly one label per item, we have $S$. When we calculate F1 over all classes, for each item with matching labels we get a true positive, otherwise a false positive and a false negative, thus by definition $|TN| = 0$. In this case (micro-)F1 equals accuracy (the number of items where labels match divided by the total number of items) with all its limitations (<a href="https://en.wikipedia.org/wiki/Accuracy_paradox">accuracy paradox</a>).</p>
+
+        </div>
+    </article>
+    <footer id="site-footer">
+        <nav>
+            <p id="footer-menu"><a href="/">Home</a> | <a href="/about.html">About</a></p>
+        </nav>
+        <p>&copy; 2018-2020 Tobias Kolditz</p>
+    </footer>
+    
+</body>
+
+</html>

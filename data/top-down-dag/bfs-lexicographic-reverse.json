@@ -1,0 +1,596 @@
+[
+    {
+        "id": 1,
+        "isGoal": false,
+        "parents": [
+            {
+                "edgeId": 0,
+                "parentId": null
+            }
+        ],
+        "position": 0,
+        "prediction": [
+            "S"
+        ]
+    },
+    {
+        "id": 2,
+        "isGoal": false,
+        "parents": [
+            {
+                "edgeId": 1,
+                "parentId": 1
+            }
+        ],
+        "position": 0,
+        "prediction": [
+            "b",
+            "A"
+        ],
+        "rule": "S -> b A"
+    },
+    {
+        "id": 3,
+        "isGoal": false,
+        "parents": [
+            {
+                "edgeId": 2,
+                "parentId": 1
+            }
+        ],
+        "position": 0,
+        "prediction": [
+            "a",
+            "B"
+        ],
+        "rule": "S -> a B"
+    },
+    {
+        "id": 4,
+        "isGoal": false,
+        "parents": [
+            {
+                "edgeId": 3,
+                "parentId": 3
+            }
+        ],
+        "position": 1,
+        "prediction": [
+            "B"
+        ]
+    },
+    {
+        "id": 5,
+        "isGoal": false,
+        "parents": [
+            {
+                "edgeId": 4,
+                "parentId": 4
+            }
+        ],
+        "position": 1,
+        "prediction": [
+            "b",
+            "S"
+        ],
+        "rule": "B -> b S"
+    },
+    {
+        "id": 6,
+        "isGoal": false,
+        "parents": [
+            {
+                "edgeId": 5,
+                "parentId": 4
+            }
+        ],
+        "position": 1,
+        "prediction": [
+            "b"
+        ],
+        "rule": "B -> b"
+    },
+    {
+        "id": 7,
+        "isGoal": false,
+        "parents": [
+            {
+                "edgeId": 6,
+                "parentId": 4
+            }
+        ],
+        "position": 1,
+        "prediction": [
+            "a",
+            "B",
+            "B"
+        ],
+        "rule": "B -> a B B"
+    },
+    {
+        "id": 8,
+        "isGoal": false,
+        "parents": [
+            {
+                "edgeId": 7,
+                "parentId": 7
+            }
+        ],
+        "position": 2,
+        "prediction": [
+            "B",
+            "B"
+        ]
+    },
+    {
+        "id": 9,
+        "isGoal": false,
+        "parents": [
+            {
+                "edgeId": 8,
+                "parentId": 8
+            }
+        ],
+        "position": 2,
+        "prediction": [
+            "b",
+            "S",
+            "B"
+        ],
+        "rule": "B -> b S"
+    },
+    {
+        "id": 10,
+        "isGoal": false,
+        "parents": [
+            {
+                "edgeId": 9,
+                "parentId": 8
+            }
+        ],
+        "position": 2,
+        "prediction": [
+            "b",
+            "B"
+        ],
+        "rule": "B -> b"
+    },
+    {
+        "id": 11,
+        "isGoal": false,
+        "parents": [
+            {
+                "edgeId": 10,
+                "parentId": 8
+            }
+        ],
+        "position": 2,
+        "prediction": [
+            "a",
+            "B",
+            "B",
+            "B"
+        ],
+        "rule": "B -> a B B"
+    },
+    {
+        "id": 12,
+        "isGoal": false,
+        "parents": [
+            {
+                "edgeId": 11,
+                "parentId": 9
+            }
+        ],
+        "position": 3,
+        "prediction": [
+            "S",
+            "B"
+        ]
+    },
+    {
+        "id": 13,
+        "isGoal": false,
+        "parents": [
+            {
+                "edgeId": 12,
+                "parentId": 10
+            }
+        ],
+        "position": 3,
+        "prediction": [
+            "B"
+        ]
+    },
+    {
+        "id": 14,
+        "isGoal": false,
+        "parents": [
+            {
+                "edgeId": 13,
+                "parentId": 12
+            }
+        ],
+        "position": 3,
+        "prediction": [
+            "b",
+            "A",
+            "B"
+        ],
+        "rule": "S -> b A"
+    },
+    {
+        "id": 15,
+        "isGoal": false,
+        "parents": [
+            {
+                "edgeId": 14,
+                "parentId": 12
+            },
+            {
+                "edgeId": 17,
+                "parentId": 13
+            }
+        ],
+        "position": 3,
+        "prediction": [
+            "a",
+            "B",
+            "B"
+        ],
+        "rule": "S -> a B"
+    },
+    {
+        "id": 16,
+        "isGoal": false,
+        "parents": [
+            {
+                "edgeId": 15,
+                "parentId": 13
+            }
+        ],
+        "position": 3,
+        "prediction": [
+            "b",
+            "S"
+        ],
+        "rule": "B -> b S"
+    },
+    {
+        "id": 17,
+        "isGoal": false,
+        "parents": [
+            {
+                "edgeId": 16,
+                "parentId": 13
+            }
+        ],
+        "position": 3,
+        "prediction": [
+            "b"
+        ],
+        "rule": "B -> b"
+    },
+    {
+        "id": 18,
+        "isGoal": false,
+        "parents": [
+            {
+                "edgeId": 18,
+                "parentId": 14
+            }
+        ],
+        "position": 4,
+        "prediction": [
+            "A",
+            "B"
+        ]
+    },
+    {
+        "id": 19,
+        "isGoal": false,
+        "parents": [
+            {
+                "edgeId": 19,
+                "parentId": 16
+            }
+        ],
+        "position": 4,
+        "prediction": [
+            "S"
+        ]
+    },
+    {
+        "id": 20,
+        "isGoal": false,
+        "parents": [
+            {
+                "edgeId": 20,
+                "parentId": 17
+            }
+        ],
+        "position": 4,
+        "prediction": []
+    },
+    {
+        "id": 21,
+        "isGoal": false,
+        "parents": [
+            {
+                "edgeId": 21,
+                "parentId": 18
+            }
+        ],
+        "position": 4,
+        "prediction": [
+            "b",
+            "A",
+            "A",
+            "B"
+        ],
+        "rule": "A -> b A A"
+    },
+    {
+        "id": 22,
+        "isGoal": false,
+        "parents": [
+            {
+                "edgeId": 22,
+                "parentId": 18
+            }
+        ],
+        "position": 4,
+        "prediction": [
+            "a",
+            "S",
+            "B"
+        ],
+        "rule": "A -> a S"
+    },
+    {
+        "id": 23,
+        "isGoal": false,
+        "parents": [
+            {
+                "edgeId": 23,
+                "parentId": 18
+            },
+            {
+                "edgeId": 25,
+                "parentId": 19
+            }
+        ],
+        "position": 4,
+        "prediction": [
+            "a",
+            "B"
+        ],
+        "rule": "A -> a"
+    },
+    {
+        "id": 24,
+        "isGoal": false,
+        "parents": [
+            {
+                "edgeId": 24,
+                "parentId": 19
+            }
+        ],
+        "position": 4,
+        "prediction": [
+            "b",
+            "A"
+        ],
+        "rule": "S -> b A"
+    },
+    {
+        "id": 25,
+        "isGoal": false,
+        "parents": [
+            {
+                "edgeId": 26,
+                "parentId": 22
+            }
+        ],
+        "position": 5,
+        "prediction": [
+            "S",
+            "B"
+        ]
+    },
+    {
+        "id": 26,
+        "isGoal": false,
+        "parents": [
+            {
+                "edgeId": 27,
+                "parentId": 23
+            }
+        ],
+        "position": 5,
+        "prediction": [
+            "B"
+        ]
+    },
+    {
+        "id": 27,
+        "isGoal": false,
+        "parents": [
+            {
+                "edgeId": 28,
+                "parentId": 25
+            }
+        ],
+        "position": 5,
+        "prediction": [
+            "b",
+            "A",
+            "B"
+        ],
+        "rule": "S -> b A"
+    },
+    {
+        "id": 28,
+        "isGoal": false,
+        "parents": [
+            {
+                "edgeId": 29,
+                "parentId": 25
+            },
+            {
+                "edgeId": 32,
+                "parentId": 26
+            }
+        ],
+        "position": 5,
+        "prediction": [
+            "a",
+            "B",
+            "B"
+        ],
+        "rule": "S -> a B"
+    },
+    {
+        "id": 29,
+        "isGoal": false,
+        "parents": [
+            {
+                "edgeId": 30,
+                "parentId": 26
+            }
+        ],
+        "position": 5,
+        "prediction": [
+            "b",
+            "S"
+        ],
+        "rule": "B -> b S"
+    },
+    {
+        "id": 30,
+        "isGoal": false,
+        "parents": [
+            {
+                "edgeId": 31,
+                "parentId": 26
+            }
+        ],
+        "position": 5,
+        "prediction": [
+            "b"
+        ],
+        "rule": "B -> b"
+    },
+    {
+        "id": 31,
+        "isGoal": false,
+        "parents": [
+            {
+                "edgeId": 33,
+                "parentId": 27
+            }
+        ],
+        "position": 6,
+        "prediction": [
+            "A",
+            "B"
+        ]
+    },
+    {
+        "id": 32,
+        "isGoal": false,
+        "parents": [
+            {
+                "edgeId": 34,
+                "parentId": 29
+            }
+        ],
+        "position": 6,
+        "prediction": [
+            "S"
+        ]
+    },
+    {
+        "id": 33,
+        "isGoal": true,
+        "parents": [
+            {
+                "edgeId": 35,
+                "parentId": 30
+            }
+        ],
+        "position": 6,
+        "prediction": []
+    },
+    {
+        "id": 34,
+        "isGoal": false,
+        "parents": [
+            {
+                "edgeId": 36,
+                "parentId": 31
+            }
+        ],
+        "position": 6,
+        "prediction": [
+            "b",
+            "A",
+            "A",
+            "B"
+        ],
+        "rule": "A -> b A A"
+    },
+    {
+        "id": 35,
+        "isGoal": false,
+        "parents": [
+            {
+                "edgeId": 37,
+                "parentId": 31
+            }
+        ],
+        "position": 6,
+        "prediction": [
+            "a",
+            "S",
+            "B"
+        ],
+        "rule": "A -> a S"
+    },
+    {
+        "id": 36,
+        "isGoal": false,
+        "parents": [
+            {
+                "edgeId": 38,
+                "parentId": 31
+            },
+            {
+                "edgeId": 40,
+                "parentId": 32
+            }
+        ],
+        "position": 6,
+        "prediction": [
+            "a",
+            "B"
+        ],
+        "rule": "A -> a"
+    },
+    {
+        "id": 37,
+        "isGoal": false,
+        "parents": [
+            {
+                "edgeId": 39,
+                "parentId": 32
+            }
+        ],
+        "position": 6,
+        "prediction": [
+            "b",
+            "A"
+        ],
+        "rule": "S -> b A"
+    }
+]

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Configuration Tree</title>
+    <link rel="stylesheet" href="/css/default.css">
+    <link rel="stylesheet" href="/css/graph.css">
+    
+    
+</head>
+
+<body>
+    <article>
+        <header>
+            <div><span class="date">Oct  5, 2018</span></div>
+            <h1>Configuration Tree</h1>
+        </header>
+        <div class="content">
+            <p>Expanding on a footnote in the post <a href="/top-down-parsing-as-graph-search">Top-Down Parsing as Graph Search</a>: </p>
+<p>If each configuration has not only an index, but a full analysis stack, our graph is a tree, as one node cannot have exactly one analysis stack and more than one parent:</p>
+<figure class="half-full">
+<svg id="tree" width="1000" height="600"></svg>
+<figcaption><p>Tree of configurations with full analysis stack.</p></figcaption>
+</figure>
+<p>With this definition we get more configurations, meaning that the parser has to perform more steps for the same result. For example, <em>4:aB</em> and its descendants appear twice in the tree above, but only once in the directed acyclic graph presented in the post.</p>
+<script src="/lib/d3/d3.min.js"></script>
+<script src="/js/config_tree.js"></script>
+
+        </div>
+    </article>
+    <footer id="site-footer">
+        <nav>
+            <p id="footer-menu"><a href="/">Home</a> | <a href="/about.html">About</a></p>
+        </nav>
+        <p>&copy; 2018-2020 Tobias Kolditz</p>
+    </footer>
+    
+</body>
+
+</html>

@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Basic Language Identification</title>
+    <link rel="stylesheet" href="/css/default.css">
+    
+    <link rel="stylesheet" href="/lib/highlight.js/styles/default.css">
+<script src="/lib/highlight.js/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+    
+</head>
+
+<body>
+    <article>
+        <header>
+            <div><span class="date">Oct 27, 2018</span></div>
+            <h1>Basic Language Identification</h1>
+        </header>
+        <div class="content">
+            <p>At the end of last semester I gave a student who just started programming the task of implementing two basic language identification algorithms, one identifies the language of a text based on the most frequent words of a language, the other one based on character frequencies. Here I briefly present my own solution in Python and evaluate both methods.</p>
+<p>We don't need to reinvent the wheel, so let's use some well-known libraries:</p>
+<pre><code class="language-python">import os
+import re
+from collections import Counter, OrderedDict
+
+import numpy as np
+from scipy.spatial import distance
+</code></pre>
+<h2>Data</h2>
+<p>For training and testing, we'll use a subset of the Europarl corpus (<a href="#koehn-2005">Koehn 2005</a>): ten documents per language (Danish, Dutch, English, Finnish, French, German, Italian, Portuguese, Spanish and Swedisch) for training and 1,000 randomly sampled sentences per language (with at least 20 characters) for testing.</p>
+<p>The files are encoded in ISO-8859-1. To get the plain text, we need to remove some mark-up with a short regex.</p>
+<pre><code class="language-python">def read_text(path):
+    with open(path, encoding='iso-8859-1') as fin:
+        return re.sub(r'&lt;.+?&gt;', '', fin.read())
+</code></pre>
+<p>The directory tree of the corpus is simple: under the root we have one directory per language containing a flat list of text files. To keep path operations separate from the algorithms, I use two generator functions. (Language codes are sorted lexicographically for reproducible results, see below.)</p>
+<pre><code class="language-python">def iterate_corpus(corpus_root):
+    for language in sorted(os.listdir(corpus_root)):
+        yield language, iterate_paths(os.path.join(corpus_root, language))
+
+
+def iterate_paths(root):
+    for name in os.listdir(root):
+        yield os.path.join(root, name)
+</code></pre>
+<h2>Most Frequent Words</h2>
+<p>During training, the first method counts the frequency of all words (or more precisely <em>tokens</em>, in this case defined as a sequence of alphanumeric characters) and remembers the ten most frequent words for each language. At prediction time, we compute pairwise intersections between the set of tokens of the given text and the set of tokens for each language. The language with the largest intersection wins.</p>
+<pre><code class="language-python">class StopwordLanguageId:
+    WORD = re.compile(r'\w+')
+
+    def __init__(self, corpus_root):
+        self.words_by_lang = self._collect_words(corpus_root)
+
+    @classmethod
+    def _collect_words(cls, corpus_root):
+        words_by_lang = OrderedDict()
+        for language, paths in iterate_corpus(corpus_root):
+            c = Counter()
+            for path in paths:
+                c.update(cls._tokenize(read_text(path)))
+            words_by_lang[language] = set([w for w, _ in c.most_common(10)])
+        return words_by_lang
+
+    @classmethod
+    def _tokenize(cls, text):
+        for token_match in cls.WORD.finditer(text):
+            yield token_match.group(0).lower()
+
+    def identify_language(self, text):
+        tokens = set(self._tokenize(text))
+        scores = [(lang, len(tokens.intersection(ws)))
+                  for lang, ws in self.words_by_lang.items()]
+        return max(scores, key=lambda x: x[1])[0]
+</code></pre>
+<p>For multiple maximal items, Python's <code>max</code> function returns the first. To get reproducible results, we use an ordered dictionary to which keys are added in lexicographical order of the language codes.</p>
+<h2>Character Frequencies</h2>
+<p>The second method counts how often each character occurs in each language of the training corpus. Since our corpus uses an 8-bit single byte encoding, we can use a 256-element list to collect the frequencies (considering only printable characters, we could do with less, but we'll keep the code short and simple). At prediction time, we compute a 256-element frequency vector for the characters in the given text and compute the cosine distance between this vector and each language's character frequency vector. We predict the language with minimal cosine distance.</p>
+<pre><code class="language-python">class CharLanguageId:
+    def __init__(self, corpus_root):
+        self.frequencies, self.languages = self._collect_frequencies(corpus_root)
+
+    @classmethod
+    def _collect_frequencies(cls, corpus_root):
+        freqs, langs = [], []
+        for language, paths in iterate_corpus(corpus_root):
+            freq = [0] * 256
+            for path in paths:
+                cls._count_chars(freq, read_text(path))
+            freqs.append(freq)
+            langs.append(language)
+        return np.array(freqs), langs
+
+    @staticmethod
+    def _count_chars(freq, text):
+        for char in text:
+            freq[ord(char)] += 1
+        return freq
+
+    def identify_language(self, text):
+        text_freqs = np.array(self._count_chars([0] * 256, text)).reshape(1, -1)
+        dists = distance.cdist(self.frequencies, text_freqs, 'cosine')
+        return self.languages[np.argmin(dists, axis=0)[0]]
+</code></pre>
+<h2>Evaluation</h2>
+<p>For the evaluation I randomly sampled 1,000 sentences per language with a length of at least 20 characters from the same corpus (excluding documents used for training). So which method works better? </p>
+<p>The word-based approach classifies 9,478 out of 10,000 sentences correctly, the character-based approach only 9,271. The overall difference between both results is only about 2%, however, the mistakes are quite different in nature. Looking at the confusion matrix for the character-based approach, we observe some interesting patterns (actual (A) against predicted (P) language codes, top-ten off-diagonal entries in bold):</p>
+<table><thead><tr><th align="right">A\P</th><th align="right">da</th><th align="right">de</th><th align="right">en</th><th align="right">es</th><th align="right">fi</th><th align="right">fr</th><th align="right">it</th><th align="right">nl</th><th align="right">pt</th><th align="right">sv</th></tr></thead><tbody>
+<tr><td align="right"><strong>da</strong></td><td align="right">915</td><td align="right">15</td><td align="right">5</td><td align="right">2</td><td align="right">2</td><td align="right">0</td><td align="right">3</td><td align="right">10</td><td align="right">8</td><td align="right"><strong>40</strong></td></tr>
+<tr><td align="right"><strong>de</strong></td><td align="right">12</td><td align="right">932</td><td align="right">3</td><td align="right">3</td><td align="right">4</td><td align="right">9</td><td align="right">4</td><td align="right">13</td><td align="right">2</td><td align="right">18</td></tr>
+<tr><td align="right"><strong>en</strong></td><td align="right">2</td><td align="right">4</td><td align="right">921</td><td align="right">9</td><td align="right">5</td><td align="right">6</td><td align="right"><strong>21</strong></td><td align="right"><strong>21</strong></td><td align="right">7</td><td align="right">4</td></tr>
+<tr><td align="right"><strong>es</strong></td><td align="right">1</td><td align="right">6</td><td align="right">0</td><td align="right">878</td><td align="right">0</td><td align="right"><strong>19</strong></td><td align="right"><strong>23</strong></td><td align="right">5</td><td align="right"><strong>61</strong></td><td align="right">7</td></tr>
+<tr><td align="right"><strong>fi</strong></td><td align="right">0</td><td align="right">2</td><td align="right">3</td><td align="right">3</td><td align="right">983</td><td align="right">0</td><td align="right">3</td><td align="right">3</td><td align="right">2</td><td align="right">1</td></tr>
+<tr><td align="right"><strong>fr</strong></td><td align="right">3</td><td align="right">6</td><td align="right">4</td><td align="right">16</td><td align="right">13</td><td align="right">902</td><td align="right"><strong>22</strong></td><td align="right">11</td><td align="right"><strong>21</strong></td><td align="right">2</td></tr>
+<tr><td align="right"><strong>it</strong></td><td align="right">1</td><td align="right">2</td><td align="right">6</td><td align="right"><strong>36</strong></td><td align="right">2</td><td align="right">9</td><td align="right">913</td><td align="right">13</td><td align="right">15</td><td align="right">3</td></tr>
+<tr><td align="right"><strong>nl</strong></td><td align="right">17</td><td align="right">11</td><td align="right">5</td><td align="right">7</td><td align="right">3</td><td align="right">1</td><td align="right">5</td><td align="right">936</td><td align="right">3</td><td align="right">12</td></tr>
+<tr><td align="right"><strong>pt</strong></td><td align="right">1</td><td align="right">1</td><td align="right">5</td><td align="right"><strong>29</strong></td><td align="right">0</td><td align="right">8</td><td align="right">12</td><td align="right">9</td><td align="right">933</td><td align="right">2</td></tr>
+<tr><td align="right"><strong>sv</strong></td><td align="right">14</td><td align="right">1</td><td align="right">1</td><td align="right">1</td><td align="right">9</td><td align="right">1</td><td align="right">5</td><td align="right">9</td><td align="right">1</td><td align="right">958</td></tr>
+</tbody></table>
+<p>Most mistakes are confusions between Spanish, French, Italian and Portuguese -- four Romance languages, another group that seems to be close is Danish, German, Dutch and Swedish -- four Germanic languages. Character frequencies work best for Finnish, at least in our selection of languages, where Finnish is the only representative of the Finno-Ugric family of languages. Apparently our simple character frequencies give us a primitive measure of 'closeness' between languages.</p>
+<p>The confusion matrix for the most-frequent words method looks very different and is less interesting from a linguistic point of view.</p>
+<table><thead><tr><th align="right">A\P</th><th align="right">da</th><th align="right">de</th><th align="right">en</th><th align="right">es</th><th align="right">fi</th><th align="right">fr</th><th align="right">it</th><th align="right">nl</th><th align="right">pt</th><th align="right">sv</th></tr></thead><tbody>
+<tr><td align="right"><strong>da</strong></td><td align="right">992</td><td align="right">3</td><td align="right">0</td><td align="right">0</td><td align="right">0</td><td align="right">1</td><td align="right">0</td><td align="right">0</td><td align="right">0</td><td align="right">4</td></tr>
+<tr><td align="right"><strong>de</strong></td><td align="right">30</td><td align="right">967</td><td align="right">0</td><td align="right">0</td><td align="right">0</td><td align="right">2</td><td align="right">1</td><td align="right">0</td><td align="right">0</td><td align="right">0</td></tr>
+<tr><td align="right"><strong>en</strong></td><td align="right">36</td><td align="right">2</td><td align="right">961</td><td align="right">0</td><td align="right">1</td><td align="right">0</td><td align="right">0</td><td align="right">0</td><td align="right">0</td><td align="right">0</td></tr>
+<tr><td align="right"><strong>es</strong></td><td align="right">28</td><td align="right">0</td><td align="right">2</td><td align="right">969</td><td align="right">0</td><td align="right">0</td><td align="right">1</td><td align="right">0</td><td align="right">0</td><td align="right">0</td></tr>
+<tr><td align="right"><strong>fi</strong></td><td align="right">72</td><td align="right">1</td><td align="right">2</td><td align="right">2</td><td align="right">922</td><td align="right">0</td><td align="right">0</td><td align="right">0</td><td align="right">1</td><td align="right">0</td></tr>
+<tr><td align="right"><strong>fr</strong></td><td align="right">41</td><td align="right">0</td><td align="right">0</td><td align="right">40</td><td align="right">0</td><td align="right">915</td><td align="right">4</td><td align="right">0</td><td align="right">0</td><td align="right">0</td></tr>
+<tr><td align="right"><strong>it</strong></td><td align="right">26</td><td align="right">2</td><td align="right">6</td><td align="right">29</td><td align="right">1</td><td align="right">15</td><td align="right">917</td><td align="right">0</td><td align="right">1</td><td align="right">3</td></tr>
+<tr><td align="right"><strong>nl</strong></td><td align="right">42</td><td align="right">0</td><td align="right">0</td><td align="right">0</td><td align="right">0</td><td align="right">0</td><td align="right">1</td><td align="right">954</td><td align="right">3</td><td align="right">0</td></tr>
+<tr><td align="right"><strong>pt</strong></td><td align="right">28</td><td align="right">1</td><td align="right">13</td><td align="right">22</td><td align="right">0</td><td align="right">3</td><td align="right">3</td><td align="right">0</td><td align="right">930</td><td align="right">0</td></tr>
+<tr><td align="right"><strong>sv</strong></td><td align="right">44</td><td align="right">4</td><td align="right">0</td><td align="right">0</td><td align="right">0</td><td align="right">0</td><td align="right">0</td><td align="right">1</td><td align="right">0</td><td align="right">951</td></tr>
+</tbody></table>
+<p>Most wrong predictions are in the first column (Danish), almost all confusions are below the main diagonal of the matrix. The distribution we see here is mostly an artifact of our tie-breaking strategy: if the text to be classified does not contain any of the previously collected most frequent words, we have a trivial tie between all available languages and the algorithm predicts the first element from our list of lexicographically sorted ISO 639-1 codes (da). In general, if we have a tie between a group of languages, the language whose ISO code appears first in the alphabet is predicted, e.g. Spanish (es) vs. French (fr) or Italian (it).</p>
+<p>Lastly, let's have a look at the influence of text length on accuracy. In the following diagram, the accuracy of both models (blue and orange bars) is plotted for different text lengths in characters. Text lengths are binned into 50-character intervals (except for the first interval, which is shorter, and the last interval, which is much longer). The green bars indicate the number of test instances per bin.</p>
+<figure class="middle">
+    <img src="/img/lang-id-length-effect.png"
+         alt="Effect of sentence length on language identification accuracy"/> 
+         <figcaption>
+            <p>Effect of sentence length on language identification accuracy</p>
+        </figcaption>
+</figure>
+<p>The plot shows similar accuracy distributions for both methods and reveals one big weakness: For short texts accuracy is low. The reason for the high overall accuracy is the length distribution of the test data: the overwhelming majority of test instances is more than 250 characters long.</p>
+<hr>
+<p><a name="koehn-2005"></a>Philipp Koehn (2005). Europarl: A Parallel Corpus for Statistical Machine Translation, MT Summit 2005.</p>
+
+        </div>
+    </article>
+    <footer id="site-footer">
+        <nav>
+            <p id="footer-menu"><a href="/">Home</a> | <a href="/about.html">About</a></p>
+        </nav>
+        <p>&copy; 2018-2020 Tobias Kolditz</p>
+    </footer>
+    
+</body>
+
+</html>

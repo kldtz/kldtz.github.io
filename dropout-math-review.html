@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>The Dropout Learning Algorithm: Math Review</title>
+    <link rel="stylesheet" href="/css/default.css">
+    
+    
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML" defer>
+</script>
+<script type="text/x-mathjax-config" defer>
+MathJax.Hub.Config({
+  tex2jax: {
+    inlineMath: [['$','$'], ['\\(','\\)']],
+    displayMath: [['$$','$$'], ['\[','\]']],
+    processEscapes: true,
+    processEnvironments: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+    TeX: { equationNumbers: { autoNumber: "AMS" },
+         extensions: ["AMSmath.js", "AMSthm.js", "AMSsymbols.js", "physics.js"] }
+  }
+});
+</script>
+<script type="text/javascript" defer>
+  MathJax.Hub.Queue(function() {    
+    var all = MathJax.Hub.getAllJax(), i;
+    for (i = 0; i < all.length; i++) {
+        all[i].SourceElement().parentNode.className = 'has-jax';
+    }
+});
+</script>
+</head>
+
+<body>
+    <article>
+        <header>
+            <div><span class="date">Mar 14, 2020</span></div>
+            <h1>The Dropout Learning Algorithm: Math Review</h1>
+        </header>
+        <div class="content">
+            <p>Review of combinatorics and probability theory for Baldi &amp; Sadowski (2014).</p>
+<h2>Combinatorics</h2>
+<p>We have a set $I$ of $n$ elements. The set of all subsets of $I$, the powerset $\mathcal{P}(I)$, has $2^n$ elements (including the empty subset), which can be seen </p>
+<ol>
+<li><strong>algebraically</strong>, by grouping all subsets of $I$ by cardinality, and noting that for $0 \leq k \leq n$ we have ${n \choose k}$ subsets of cardinality $k$. The sum of these terms is the left side of the binomial theorem $\sum_{k=0}^n {n \choose k} x^{n-k} y^k = (x + y)^n$ with $x = y = 1$, so $\mathcal{P}(I) = 2^n$.</li>
+<li><strong>combinatorially</strong>, simply by observing that we can form a subset of $I$ by deciding for each element, whether to include it in the set or not. Thus, there are $2^n$ ways of forming a subset.</li>
+</ol>
+<p>How often does each element of $I$ appear in all of the $2^n$ subsets of $I$? Again, consider each group of subsets with equal cardinality: We can form all subsets of $I$ of cardinality $k &gt; 0$ that contain the same element $e$ by choosing element $e$ out of $n$ elements and combining it with each subset of carndinality $k-1$ of the remaining $n-1$ elements. Thus, each element of $I$ appears $\sum_{k=1}^{n} {n-1 \choose k-1} = 2^{n-1}$ times.</p>
+<h2>Stochastic functions</h2>
+<h3>Expectation</h3>
+<p>For a discrete random variable $X$ with $k$ possible outcomes $x_1, x_2, \ldots, x_k$ occuring with probabilities $P(X = x_i) = p_i$, $1 \leq i \leq k$, the expectation (<strong>first moment</strong>) of $X$ is defined as</p>
+<div>$$
+E[X] = \sum_{i=1}^k x_i p_i
+$$</div>
+<p>So, in the special case of a Bernoulli random variable with $x_1 = 1$, $x_2 = 0$ and $p_1 = p$, $p_2 = 1-p = q$, we have $E[X] = p$. </p>
+<p>From the general definition, we can prove the <strong>linearity of expectation</strong>: (1) The expected value of the sum of two (or any finite number of) random variables equals the sum of the expected values of the individual random variables.</p>
+<div class="math-left-align">$$\begin{align}
+E[X + Y] &= \sum_x \sum_y \left[ (x + y) \cdot P(X = x, Y = y)\right] \\
+         &= \sum_x \sum_y \left[ x \cdot P(X = x, Y = y)\right] + \sum_x \sum_y \left[ y \cdot P(X = x, Y = y)\right] \\
+         &= \sum_x x \sum_y P(X = x, Y = y) + \sum_y y \sum_{x} P(X = x, Y = y) \\
+         &= \sum_x x \cdot P(X = x) + \sum_y y \cdot P(Y = y) \\
+         &= E[X] + E[Y]
+\end{align}$$</div>
+<p>(2) The expected value scales linearly with a multiplicative constant.</p>
+<div class="math-left-align">$$\begin{align}
+E[aX] &= \sum_x a x \cdot P(X = x) \\
+      &= a \sum_x x \cdot P(X = x) \\
+      &= a \cdot E[X] \\
+\end{align}$$</div>
+<p>By definition, two discrete random variables are independent iff $P(X=x, Y=y) = P(X=x) P(Y=y)$ for all $x, y$. Thus for <strong>independent random variables</strong>, the expectation of the product equals the product of the expectations.</p>
+<div class="math-left-align">$$\begin{align}
+E[XY] &= \sum_x \sum_y xy \cdot P(X=x, Y=y) \\
+      &= \sum_x x P(X=x) \sum_y y P(Y=y) \\
+      &= E[X] E[Y] \\
+\end{align}$$</div>
+<h3>Variance</h3>
+<p>Variance (the <strong>second central moment</strong>) is defined as the expected squared deviation of a random variable $X$ from its mean $\mu = E[X]$.</p>
+<div>$$\begin{align}
+Var(X) &= E \left[ (X - \mu)^2 \right] \\
+       &= E \left[ X^2 - 2 X E[X] + E[X]^2 \right] \\ 
+       &= E[X^2] - 2 \cdot E[X]^2 + E[X]^2 \\ 
+       &= E[X^2] - E[X]^2
+\end{align}$$</div>
+<p>For the special case of a <strong>Bernoulli random variable</strong> we can simplify as follows:</p>
+<div>$$\begin{align}
+Var(X) &= E[X^2] - E[X]^2 \\ 
+       &= p \cdot 1^2 + q \cdot 0^2 - p^2 \\ 
+       &= p - p^2 \\ 
+       &= p(1 - p) = pq
+\end{align}$$</div>
+<p>If its argument is scaled by a constant, variance is <strong>scaled by the square</strong> of that constant. This follows from the definition of variance and linearity of expectation:</p>
+<div>$$\begin{align}
+Var(aX) &= E \left[ (a X - a \mu)^2 \right] \\ 
+       &= E \left[ a^2 (X - \mu)^2 \right] \\ 
+       &= a^2 E \left[ (X - \mu)^2 \right] \\ 
+       &= a^2 Var(X)
+\end{align}$$</div>
+<h3>Covariance</h3>
+<p>Covariance is defined as the expected value of the product of the squared deviations of two jointly distributed random variables from their means.</p>
+<div>$$\begin{align}
+Cov(X, Y) &= E\left[ (X - E[X]) (Y - E[Y])  \right] \\ 
+          &= E\left[ XY - X E[Y] - E[X]Y + E[X]E[Y]  \right] \\ 
+          &= E[XY] - E[X]E[Y] - E[X]E[Y] + E[X]E[Y] \\ 
+          &= E[XY] - E[X]E[Y]
+\end{align}$$</div>
+<p>Variance is a special case of covariance, where $X = Y$. If $X$ and $Y$ are independent random variables, then $E[XY] = E[X]E[Y]$, that is, $Cov(X, Y) = 0$ (this implication does not hold in the opposite direction in general).</p>
+<p>The <strong>variance of the sum</strong> of two random variables equals the sum of their individual variances plus two times their covariance.</p>
+<div>$$\begin{align}
+Var(X + Y) &= E \left[ ((X+Y) - E[X + Y])^2 \right] \\ 
+           &= E \left[ ((X+Y)^2 - 2 (X+Y) E[X + Y] + E[X+Y]^2 \right] \\ 
+           &= E [ (X^2 + 2XY + Y^2 \\ 
+           &\qquad - 2 (X E[X] + X E[Y] + Y E[X] + Y E[Y]) \\ 
+           &\qquad + E[X]^2 + 2 E[X] E[Y] + E[Y]^2 ] \\ 
+           &= E[ X^2 - 2 X E[X] + E[X]^2 \\ 
+           &\qquad + Y^2 - 2 Y E[Y] + E[Y]^2 \\ 
+           &\qquad + 2 ( XY - X E[Y] - Y E[X] + E[X] E[Y])] \\ 
+           &= E[ (X - E[X])^2 ] + E[ ( Y - E[Y])^2 ] \\  
+           &\qquad + 2 \cdot E [ (X - E[X] ) ( Y - E[Y] )] \\ 
+           &= Var(X) + Var(Y) + 2 \cdot Cov(X, Y)
+\end{align}$$</div>
+<p>Because $Cov(X, Y) = 0$ for independent random variables, variance is linear if $X$ and $Y$ are independent.</p>
+<hr />
+<p>Baldi, P., &amp; Sadowski, P. (2014). The dropout learning algorithm. Artificial intelligence, 210, 78-122.</p>
+
+        </div>
+    </article>
+    <footer id="site-footer">
+        <nav>
+            <p id="footer-menu"><a href="/">Home</a> | <a href="/about.html">About</a></p>
+        </nav>
+        <p>&copy; 2018-2020 Tobias Kolditz</p>
+    </footer>
+    
+</body>
+
+</html>
