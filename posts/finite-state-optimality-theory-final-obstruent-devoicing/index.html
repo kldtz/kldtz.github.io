@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1"> 
+    <title>Finite State Optimality Theory: Final Obstruent Devoicing</title>
+    <link rel="stylesheet" href="/css/default.css">
+    
+    <link rel="stylesheet" href="/lib/highlight.js/styles/default.css">
+<script src="/lib/highlight.js/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+    
+</head>
+
+<body>
+    <article>
+        <header>
+            <div><span class="date">Aug 28, 2020</span></div>
+            <h1>Finite State Optimality Theory: Final Obstruent Devoicing</h1>
+        </header>
+        <div class="content">
+            <p>Recently I read an article by <a href="#gerdemann-hulden-2012">Gerdemann and Hulden (2012)</a> in which they provide a finite-state implementations for two Optimality Theory (OT) analyses<sup id="fn-1"><a href="#1">1</a></sup> together with an easy proof of nonregularity of OT grammars. This post is an annotated walkthrough of their OT implementation for <a href="https://en.wikipedia.org/wiki/Final-obstruent_devoicing">word-final obstruent devoicing</a> (e.g., German <em>/lob/</em> &gt; <em>[lo​ːp]</em>), a phonological process that is observed in typologically diverse languages, which makes it a prototypical showcase for the universal constraints proposed by OT. For their implementation, they use the finite-state toolkit <a href="https://fomafst.github.io/"><em>foma</em></a> <a href="#hulden-2009">(Hulden, 2009)</a>. I will introduce necessary notation informally as it comes up, the following table only lists <em>foma</em>'s deviations from the POSIX regex standard:</p>
+<table><thead><tr><th>Notation</th><th>Description</th></tr></thead><tbody>
+<tr><td><code>~A</code></td><td>Complement</td></tr>
+<tr><td><code>?</code></td><td>Any symbol in alphabet</td></tr>
+<tr><td><code>%</code></td><td>Escape symbol</td></tr>
+<tr><td><code>[</code> <code>]</code></td><td>Grouping brackets</td></tr>
+<tr><td><code>(</code> <code>)</code></td><td>Parentheses surround optional parts</td></tr>
+</tbody></table>
+<h2>Generator</h2>
+<p>The Generator <code>Gen</code> implemented for this analysis describes all possible deletions (elisions), insertions (epentheses), and substitutions. To keep track of each modification, &quot;every surface segment (output) is surrounded by brackets <code>[...]</code>, every input segment that was manipulated by <code>Gen</code> is surrounded by parantheses <code>(...)</code>&quot;, so we have four basic cases:</p>
+<ul>
+<li><code>[a]</code>: Identity (input <code>a</code>, output <code>a</code>),</li>
+<li><code>(a)[]</code>: Deletion (input <code>a</code>, output empty),</li>
+<li><code>()[a]</code>: Insertion (input empty, output <code>a</code>), and</li>
+<li><code>(a)[b]</code>: Substitution (input <code>a</code>, output <code>b</code>).</li>
+</ul>
+<p>The following piece of code compiles a regular expression into a finite-state transducer (FST) that can be accessed later as <code>Gen</code>.</p>
+<pre><code class="language-plaintext">Gen = S -&gt; %( ... %) %[ (S) %]      ,,
+      S -&gt; %[ ... %]                ,,
+      [..] (-&gt;) [%( %) %[ S %]]*    ;
+</code></pre>
+<p>The regex consists of three parallel rules delimited by <code>,,</code>. Each rule rewrites its left-hand side (before the arrow <code>-&gt;</code>) into its right-hand side. The symbol <code>S</code> is a variable for a transducer. We can think of it as the set of available segments. For the examples from the paper, this could simply be </p>
+<pre><code class="language-plaintext">S = [p|t|k|b|d|g|a|e|i|o|u];
+</code></pre>
+<p>The first rule creates all possible deletions and substitutions. The three dots <code>...</code> are a backreference to the input. If <code>S</code> is the set of available segments, for a single input segment we get <code>|S| + 1</code> outputs, one for each segment and one with empty square brackets. The second rule just adds square brackets around its input (identity case). The third rule produces an infinite number of insertions. Square brackets with two dots <code>[..]</code> denote an empty left-hand side (<em>nothing</em> is replaced by something).</p>
+<figure class="middle">
+    <img src="/img/gerdemann-hulden-2012/gen.png"
+         alt="Generator"/> <figcaption>
+            <p>Generator automaton as defined by the three rules above.</p>
+        </figcaption>
+</figure>
+<h2>Constraints</h2>
+<p>Now that we have an infinite number of candidates, we need to define our ranked set of constraints to evaluate them. Here I just copy the definitions from the paper:</p>
+<ul>
+<li><strong>*VF</strong>: a markedness constraint that disallows final voiced obstruents.</li>
+<li><strong>IdentV</strong>: a faithfulness constraint that militates against change in voicing.</li>
+<li><strong>VOP</strong>: a markedness constraint against voiced obstruents in general.</li>
+</ul>
+<p>The first constraint (<strong>*VF</strong>) obviously is responsible for the devoicing of final obstruents. The second constraint (<strong>IdentV</strong>), ranked lower than the first, rules out unnecessary substitutions. <strong>VOP</strong> never decides the race since it's ranked lower than the faithfulness contraint <strong>IdentV</strong>.</p>
+<p>If we were only dealing with candidates that are minimal pairs such as <em>*bed</em> and <em>bet</em> (where <em>/bed/</em> is the underlying form), the three constraints above would suffice. However, <code>Gen</code> produces all possible insertions, deletions and substitutions, so we need additional faithfulness constraints to rule out forms such as <em>*bede</em> (epenthesis), <em>*be</em> (deletion), and <em>*bek</em> (substitution changing voicedness and place of articulation). These incorrect forms are avoided with the following three constraints defined in the paper:</p>
+<ul>
+<li><strong>Dep</strong>: a faithfulness constraint against epenthesis.</li>
+<li><strong>Max</strong>: a faithfulness constraint against deletion.</li>
+<li><strong>IdentPl</strong>: a faithfulness constraint against changes in place of articulation of segments.</li>
+</ul>
+<p>On page 14 in the paper, all six constraints are shown in action in an OT tableau.</p>
+<p>Let's move on to the FST implementation. The authors define two helpful templates for matching the context of constraint violations.</p>
+<pre><code class="language-plaintext">def Change(X,Y) [%( X %) %[ Y %]];
+
+def Surf(X) [X .o. [0:%[ ? 0:%]]*].l/
+            [ %( (S) %) | %[ %] ];
+</code></pre>
+<p>The first template generates a simple substitution <code>(X)[Y]</code>. The second definition is more complex, we'll work through it from the inside out: </p>
+<ul>
+<li><code>[0:%[ ? 0:%]]*</code>: We have an arbitrary segment around which we insert square brackets. This pattern optionally repeats any number of times. </li>
+<li><code>X .o. [0:%[ ? 0:%]]*</code>: Compose the previous transducer with an expression that is the parameter of the <code>Surf</code> template. So the output language is the output of <code>X</code> with each segment enclosed in square brackets.</li>
+<li><code>[X .o. [0:%[ ? 0:%]]*].l</code>: Extract the range of the previous transducer (the output or surface language). The automaton generated from this expression excepts a word <code>w</code> if an input exists for which <code>X .o. [0:%[ ? 0:%]]*</code> produces <code>w</code>.</li>
+<li><code>[ %( (S) %) | %[ %] ]</code>: Generate the language that consists of single segments enclosed in parentheses, empty parentheses and empty square brackets.</li>
+<li><code>[X .o. [0:%[ ? 0:%]]*].l / [ %( (S) %) | %[ %] ]</code>: The pattern after the slash is optionally interspersed at any place any number of times within each word of the language described by the first pattern. If we use this pattern to recognize words, we can say that the pattern after the slash is ignored. For example: <code>a+/b</code> is equivalent to <code>b*a+[a|b]*</code>, or <code>a+</code> after removing all instances of <code>b</code>. </li>
+</ul>
+<p>So <code>Surf(X)</code> accepts all possible surface forms of expression <code>X</code> (and many invalid forms, but this is unproblematic because <code>Gen</code> does not produce them).</p>
+<p>Furthermore, the authors define four segment subgroups: vowels (<code>V</code>), voiced consonants (<code>CVOI</code>), voiced and unvoiced phones. </p>
+<pre><code class="language-plaintext">V           = [a|o|u|i|e];
+CVOI        = [b|d|g];
+Voiced      = [CVOI|V];
+Unvoiced    = [p|t|k];
+</code></pre>
+<p>With these groups and the <code>Change</code> template, they define regular expressions to recognize surface forms of two phonological processes: change of voice (<code>VC</code>) and change of place of articulation (<code>Place</code>).</p>
+<pre><code class="language-plaintext">define VC     Change(Voiced,Unvoiced) | 
+              Change(Unvoiced,Voiced);
+define Place  Change(p,?-b) | Change(t,?-d) |
+              Change(k,?-g) | Change(b,?-p) |
+              Change(d,?-t) | Change(g,?-k) |
+              Change(a,?)   | Change(e,?)   |
+              Change(i,?)   | Change(o,?)   |
+              Change(u,?);
+</code></pre>
+<p>The language of the first expression contains words such as <code>(b)[p]</code>, replacements of a voiced obstruent with its unvoiced counterpart, or <code>(k)[a]</code>, replacements of a voiceless obstruent with a vowel. The second expression generates substitutions such as <code>(p)[k]</code>, <code>(i)[b]</code> etc., but not <code>(p)[b]</code> or <code>(d)[t]</code>, where the place of articulation is the same.</p>
+<p>These intermediate expressions are now used to define the preceding context of the following four replacement rules that are constrained by context, more specifically <code>A -&gt; B || L _ R</code> only applies if <code>L</code> precedes <code>A</code> and <code>R</code> follows <code>A</code> in the input (all other input passes unchanged).</p>
+<pre><code class="language-plaintext">VF      = [..] -&gt; {*} || Surf(CVOI) _ .#. ;
+IdentV  = [..] -&gt; {*} || VC _ ;
+VOP     = [..] -&gt; {*} || Surf(CVOI) _ ;
+IdentPl = [..] -&gt; {*} || Place _ ;
+</code></pre>
+<p><code>VF</code> inserts an asterisk after any surface form of a voiced consonant before a word boundary. <code>IdentV</code> stars surface forms that indicate a change of voice. <code>VOP</code> is a more general version of <code>VF</code> that doesn't require a word boundary. <code>IdentPl</code> stars surface forms that indicat a change of place. </p>
+<p>Finally the constraints forbidding insertion (<code>Dep</code>) and deletion (<code>Max</code>) are easy to implement. In the former case we star empty parantheses, in the latter empty square brackets.</p>
+<pre><code class="language-plaintext">Dep   = [..] -&gt; {*} || %( %) _ ;
+Max   = [..] -&gt; {*} || %[ %] _ ;
+</code></pre>
+<h2>Evaluation</h2>
+<p>The final part of any OT analysis is <strong>Eval</strong>, the evaluation of the hierarchically ranked constraints. We move from the highest ranked constraint to the lowest ranked, at each step eliminating all but those candidates that incur the minimal number of violations. To do this we need a finite-state method of computing the set of candidates that have the minimal number of violations. Counting doesn't seem like a viable solution, since we want an automaton with a finite set of states and we are dealing with an infinite number of inputs of unknown length. The authors use a clever trick to solve this problem that they call <em>worsening</em>. They define a transducer that adds any number of violations (stars) in any possible position to each candidate.</p>
+<pre><code class="language-plaintext">AddViol = [?* 0:%* ?*]+;
+</code></pre>
+<p>If you compose the inverse of this transducer with a constraint that adds violations to candidates, it will filter out all candidates with a non-minimal number of violations. Let's look at a simple example. We have a set of two candidates <em>S<sub>1</sub> = {a*, a***}</em> and want to retain the candidate with the minimal number of stars (in this case * is a literal symbol, not a Kleene star). Applying <code>AddViol</code> to <em>S<sub>1</sub></em> generates the language <em>S<sub>2</sub></em> that consists of all words with a single <em>a</em> and at least two stars. Now we union <em>S<sub>1</sub></em> with the complement of <em>S<sub>2</sub></em> (assuming the universe is any string over our two-symbol alphabet), which gives us <em>S<sub>1</sub>∪ S<sub>2</sub><sup>c</sup> = {a*}</em>, the subset of words in <em>S<sub>1</sub></em> with the minimal number of stars.</p>
+<p>I glossed over one little complication of the <em>worsening</em> approach: the candidates to which we add stars differ from each other not only by the number of stars. So if we have a candidate <code>(t)[d]</code> without any star and a second candidate <code>(t)[]*</code> with one star, we can add as many stars to the first candidate as we want, it will never match the second (nor will any other candidate). The authors solve this by composing the inverse <code>Gen</code> with <code>Gen</code> (ignoring any stars) and adding violations to every possible configuration afterwards.<sup id="fn-2"><a href="#2">2</a></sup></p>
+<pre><code class="language-plaintext">Worsen = [Gen.i .o. Gen]/%* .o. AddViol;
+</code></pre>
+<p>For <code>(t)[d]</code> the inverse generator <code>Gen.i</code> outputs <code>t</code>, for which <code>Gen</code> produces <code>[t]</code>, <code>(t)[]</code>, <code>(t)[d]</code>, and so on. <code>AddViol</code> then produces starred variations, one of which will be <code>(t)[]*</code>.</p>
+<p>So to filter out candidates with a non-minimal number of violations, we compose the previous transducer with the extracted range of its worsened complement. After this step, we remove all stars because each candidate will have the same number and we don't need them for the evaluation of the next constraint. </p>
+<pre><code class="language-plaintext">def Eval(X) X .o. ~[X .o. Worsen].l .o. %* -&gt; 0;
+</code></pre>
+<p>The output of this evaluation will be the input for the evaluation of the next constraint etc. After all evaluations have been perfermed, remaining markup is removed with a <code>Cleanup</code> transducer.</p>
+<pre><code class="language-plaintext">Cleanup     = %[|%] -&gt; 0 .o. %( \%)* %) -&gt; 0;
+
+def OTGrammar S+ .o. Eval(Eval(Eval(Eval(Eval(Eval(
+    Gen .o. Dep) .o. Max) .o. IdentPl) .o.
+    VF) .o. IdentV) .o. VOP) .o. Cleanup;
+</code></pre>
+<p><code>S+</code> restricts the input to non-empty strings over the segments defined above. After compiling the whole grammar, <em>foma</em> outputs this nice graphical representation via the <code>view</code> command.</p>
+<figure class="middle">
+    <img src="/img/gerdemann-hulden-2012/ot-fst-grammar.png"
+         alt="Generator"/> <figcaption>
+            <p>FST for final obstruent devoicing analysis in OT.</p>
+        </figcaption>
+</figure>
+<h2>Rule-based implementation</h2>
+<p>Instead of the OT analysis, we can translate the classical phonological rewrite rules directly into a transducer. (Three replacements that apply in the same context.)</p>
+<pre><code class="language-plaintext">Rule = b -&gt; p, d -&gt; t, g -&gt; k || _ .#. ;
+RuleGrammar S+ .o. Rule;
+</code></pre>
+<p>This transducer is weakly equivalent to the OT transducer (produces the same language), but is structurally different, as can be seen from its graphical representation.</p>
+<figure class="middle">
+    <img src="/img/gerdemann-hulden-2012/rule-grammar.png"
+         alt="Generator"/> <figcaption>
+            <p>FST for final obstruent devoicing from phonological rules.</p>
+        </figcaption>
+</figure>
+<p>Because both the OT transducer and the rule transducer represent a function, we can test for their equivalence: (1) they apply to the same domain, and (2) the composition of the inverse of one with the other is an identity transducer.</p>
+<pre><code class="language-plaintext">regex RuleGrammar.i .o. OTGrammar;
+test identity 
+# 1 (1 = TRUE, 0 = FALSE)
+</code></pre>
+<h2>Afterthoughts</h2>
+<p>From an engineering point of view, the OT analysis doesn't seem appealing compared to the classical rewrite rules. We need many definitions that are far more complex, the resulting automaton is more complex, and for some OT grammars, a finite-state implementation is impossible. Theoretical linguists on the other hand usually don't care too much about the computability of their analyses and frameworks, for them OT is appealing because it allows them to trace certain properties of languages back to universal constraints rooted in articulation and perception. </p>
+<p>Still it seems to me that linguists could profit from implementing their analyses with finite state technology. </p>
+<ol>
+<li>Implementing a functional transducer forces us to turn <strong>implicit</strong> assumptions into <strong>explicit</strong> constraints. We have seen this with the extra set of faithfulness constraints that were necessary to avoid suboptimal forms. </li>
+<li>The computer can help ensuring that the analysis is <strong>correct</strong> and works as intended.
+<ul>
+<li>We can write automated tests for input-output pairs.</li>
+<li>If we have a rule-based equivalent as above, we can check for correctness algorithmically.</li>
+</ul>
+</li>
+<li>Once we have a working FST implementation, we can use it in <strong>both directions</strong>, that is, we can transform an underlying form into a surface form, or generate possible underlying forms for a given surface form.</li>
+</ol>
+<hr>
+<p><a name="1" href="#fn-1"><sup>1</sup></a> Based on the 'matching' approach developed by <a href="#gerdemann-van-noord">Gerdemann and Van Noord (2000)</a>.</p>
+<p><a name="2" href="#fn-2"><sup>2</sup></a> In general, violations do not necessarily line up. For these cases the authors introduce a violation-permuting transducer that needs to be applied the right number of times. However, this problem does not affect the devoicing analysis, so I ignore it here.</p>
+<hr>
+<p><a name="gerdemann-hulden-2012"></a> Gerdemann, D., &amp; Hulden, M. (2012). <a href="https://www.aclweb.org/anthology/W12-6202.pdf">Practical finite state optimality theory.</a> In <em>Proceedings of the 10th International Workshop on Finite State Methods and Natural Language Processing</em> (pp. 10-19).</p>
+<p><a name="gerdemann-van-noord-2000"></a> Gerdemann, D., &amp; Van Noord, G. (2000). <a href="https://www.aclweb.org/anthology/W00-1804.pdf">Approximation and exactness in finite state optimality theory.</a> In <em>Proceedings of the Fith Workshop of the ACL Special Interest Group in Computational Phonology</em> (pp. 34-45).</p>
+<p><a name="hulden-2009"></a> Hulden, M. (2009). <a href="https://www.aclweb.org/anthology/E09-2008.pdf">Foma: a finite-state compiler and library.</a> In <em>Proceedings of the Demonstrations Session at EACL 2009</em> (pp. 29-32).</p>
+
+        </div>
+    </article>
+    <footer id="site-footer">
+        <nav>
+            <p id="footer-menu"><a href="/">Home</a> | <a href="/about">About</a></p>
+        </nav>
+        <p>&copy; 2018-2020 Tobias Kolditz</p>
+    </footer>
+    
+</body>
+
+</html>
