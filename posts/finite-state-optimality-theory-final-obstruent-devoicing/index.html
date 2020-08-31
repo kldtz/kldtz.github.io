@@ -121,7 +121,7 @@ Max   = [..] -&gt; {*} || %[ %] _ ;
 <p>So to filter out candidates with a non-minimal number of violations, we compose the previous transducer with the extracted range of its worsened complement. After this step, we remove all stars because each candidate will have the same number and we don't need them for the evaluation of the next constraint. </p>
 <pre><code class="language-plaintext">def Eval(X) X .o. ~[X .o. Worsen].l .o. %* -&gt; 0;
 </code></pre>
-<p>The output of this evaluation will be the input for the evaluation of the next constraint etc. After all evaluations have been perfermed, remaining markup is removed with a <code>Cleanup</code> transducer.</p>
+<p>The output of this evaluation will be the input for the evaluation of the next constraint etc. After all evaluations have been performed, remaining markup is removed with a <code>Cleanup</code> transducer.</p>
 <pre><code class="language-plaintext">Cleanup     = %[|%] -&gt; 0 .o. %( \%)* %) -&gt; 0;
 
 def OTGrammar S+ .o. Eval(Eval(Eval(Eval(Eval(Eval(
@@ -153,7 +153,7 @@ test identity
 # 1 (1 = TRUE, 0 = FALSE)
 </code></pre>
 <h2>Afterthoughts</h2>
-<p>From an engineering point of view, the OT analysis doesn't seem appealing compared to the classical rewrite rules. We need many definitions that are far more complex, the resulting automaton is more complex, and for some OT grammars, a finite-state implementation is impossible. Theoretical linguists on the other hand usually don't care too much about the computability of their analyses and frameworks, for them OT is appealing because it allows them to trace certain properties of languages back to universal constraints rooted in articulation and perception. </p>
+<p>From an engineering point of view, the OT analysis doesn't seem appealing compared to the classical rewrite rules. We need many definitions that are far more complex, the resulting automaton is more complex, and for some OT grammars, a finite-state implementation is impossible. Theoretical linguists on the other hand usually don't care too much about the computational complexity of their analyses and frameworks, for them OT is appealing because it allows them to trace certain properties of languages back to universal constraints rooted in articulation and perception (in the case of phonology). </p>
 <p>Still it seems to me that linguists could profit from implementing their analyses with finite state technology. </p>
 <ol>
 <li>Implementing a functional transducer forces us to turn <strong>implicit</strong> assumptions into <strong>explicit</strong> constraints. We have seen this with the extra set of faithfulness constraints that were necessary to avoid suboptimal forms. </li>
