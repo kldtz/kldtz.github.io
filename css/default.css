@@ -26,6 +26,10 @@ body {
     font-size: 20px;
 }
 
+#footer-menu a {
+    text-decoration: none;
+}
+
 /* Headlines */
 
 h1, h2, h3 {
