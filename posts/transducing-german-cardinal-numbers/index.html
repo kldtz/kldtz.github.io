@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1"> 
+    <title>Transducing German Cardinal Numbers</title>
+    <link rel="stylesheet" href="/css/default.css">
+    
+    <link rel="stylesheet" href="/lib/highlight.js/styles/default.css">
+<script src="/lib/highlight.js/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+    
+</head>
+
+<body>
+    <article>
+        <header>
+            <div><span class="date">Sep  6, 2020</span></div>
+            <h1>Transducing German Cardinal Numbers</h1>
+        </header>
+        <div class="content">
+            <p>This is a little excercise in writing finite-state transducers. The goal is to convert spelled-out German cardinal numbers from 1 to 9999 to numerals and vice versa. I will construct the transducer by going from written-out numbers to numerals, e.g., from <em>zweiunddreißig</em> to <em>32</em>. The implementation is done with the finite-state toolkit <a href="https://fomafst.github.io/"><em>foma</em></a>.</p>
+<h2>Intermediate representation</h2>
+<p>In a first step, we convert each written-out number into an intermediate representation by transducing compound parts to numerals in linear order, for example, <em>neuntausend-zweihundert-acht-und-vierzig</em> (hyphens added for better readability) should become <code>9000+200+8&amp;40</code>. Let's start with two-digit numbers.</p>
+<pre><code class="language-plaintext">TwoToNine = zwei:2  | drei:3   | vier:4  | fünf:5  |
+            sechs:6 | sieben:7 | acht:8  | neun:9  ;
+
+Teens = zehn:     [1 %0]   | elf:      [1 1]    | 
+        zwölf:    [1 2]    | dreizehn: [1 3]    |
+        vierzehn: [1 4]    | fünfzehn: [1 5]    |
+        sechzehn: [1 6]    | siebzehn: [1 7]    |
+        achtzehn: [1 8]    | neunzehn: [1 9]    ;
+
+TwentyToNinety = zwanzig:[2 %0]  | dreißig:[3 %0]  |
+                 vierzig:[4 %0]  | fünfzig:[5 %0]  |
+                 sechzig:[6 %0]  | siebzig:[7 %0]  |
+                 achtzig:[8 %0]  | neunzig:[9 %0]  ;
+
+TwoDigitNumber = eins:1 | TwoToNine | Teens | TwentyToNinety |
+                 [ein:1 | TwoToNine] und:%&amp; TwentyToNinety;
+</code></pre>
+<p>The digit <em>1</em> is special, since it sometimes appears as <em>ein</em> and sometimes <em>eins</em>, that's why it's not part of the first transducer.  Some <code>Teens</code> could be decomposed further, but this would only complicate things. Because <em>0</em> has special semantics in <em>foma</em> regex, we need to make sure to escape <em>0</em> literals with the percentage symbol. The ampersand that replaces <em>und</em> indicates that the numbers around it need to be swapped later.</p>
+<p>For larger numbers, we need hundreds and thousands, so we define two more transducers.</p>
+<pre><code class="language-plaintext">Hundred  = [ein:1 | TwoToNine] hundert:[%0 %0 %+];
+Thousand = [ein:1 | TwoToNine] tausend:[%0 %0 %0 %+];
+</code></pre>
+<p>Now we can put everything together. For the sake of simplicity, we ignore some variants: we recognize <em>einhundert</em> and <em>eintausend</em>, but not <em>hundert</em> and <em>tausend</em>; we recognize <em>einhundertfünf</em>, but not <em>einhundertundfünf</em>. These variants can be added easily, but the expressions become a bit messier.</p>
+<pre><code class="language-plaintext">Intermediate = (Thousand) (Hundred) (TwoDigitNumber);
+</code></pre>
+<p>If we check the <code>lower-words</code> produced by this transducer, we see the following:</p>
+<pre><code class="language-plaintext">foma[1]: lower-words
+
+1000+
+1000+100+
+1000+100+1&amp;20
+...
+</code></pre>
+<p>Now we need to transform these intermediate forms into the desired output.</p>
+<h2>Cascaded transducers</h2>
+<p>We'll move from right to left. In the end there may be a trailing plus (introduced by <code>Hundred</code> or <code>Thousand</code>). We don't need it, so we add a cleanup rule.</p>
+<pre><code class="language-plaintext">CleanPlus = %+ -&gt; 0 || _ .#.;
+</code></pre>
+<p>Then we remove any trailing zero after an ampersand and swap the digits around the ampersand.</p>
+<pre><code class="language-plaintext">Trunc = %0 -&gt; 0 || %&amp; ? _ .#.;
+
+def Ins(X) [..] -&gt; X || X %&amp; ? _ .#.;
+Copy = Ins(1) .o. Ins(2) .o. Ins(3) .o. 
+       Ins(4) .o. Ins(5) .o. Ins(6) .o.
+       Ins(7) .o. Ins(8) .o. Ins(9) ;
+
+Delete = ? %&amp; -&gt; 0 ;
+Swap   = Trunc .o. Copy .o. Delete;
+</code></pre>
+<p>Maybe there is some more elegent syntax to do this, but I define a helper template that inserts a digit in the context of itself, the ampersand and some other digit. By applying this template for each non-zero digit, we copy the digit before the ampersand to the end of the string. Finally we delete the original digit and the ampersand, completing the swap.</p>
+<p>Now we can move further to the left and add our two digit number to the hundreds.</p>
+<pre><code class="language-plaintext">N = [%0|1|2|3|4|5|6|7|8|9];
+
+FixHundred = %0 %+     -&gt; 0 || %0 _ N .#. ,,
+             %0 %0 %+  -&gt; 0 || _ N N .#.  ;
+</code></pre>
+<p>We simply delete as many zeros as there are digits after the plus symbol. The same is repeated with the thousands to the left.</p>
+<pre><code class="language-plaintext">FixThousand = %0 %+       -&gt; 0  || %0 %0 _ N .#. ,,
+              %0 %0 %+    -&gt; 0  || %0 _ N N .#.  ,,
+              %0 %0 %0 %+ -&gt; 0  || _ N N N .#.    ;
+</code></pre>
+<p>We compose the pieces to obtain our final transducer.</p>
+<pre><code class="language-plaintext">Card = Intermediate .o. CleanPlus .o. Swap .o. 
+       FixHundred .o. FixThousand;
+</code></pre>
+<h2>Result</h2>
+<p>Now we can apply our transducer in both directions.</p>
+<pre><code class="language-plaintext">foma[0]: regex Card;
+4.8 kB. 37 states, 212 arcs, 10000 paths.
+
+foma[1]: up
+apply up&gt; 2345
+zweitausenddreihundertfünfundvierzig
+
+foma[1]: down
+apply down&gt; fünftausenddreiundzwanzig
+5023
+</code></pre>
+
+        </div>
+    </article>
+    <footer id="site-footer">
+        <nav id="footer-menu"><a href="/">Home</a> | <a href="/about">About</a></nav>
+        <p>&copy; 2018-2020 Tobias Kolditz</p>
+    </footer>
+    
+</body>
+
+</html>
