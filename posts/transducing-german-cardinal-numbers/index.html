@@ -72,7 +72,7 @@ Copy = Ins(1) .o. Ins(2) .o. Ins(3) .o.
 Delete = ? %&amp; -&gt; 0 ;
 Swap   = Trunc .o. Copy .o. Delete;
 </code></pre>
-<p>Maybe there is some more elegent syntax to do this, but I define a helper template that inserts a digit in the context of itself, the ampersand and some other digit. By applying this template for each non-zero digit, we copy the digit before the ampersand to the end of the string. Finally we delete the original digit and the ampersand, completing the swap.</p>
+<p>Maybe there is some more elegant syntax to do this, but I define a helper template that inserts a digit in the context of itself, the ampersand and some other digit. By applying this template for each non-zero digit, we copy the digit before the ampersand to the end of the string. Finally we delete the original digit and the ampersand, completing the swap.</p>
 <p>Now we can move further to the left and add our two digit number to the hundreds.</p>
 <pre><code class="language-plaintext">N = [%0|1|2|3|4|5|6|7|8|9];
 
@@ -84,12 +84,12 @@ FixHundred = %0 %+     -&gt; 0 || %0 _ N .#. ,,
               %0 %0 %+    -&gt; 0  || %0 _ N N .#.  ,,
               %0 %0 %0 %+ -&gt; 0  || _ N N N .#.    ;
 </code></pre>
-<p>We compose the pieces to obtain our final transducer.</p>
+<p>We compose the pieces to obtain our transducer for cardinal numbers.</p>
 <pre><code class="language-plaintext">Card = Intermediate .o. CleanPlus .o. Swap .o. 
        FixHundred .o. FixThousand;
 </code></pre>
 <h2>Result</h2>
-<p>Now we can apply our transducer in both directions.</p>
+<p>The final transducer has 10,000 paths (9,999 numbers and the empty string). We can apply it in both directions.</p>
 <pre><code class="language-plaintext">foma[0]: regex Card;
 4.8 kB. 37 states, 212 arcs, 10000 paths.
 
