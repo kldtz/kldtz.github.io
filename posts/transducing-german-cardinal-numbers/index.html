@@ -48,7 +48,7 @@ Thousand = [ein:1 | TwoToNine] tausend:[%0 %0 %0 %+];
 <p>Now we can put everything together. For the sake of simplicity, we ignore some variants: we recognize <em>einhundert</em> and <em>eintausend</em>, but not <em>hundert</em> and <em>tausend</em>; we recognize <em>einhundertfünf</em>, but not <em>einhundertundfünf</em>. These variants can be added easily, but the expressions become a bit messier.</p>
 <pre><code class="language-plaintext">Intermediate = (Thousand) (Hundred) (TwoDigitNumber);
 </code></pre>
-<p>If we check the <code>lower-words</code> produced by this transducer, we see the following:</p>
+<p>If we check the <code>lower-words</code><sup id="fn-1"><a href="#1">1</a></sup> of this transducer, we see the following:</p>
 <pre><code class="language-plaintext">foma[1]: lower-words
 
 1000+
@@ -89,7 +89,7 @@ FixHundred = %0 %+     -&gt; 0 || %0 _ N .#. ,,
        FixHundred .o. FixThousand;
 </code></pre>
 <h2>Result</h2>
-<p>The final transducer has 10,000 paths (9,999 numbers and the empty string). We can apply it in both directions.</p>
+<p>The final transducer has 10,000 paths: 9,999 numbers and the empty string. FSTs are closed under inversion (input and output labels are simply switched), so we can apply our cardinal number FST in both directions, as generator and parser.</p>
 <pre><code class="language-plaintext">foma[0]: regex Card;
 4.8 kB. 37 states, 212 arcs, 10000 paths.
 
@@ -101,6 +101,8 @@ foma[1]: down
 apply down&gt; fünftausenddreiundzwanzig
 5023
 </code></pre>
+<hr>
+<p><a name="1" href="#fn-1"><sup>1</sup></a> Words of the <em>lower</em> or <em>second</em> projection of <code>Intermediate</code>, that is, words <em>o</em> for which an input <em>i</em> exists such that <code>Intermediate</code> maps <em>i</em> to <em>o</em>.</p>
 
         </div>
     </article>

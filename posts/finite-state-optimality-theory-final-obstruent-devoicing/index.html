@@ -76,7 +76,7 @@ def Surf(X) [X .o. [0:%[ ? 0:%]]*].l/
 <ul>
 <li><code>[0:%[ ? 0:%]]*</code>: We have an arbitrary segment around which we insert square brackets. This pattern optionally repeats any number of times. </li>
 <li><code>X .o. [0:%[ ? 0:%]]*</code>: Compose the previous transducer with an expression that is the parameter of the <code>Surf</code> template. So the output language is the output of <code>X</code> with each segment enclosed in square brackets.</li>
-<li><code>[X .o. [0:%[ ? 0:%]]*].l</code>: Extract the range of the previous transducer (the output or surface language). The automaton generated from this expression excepts a word <code>w</code> if an input exists for which <code>X .o. [0:%[ ? 0:%]]*</code> produces <code>w</code>.</li>
+<li><code>[X .o. [0:%[ ? 0:%]]*].l</code>: Extract the range of the previous transducer (the output or surface language). The automaton generated from this expression accepts a word <code>w</code> if an input exists for which <code>X .o. [0:%[ ? 0:%]]*</code> produces <code>w</code>.</li>
 <li><code>[ %( (S) %) | %[ %] ]</code>: Generate the language that consists of single segments enclosed in parentheses, empty parentheses and empty square brackets.</li>
 <li><code>[X .o. [0:%[ ? 0:%]]*].l / [ %( (S) %) | %[ %] ]</code>: The pattern after the slash is optionally interspersed at any place any number of times within each word of the language described by the first pattern. If we use this pattern to recognize words, we can say that the pattern after the slash is ignored. For example: <code>a+/b</code> is equivalent to <code>b*a+[a|b]*</code>, or <code>a+</code> after removing all instances of <code>b</code>. </li>
 </ul>
