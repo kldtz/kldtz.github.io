@@ -46,9 +46,9 @@ MathJax.Hub.Config({
             <p>After two posts on FSTs, this text deals with another piece of old (or <em>classic</em>) technology from computational linguistics. It's my digestion of <a href="#manning-sch%C3%BCtze-1999">Manning and Schütze's (1999)</a> chapter on collocations and some cited/related papers.</p>
 <p>By the most simple definition, a collocation is a sequence of words that occur together more often then expected by chance. For a bigram $w_1 w_2$, we can formalize this using conditional probabilities as $P(w_1) P(w_2|w_1) &gt; P(w_1) P(w_2)$, or simply $P(w_2|w_1) &gt; P(w_2)$. We can estimate the probabilties from a corpus by counting unigram and bigram types: </p>
 <div>$$
-P(w_1) = \frac{C(w_1)}{N}\\
-P(w_2) = \frac{C(w_2)}{N}\\
-P(w_2|w_1) = \frac{C(w_1, w_2)}{C(w_1)}
+P(w_1) = \frac{C(w_1)}{N}, \quad
+P(w_2) = \frac{C(w_2)}{N}, \quad
+P(w_2|w_1) = \frac{C(w_1, w_2)}{C(w_1)},
 $$</div>
 <p>where $C(...)$ is a count from our corpus and $N$ is the number of unigrams/bigrams in the corpus<a name="fn-1"></a><sup><a href="#1">1</a></sup>. However, if we want to use these probabilities to find collocations in a corpus, we face two problems:</p>
 <ol>
