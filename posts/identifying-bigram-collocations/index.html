@@ -51,14 +51,14 @@ P(w_1) = \frac{C(w_1)}{N}, \quad
 P(w_2) = \frac{C(w_2)}{N}, \quad
 P(w_2|w_1) = \frac{C(w_1, w_2)}{C(w_1)},
 $$</div>
-<p>where $C(...)$ is a count from our corpus and $N$ is the number of unigrams/bigrams in the corpus<a name="fn-1"></a><sup><a href="#1">1</a></sup>. However, if we want to use these probabilities to find collocations in a corpus, we face two problems:</p>
+<p>where $C(...)$ is a count from our corpus and $N$ is the number of unigrams/bigrams in the corpus<a id="fn-1"></a><sup><a href="#1">1</a></sup>. However, if we want to use these probabilities to find collocations in a corpus, we face two problems:</p>
 <ol>
 <li>$P(w_2|w_1) &gt; P(w_2)$ could hold by chance, especially if our corpus is small or if we are looking at infrequent pairs of words.</li>
 <li>Language is not random, so most sequences of words occur more often than we would expect by the frequency of their individual words. That is, our definition doesn't really capture what linguists understand under the term <em>collocation</em>.</li>
 </ol>
 <p>The first problem is a question of statistical significance, so an obvious idea is to apply a statistical test that tells us whether the difference between the conditional probability and the probability of two independent events is significant.  Problem two tells us that significance is not enough, we also need to have a look at effect size. We will use the test statistic to rank bigrams from most likely to least likely collocation and then need to find a threshold for classification (usually this is done empirically by inspecting the ranked bigrams of a corpus and choosing a cutoff).</p>
 <h2>Hypothesis Testing</h2>
-<p>Before picking a test statistic, we need to think about the distribution we are dealing with. We can view a text as a sequence of <em>N</em> (overlapping) bigrams. For a given bigram $b = (w_1, w_2)$, each bigram in this sequence either equals <em>b</em> (1) or not (0). In other words, we have <em>N</em> binary random variables. Assuming independence between these random variables and identical distribution<a name="fn-2"></a><sup><a href="#2">2</a></sup>, we can model text as a <em>Bernoulli process</em>, a sequence of independent Bernoulli trials. The number of successes (bigram equals <em>b</em>) in these N trials has a binomial distribution. The probability mass function (PMF) for the binomial distribution is defined as</p>
+<p>Before picking a test statistic, we need to think about the distribution we are dealing with. We can view a text as a sequence of <em>N</em> (overlapping) bigrams. For a given bigram $b = (w_1, w_2)$, each bigram in this sequence either equals <em>b</em> (1) or not (0). In other words, we have <em>N</em> binary random variables. Assuming independence between these random variables and identical distribution<a id="fn-2"></a><sup><a href="#2">2</a></sup>, we can model text as a <em>Bernoulli process</em>, a sequence of independent Bernoulli trials. The number of successes (bigram equals <em>b</em>) in these N trials has a binomial distribution. The probability mass function (PMF) for the binomial distribution is defined as</p>
 <div>$$
 b(k; n, p) = {n \choose k} p^k (1-p)^{n-k}
 $$</div>
@@ -88,14 +88,14 @@ $$</div>
 <h2>Application: Period disambiguation</h2>
 <p>Besides the obvious applications in lexicography (identifying proper nouns, extracting typical contexts of words) or phraseology (identifying <a href="https://en.wikipedia.org/wiki/Phraseme">phrasemes</a>), an example of a more creative and very successful application of collocation identification has been proposed by Kiss and Strunk (<a href="#kiss-strunk-2002">2002</a>, <a href="#kiss-strunk-2006">2006</a>). They apply different versions of the log-likelihood ratio method introduced above to disambiguate between periods as sentence boundaries and abbreviations. Bigram collocations of truncated word and period tend to be abbreviations (which, however, could appear at the end of a sentence), collocational ties between tokens surrounding a period are evidence against a sentence boundary, whereas collocations of a potential sentence boundary and its subsequent word are evidence for a sentence boundary (frequent sentence starters). Together with a few empirically determined heuristics, these collocation tests are the backbone of the unsupervised sentence boundary detection system <em>Punkt</em> which comes with Python's <a href="https://www.nltk.org/">Natural Language Toolkit (NLTK)</a>. Of course, Kiss and Strunk's (2006) system cannot compete with modern supervised systems that are trained on huge amounts of annotated (domain-specific) data, but often labeled data for our language and domain of interest is unavailable and in these cases <em>Punkt</em> is still a very good choice, given that what we consider <em>sentences</em> is delimited by periods (see <a href="#sanchez-2019">Sanchez (2019)</a> for a recent counter example).</p>
 <hr>
-<p><a name="1" href="#fn-1"><sup>1</sup></a> For the sake of simplicity, we assume the same number of unigrams and bigrams <em>N</em>.</p>
-<p><a name="2" href="#fn-2"><sup>2</sup></a> This is a naive assumption that obviously cannot be true. All models are wrong, but some are useful, as they say.</p>
+<p><a id="1" href="#fn-1"><sup>1</sup></a> For the sake of simplicity, we assume the same number of unigrams and bigrams <em>N</em>.</p>
+<p><a id="2" href="#fn-2"><sup>2</sup></a> This is a naive assumption that obviously cannot be true. All models are wrong, but some are useful, as they say.</p>
 <hr>
-<p><a name="dunning-1993"></a> Dunning, T. E. (1993). Accurate methods for the statistics of surprise and coincidence. <em>Computational linguistics</em>, 19(1), 61-74.</p>
-<p><a name="kiss-strunk-2002"></a>Kiss, T., &amp; Strunk, J. (2002). Viewing sentence boundary detection as collocation identification. In <em>Proceedings of KONVENS</em> (Vol. 2002, pp. 75-82).</p>
-<p><a name="kiss-strunk-2006"></a>Kiss, T., &amp; Strunk, J. (2006). Unsupervised multilingual sentence boundary detection. <em>Computational linguistics</em>, 32(4), 485-525.</p>
-<p><a name="manning-schütze-1999"></a>Manning, C., &amp; Schütze, H. (1999). Foundations of statistical natural language processing. MIT press.</p>
-<p><a name="sanchez-2019"></a> Sanchez, G. (2019). Sentence boundary detection in legal text. In <em>Proceedings of the Natural Legal Language Processing Workshop 2019</em> (pp. 31-38).</p>
+<p><a id="dunning-1993"></a> Dunning, T. E. (1993). Accurate methods for the statistics of surprise and coincidence. <em>Computational linguistics</em>, 19(1), 61-74.</p>
+<p><a id="kiss-strunk-2002"></a>Kiss, T., &amp; Strunk, J. (2002). Viewing sentence boundary detection as collocation identification. In <em>Proceedings of KONVENS</em> (Vol. 2002, pp. 75-82).</p>
+<p><a id="kiss-strunk-2006"></a>Kiss, T., &amp; Strunk, J. (2006). Unsupervised multilingual sentence boundary detection. <em>Computational linguistics</em>, 32(4), 485-525.</p>
+<p><a id="manning-schütze-1999"></a>Manning, C., &amp; Schütze, H. (1999). Foundations of statistical natural language processing. MIT press.</p>
+<p><a id="sanchez-2019"></a> Sanchez, G. (2019). Sentence boundary detection in legal text. In <em>Proceedings of the Natural Legal Language Processing Workshop 2019</em> (pp. 31-38).</p>
 
         </div>
     </article>
