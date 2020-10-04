@@ -14,9 +14,6 @@
 </script>
 <script type="text/x-mathjax-config">
 MathJax.Hub.Config({
-  "HTML-CSS": { 
-    scale: 85
-  },
   tex2jax: {
     inlineMath: [['$','$'], ['\\(','\\)']],
     displayMath: [['$$','$$'], ['\[','\]']],
@@ -26,14 +23,6 @@ MathJax.Hub.Config({
     TeX: { equationNumbers: { autoNumber: "AMS" },
          extensions: ["AMSmath.js", "AMSthm.js", "AMSsymbols.js", "physics.js"] }
   }
-});
-</script>
-<script>
-  MathJax.Hub.Queue(function() {    
-    var all = MathJax.Hub.getAllJax(), i;
-    for (i = 0; i < all.length; i++) {
-        all[i].SourceElement().parentNode.className = 'has-jax';
-    }
 });
 </script>
 </head>

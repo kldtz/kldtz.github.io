@@ -14,9 +14,6 @@
 </script>
 <script type="text/x-mathjax-config">
 MathJax.Hub.Config({
-  "HTML-CSS": { 
-    scale: 85
-  },
   tex2jax: {
     inlineMath: [['$','$'], ['\\(','\\)']],
     displayMath: [['$$','$$'], ['\[','\]']],
@@ -26,14 +23,6 @@ MathJax.Hub.Config({
     TeX: { equationNumbers: { autoNumber: "AMS" },
          extensions: ["AMSmath.js", "AMSthm.js", "AMSsymbols.js", "physics.js"] }
   }
-});
-</script>
-<script>
-  MathJax.Hub.Queue(function() {    
-    var all = MathJax.Hub.getAllJax(), i;
-    for (i = 0; i < all.length; i++) {
-        all[i].SourceElement().parentNode.className = 'has-jax';
-    }
 });
 </script>
 </head>
@@ -75,7 +64,7 @@ $$</div>
 n_B = \sum_{i=1}^c \sum_{j=1}^c b_{ij} = \frac{1}{r-1} r(r-1) u  = ru
 $$</div>
 <p>For $r=2$ there is only a single 2-combination and $r - 1 = 1$, thus the previous definition of $B$ remains unchanged.</p>
-<p>For convencience we define <code>$m_{i\cdot} = \sum_{j=1}^c m_{ij}$</code> as the sum over the $i$th row of a matrix $M$ and <code>$m_{\cdot j} = \sum_{i=1}^c m_{ij}$</code> as the sum over the $j$th column of $M$. Since $B$ is symmetric, row sums equal column sumns <code>$b_{i \cdot} = b_{\cdot i}$</code> (the number of assignments of label $i$ across all raters and units).</p>
+<p>For convencience we define $m_{i\cdot} = \sum_{j=1}^c m_{ij}$ as the sum over the $i$th row of a matrix $M$ and $m_{\cdot j} = \sum_{i=1}^c m_{ij}$ as the sum over the $j$th column of $M$. Since $B$ is symmetric, row sums equal column sumns $b_{i \cdot} = b_{\cdot i}$ (the number of assignments of label $i$ across all raters and units).</p>
 <h2>Agreement Measures</h2>
 <p>All the agreement measures in the following can be stated in the general form</p>
 <div>$$
@@ -121,7 +110,7 @@ $$</div>
 <p>All three measures compute expected agreement based purely on 'chance' given the observed frequencies, treating these observations as given. This can be misleading. Depending on the annotation process, it may be better to compute a simple agreement measure without 'chance correction' and compare it to several different baselines that explicitly model chance or possible annotation biases (e.g., annotators choosing a label that requires minimal effort in the UI when in doubt). In general, a single measure that summarizes information about multiple classes and incorporates some form of chance agreement is not very helpful in case of low agreement, where we would like to know how we can improve the annotation process. Finally, we might ask <a href="https://john-uebersax.com/stat/kappa2.htm">why we need to correct for chance agreement</a> only when measuring agreement between human annotators. Why not when we compute accuracy or F-score between classifier predictions and a gold standard? (Here we usually compare against different baselines.)</p>
 <hr>
 <p><a id="1" href="#fn-1"><sup>1</sup></a> Here I use the definition of Krippendorff (2004, p. 231). He normalizes by the number of ratings per unit, but since we deal with a fixed number $r$ of ratings, this is equivalent.</p>
-<p><a id="2" href="#fn-2"><sup>2</sup></a> Fleiss (1971) defines <code>$p_o = \frac{1}{u} \sum_{i=1}^u \frac{1}{r(r-1)} \sum_{j=1}^c n_{ij} (n_{ij} - 1)$</code> and <code>$p_e = \sum_{j=1}^c \left( \frac{1}{ur} \sum_{i=1}^u n_{ij} \right)^2$</code>, where $n_{ij}$ denotes the number of raters who assigned the $i$th unit to the $j$th category. It's easy to show that these definitions are equivalent to the ones given above (<code>$\frac{1}{r-1} \sum_{i=1}^u n_{ij} (n_{ij} - 1) = b_{jj}$</code> and <code>$\sum_{i=1}^u n_{ij} = b_{j \cdot} = b_{\cdot j}$</code>).</p>
+<p><a id="2" href="#fn-2"><sup>2</sup></a> Fleiss (1971) defines $p_o = \frac{1}{u} \sum_{i=1}^u \frac{1}{r(r-1)} \sum_{j=1}^c n_{ij} (n_{ij} - 1)$ and $p_e = \sum_{j=1}^c \left( \frac{1}{ur} \sum_{i=1}^u n_{ij} \right)^2$, where $n_{ij}$ denotes the number of raters who assigned the $i$th unit to the $j$th category. It's easy to show that these definitions are equivalent to the ones given above ($\frac{1}{r-1} \sum_{i=1}^u n_{ij} (n_{ij} - 1) = b_{jj}$ and $\sum_{i=1}^u n_{ij} = b_{j \cdot} = b_{\cdot j}$).</p>
 <hr>
 <p><a id="brennan-prediger-1981"></a> Brennan, Robert L., &amp; Prediger, Dale J. (1981). Coefficient kappa: Some uses, misuses, and alternatives. Educational and Psychological Measurement, 41, 687-699.</p>
 <p><a id="byrt-et-al-1993"></a> Byrt, T., Bishop, J., &amp; Carlin, J. B. (1993). Bias, prevalence and kappa. Journal of clinical epidemiology, 46(5), 423-429.</p>

@@ -14,9 +14,6 @@
 </script>
 <script type="text/x-mathjax-config">
 MathJax.Hub.Config({
-  "HTML-CSS": { 
-    scale: 85
-  },
   tex2jax: {
     inlineMath: [['$','$'], ['\\(','\\)']],
     displayMath: [['$$','$$'], ['\[','\]']],
@@ -26,14 +23,6 @@ MathJax.Hub.Config({
     TeX: { equationNumbers: { autoNumber: "AMS" },
          extensions: ["AMSmath.js", "AMSthm.js", "AMSsymbols.js", "physics.js"] }
   }
-});
-</script>
-<script>
-  MathJax.Hub.Queue(function() {    
-    var all = MathJax.Hub.getAllJax(), i;
-    for (i = 0; i < all.length; i++) {
-        all[i].SourceElement().parentNode.className = 'has-jax';
-    }
 });
 </script>
 </head>
@@ -78,7 +67,7 @@ $$</p>
 <p>$$
 d_D = 1 - F_1
 $$</p>
-<p>It is a semimetric because it satisfies non-negativity, identity of indiscernibles and symmetry, which is easy to see from the definition of $F_1$ in terms of $R$ and $P$, but does not satisfy the triangle inequality, e.g. for the three sets <code>$A = \{a\}$</code>, <code>$B = \{b\}$</code>, and <code>$AB = \{a, b\}$</code> we get $d_D(A, B) = 1$, $d_D(A, AB) = \frac{1}{3}$ and $d_D(AB, B) = \frac{1}{3}$, thus
+<p>It is a semimetric because it satisfies non-negativity, identity of indiscernibles and symmetry, which is easy to see from the definition of $F_1$ in terms of $R$ and $P$, but does not satisfy the triangle inequality, e.g. for the three sets $A = \{a\}$, $B = \{b\}$, and $AB = \{a, b\}$ we get $d_D(A, B) = 1$, $d_D(A, AB) = \frac{1}{3}$ and $d_D(AB, B) = \frac{1}{3}$, thus
 $$
 d_D(A,B) \not\leq d_D(A, AB) + d_D(AB, B).
 $$</p>
@@ -93,7 +82,7 @@ J &= \frac{|R \cap P|}{|R \cup P|}\label{intersection_over_union}\\
 $$</div>
 <p>The <strong>Jaccard distance</strong> $d_J = 1 - J$ is a metric, as it satisfies not only non-negativity, identity of indiscernibles and symmetry, but also the triangle inequality (in contrast to $d_D$).</p>
 <h2>Set Similarity vs. Classifier Performance</h2>
-<p>Assume that $R$ and $P$ are two subsets of another set $S$, that is, we no longer have only two sets $R$ and $P$, but two binary partitions of $S$, nameley the expected or real partition <code>$X = \{R, S \setminus R\}$</code> and the predicted partition <code>$Y = \{P, S \setminus P\}$</code>. With this superset $S$, we can define the set of <strong>true negatives</strong> $TN$ as the intersection of the relative complements of $R$ and $P$ in $S$:</p>
+<p>Assume that $R$ and $P$ are two subsets of another set $S$, that is, we no longer have only two sets $R$ and $P$, but two binary partitions of $S$, nameley the expected or real partition $X = \{R, S \setminus R\}$ and the predicted partition $Y = \{P, S \setminus P\}$. With this superset $S$, we can define the set of <strong>true negatives</strong> $TN$ as the intersection of the relative complements of $R$ and $P$ in $S$:</p>
 <div>$$
 TN = (S \setminus R) \cap (S \setminus P)
 $$</div>
