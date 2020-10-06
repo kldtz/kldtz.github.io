@@ -84,15 +84,18 @@ $$f(r) = Cr^{-1} $$
 <p>So with 7,000 lexemes we can understand 90% of all newspaper texts. This number seems high - do we really need that many? There are several factors that make this a rather pessimistic estimate.</p>
 <p>The lemmas used here are generated programmatically. As mentioned above, in less than 0.4% of all cases this didn't work at all. However, I didn't evaluate the quality of the generated lemmas -- from what I've seen they look good, but there could be a certain percentage of errors that artificially inflate their number. Additionally, any misspelling potentially creates a new 'false lemma'.</p>
 <p>Some lexemes can be derived from others (or a common root) by regular morphological processes, e.g., <em>inform</em> &gt; <em>information</em>, <em>informative</em>. If they share a core meaning, they maybe don’t need to be learned separately. Such related lexemes (with all their word-forms) make up <strong>word families</strong>. To get a more optimistic estimate of the necessary vocabulary size, we should count word families instead of lexemes. However, the semantic relations between such derivates can be opaque, either because their meaning is not fully compositional right from the beginning or because the morphological processes are not productive anymore and the lexical semantics of the derivates have developed in different directions. Thus we might not be able to correctly guess the meaning of one lexeme based on another from the same word family as the following English examples from <a href="#newmeyer-2009">Newmeyer (2009)</a> show:</p>
-<ol>
-<li>Idiosyncratic meaning relations (<a href="#newmeyer-2009">Newmeyer 2009, p. 94</a>)</li>
+<ul>
+<li>Idiosyncratic meaning relations (<a href="#newmeyer-2009">Newmeyer 2009, p. 94</a>)
+<ul>
 <li>profess ('declare openly'), professor ('university teacher'), profession ('career')</li>
 <li>ignore ('pay no attention to'), ignorance ('lack of knowledge'), ignoramus ('very stupid person')</li>
 <li>person (‘human individual’), personal (‘private’), personable (‘friendly’), personality (‘character’),
 personalize (‘tailor to the individual’), impersonate (‘pass oneself off as’)</li>
 <li>social (‘pertaining to society’; ‘interactive with others’), socialist (‘follower of a particular political
 doctrine’), socialite (‘member of high society’)</li>
-</ol>
+</ul>
+</li>
+</ul>
 <p>For our analysis we make the simplifying assumption that there is a one-to-one correspondence between tokens and lexemes. In reality, lexemes can consist of multiple tokens, e.g., <em>San Francisco</em>. More generally, we often learn <a href="https://en.wikipedia.org/wiki/Collocation">collocations</a> instead of single words.</p>
 <p>Another point that should be addressed are names, e.g., of people, places, companies and brands. All of these are counted as ordinary lexemes in this analysis. But often articles introduce names to the reader, which means he or she doesn't need to know them in advance. Even if names aren't introduced explicitly, they usually stand out, information about their referents can be inferred, and not knowing them doesn't necessarily hinder comprehension.</p>
 <p>Finally, the corpus used for this analysis is quite large and heterogeneous. People usually don't read random newspaper articles, instead they follow their interests -- maybe they are interested in sports, politics, world news, or the latest developments at the stock market. The vocabulary of any of these sub-domains will be far more restricted, thus we can hope to read articles about our favorite topics knowing far less than 7,000 lexemes.</p>
