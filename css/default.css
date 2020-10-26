@@ -33,7 +33,11 @@ body {
 /* Headlines */
 
 h1, h2, h3 {
-    line-height: 1.2
+    line-height: 1.2;
+}
+
+h1 {
+    font-size: 1.7em;
 }
 
 /* Links */

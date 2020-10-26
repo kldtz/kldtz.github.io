@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Herschel-Maxwell derivation of the normal distribution.">
+    <title>Herschel-Maxwell Derivation of the Normal Distribution</title>
+    <link rel="alternate" type="application/rss+xml" href="https://proceed-to-decode.com/rss.xml" title="Proceed to Decode">
+    <link rel="stylesheet" href="/css/default.css">
+    
+    
+    <script>
+  window.MathJax = {
+    tex: {
+      inlineMath: [['$','$'], ['\\(','\\)']],
+      displayMath: [['$$','$$'], ['\[','\]']],
+      processEscapes: true,
+      processEnvironments: true
+    },
+    options: {
+      skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre']
+    }
+  };
+  </script>
+  <script type="text/javascript" id="MathJax-script" async
+    src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js">
+  </script>
+</head>
+
+<body>
+    <main>
+    <article>
+        <header>
+            <div><span class="date">Oct 26, 2020</span></div>
+            <h1>Herschel-Maxwell Derivation of the Normal Distribution</h1>
+        </header>
+        <div class="content">
+            <p>The <em>probability density function</em> (PDF) for the normal distribution is given by the following (somewhat intimidating) formula:</p>
+<p>$$
+f(x) = \frac{1}{\sigma \sqrt{2\pi}} e^{-\frac{1}{2} ( \frac{x - \mu}{\sigma} )^2}
+$$</p>
+<p>It describes the well-known bell-shaped curve that is centered around the mean $\mu$, has inflection points at one standard deviation $\sigma$ around the mean, and integrates to one. Because of the <a href="https://en.wikipedia.org/wiki/Central_limit_theorem">central limit theorem</a>, this curve is lurking behind every corner in statistics.</p>
+<p>I recently read three beautiful derivations of this function in Jaynes (2003). In the following I'm expanding a bit on the <em>Herschel-Maxwell derivation</em> presented there. Not in a rigorous way, but in order to build some intuition. I'm starting off with a little thought experiment given by Herschel himself in 1869:</p>
+<blockquote>
+<p>Suppose a ball dropped from a given height, with the intention
+that it shall fall on a given mark.<a id="fn-1"></a><sup><a href="#1">1</a></sup></p>
+</blockquote>
+<p>Imagine we repated this little experiment a thousand times. We might end up with something like this:</p>
+<figure class="middle">
+    <img src="/img/normal-distribution/normal-distribution5.png"
+         alt="Normal distribution"/> <figcaption>
+            <p>Distribution of landing spots</p>
+        </figcaption>
+</figure>
+<p>Each dot represents a landing spot of the dropped ball. I drew a Cartesian coordinate system over the dots whose origin represents the mark we aimed for with the ball. The values of <em>x</em> and <em>y</em> of a point are the error in the respective direction (how far off the landing position is from the origin). Now we are looking for the joint probability distribution $p(x, y)$. </p>
+<h2>Bell-shaped curves</h2>
+<p>Herschel makes two postulates about this joint distribution:</p>
+<ol>
+<li>The distributions of <em>x</em> and <em>y</em> are independent.
+$$
+p(x, y) = f(x) f(y)
+$$</li>
+<li>The joint probability only depends on the Euclidean distance of the point from the origin. (We can translate our Cartesian coordinates into polar coordinates <em>r</em> and $\theta$, with $x = r \cos \theta$, $y = r \sin \theta$. Then $p(x,y)$ is independent of the angle $\theta$.)
+$$
+p(x, y) = g(\sqrt{x^2 + y^2}) = g(r, \theta) = g(r)
+$$</li>
+</ol>
+<p>Combining both postulates leads us to an equation that relates <em>x</em> and <em>y</em> to the square root of the sum of their squares via two different functions.</p>
+<p>$$
+f(x)f(y) = g(\sqrt{x^2 + y^2})
+$$</p>
+<p>However, by setting $y = 0$ we see that one function can be expressed in terms of the other $f(x)f(0) = g(x)$. Thus we can rewrite the previous equation with only one function. After deviding both sides by $f(0)^2$ we get</p>
+<p>$$
+\frac{f(x)}{f(0)} \cdot \frac{f(y)}{f(0)} = \frac{f(\sqrt{x^2 + y^2})}{f(0)}
+$$</p>
+<p>To make the next steps more obvious, we substitute $h(x) = \frac{f(x)}{f(0)}$.</p>
+<p>$$
+h(x) + h(y) = h(\sqrt{x^2 + y^2})
+$$</p>
+<p>Clearly $h(x)$ is a composition of the square and an exponential function. The base of the exponential doesn't matter, the important point is the relationship $b^x \cdot b^y = b^{x+y}$. Since $b^x = (c^{\log_c b})^x = c^{(\log_c a) x}$, we can just pick a base and introduce a constant <em>a</em> that allows us to switch to any base: $
+h(x) = e^{ax^2}$. After expanding $h(x)$ again, we can solve for $f(x)$.</p>
+<p>$$
+f(x) = f(0) \cdot e^{ax^2}
+$$</p>
+<p>We know that $x^2$ is always postive and we know that the exponential function grows indefinitely for positive values of <em>x</em>. However, we want to derive a probability distribution, so <em>a</em> must be less than zero: $a = - (b^2)$. $f(0)$ is some constant that we will call $c$.</p>
+<p>$$
+f(x) = c \cdot e^{-(b^2)x^2}
+$$</p>
+<p>Now the maximum of each function $f(x)$ is at $x = 0$ and the functions are symmetric around their maximum. Our formula describes a family of bell-shaped functions.</p>
+<figure class="middle">
+    <img src="/img/normal-distribution/function-plots.png"
+         alt="Normal distribution"/> <figcaption>
+            <p>Composing basic functions: only negative values of $a$ yield bell-shaped functions.</p>
+        </figcaption>
+</figure>
+<h2>Normalization</h2>
+<p>Our function is supposed to be a PDF, so it should integrate to one.</p>
+<p>$$
+\int_{-\infty}^{\infty} f(x)\,dx = 1
+$$</p>
+<p>Pulling the constant $c$ out of the integral, we get the following constraint.</p>
+<p>$$
+c \int_{-\infty}^{\infty} e^{-b^2 x^2}\,dx = 1
+$$</p>
+<p>Now we perform integration by substitution to simplify the integral $( \int f(u) \frac{du}{dx}\,dx = \int f(u)\,du )$ . </p>
+<p>$$
+u = bx, \quad du = b\,dx
+$$</p>
+<p>After the substitution, the <a href="https://en.wikipedia.org/wiki/Gaussian_integral">Gaussian integral</a> $\int_{-\infty}^{\infty} e^{-u^2}\,du$ appears, which evaluates to $\sqrt{\pi}$.</p>
+<p>$$
+\frac{c}{b} \int_{-\infty}^{\infty} e^{-u^2}\,du = 1, \quad \frac{c}{b} \sqrt{\pi} = 1
+$$</p>
+<p>Thus, we can get rid of one out of two unknowns by replacing $b^2 = \pi c^2$ in our function.</p>
+<p>$$
+f(x) = c \cdot e^{-\pi c^2 x^2}
+$$</p>
+<p>This already is a bell-shaped probabilty density function, but the mean is zero and the variance is unknown at the moment (we will see below that the variance of the current function is $\frac{1}{2\pi c^2}$).</p>
+<figure class="middle">
+    <img src="/img/normal-distribution/normalized-function.png"
+         alt="Bell-shaped functions: normalized"/> <figcaption>
+            <p>Restricting the family of bell-shaped functions to those that integrate to one</p>
+        </figcaption>
+</figure>
+<h2>Variance / standard deviation</h2>
+<p>We would like to parameterize our function with the variance $\sigma^2$. Since we have only one unknown or parameter left, our goal will be to express it in terms of the variance or standard deviation. We start with the definition of the variance.</p>
+<p>$$
+\sigma^2 = \int_{-\infty}^{\infty} (x-\mu)^2 f(x)\,dx
+$$</p>
+<p>Since $\mu = 0$, expanding $f(x)$ gives us the following equation (again, pulling the constant factor $c$ out of the integral).</p>
+<p>$$
+\sigma^2 = c \int_{-\infty}^{\infty} x^2 e^{-\pi c^2 x^2}\,dx
+$$</p>
+<p>We find the integral via integration by parts $( \int u\,dv = uv - \int v\, du )$.</p>
+<p>$$
+u = x, \quad du = dx, \quad dv = x \cdot e^{-\pi c^2 x^2}\,dx 
+$$</p>
+<p>To continue our integration by parts we need the function $v$, which we can find via integration by substitution (the &quot;inside&quot; function being substituted is $-\pi c^2 x^2$).</p>
+<p>$$
+v = \frac{1}{- 2\pi c^2}  e^{-\pi c^2 x^2}
+$$</p>
+<p>Putting it all together, we get the variance in the form of the following subtraction.</p>
+<p>$$
+\sigma^2 = c \Bigg[ \frac{x}{-2 \pi c^2} e^{-\pi c^2 x^2} \Bigg]_{-\infty}^{\infty} - c \int_{-\infty}^{\infty} \frac{1}{- 2\pi c^2}  e^{-\pi c^2 x^2}\, dx
+$$</p>
+<p>The first term is approaching zero for both limits because <em>x</em> is squared and multiplied with a negative constant in the exponent of a factor. If we look a bit closer at the second term, we find the normalized function $f(x)$ in it, which, of course, integrates to one.</p>
+<p>$$
+\sigma^2 = - \frac{1}{- 2\pi c^2} \int_{-\infty}^{\infty} c  e^{-\pi c^2 x^2}\, dx = \frac{1}{2\pi c^2}
+$$</p>
+<p>Now we solve for $c$ and obtain this constant in terms of the standard deviation.</p>
+<p>$$
+c = \frac{1}{\sigma \sqrt{2 \pi}}
+$$</p>
+<p>Substituting this expression for $c$ in $f(x)$ yields the formula for bell-shaped PDFs with a mean of zero and a standard deviation of $\sigma$.</p>
+<p>$$
+f(x) = \frac{1}{\sigma \sqrt{2 \pi}} e^{\frac{-x^2}{2 \sigma^2}}
+$$</p>
+<p>If we play with the parameter $\sigma$, we see that it determines the inflection points of the curve around the center.</p>
+<figure class="middle">
+    <img src="/img/normal-distribution/std.png"
+         alt="Controlling the standard deviation"/> <figcaption>
+            <p>Controlling the standard deviation</p>
+        </figcaption>
+</figure>
+<h2>Mean</h2>
+<p>So far our function has a mean of zero. To obtain a function with mean $\mu$, we simply shift the input $x$ by $-\mu$.</p>
+<p>$$
+f(x) = \frac{1}{\sigma \sqrt{2\pi}} e^{-\frac{1}{2} ( \frac{x - \mu}{\sigma} )^2}
+$$</p>
+<p>For example, subtracting two from the input shifts the curve two to the right.</p>
+<figure class="middle">
+    <img src="/img/normal-distribution/mean.png"
+         alt="Shifting the curve by the mean"/> <figcaption>
+            <p>Shifting the input $x$ by $-\mu$</p>
+        </figcaption>
+</figure>
+<p>Thus, we finally arrived at the formula stated at the top of this page.</p>
+<hr />
+<p>Herschel, J. F. (1869). On the theory of probabilities. Journal of the Institute of Actuaries and Assurance Magazine, 15(3), 179-218.</p>
+<p>Jaynes, E. T. (2003). Probability theory: The logic of science. Cambridge University Press.</p>
+<hr />
+<p><a id="1" href="#fn-1"><sup>1</sup></a> An archer or a darts player trying to hit the middle of a circular target are common variants.</p>
+
+        </div>
+    </article>
+    </main>
+    <footer id="site-footer">
+        <nav id="footer-menu"><a href="/">Home</a> | <a href="/about">About</a></nav>
+        <p>&copy; 2018-2020 Tobias Kolditz</p>
+    </footer>
+    
+</body>
+
+</html>

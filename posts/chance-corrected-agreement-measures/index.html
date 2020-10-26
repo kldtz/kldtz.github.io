@@ -10,24 +10,26 @@
     <link rel="stylesheet" href="/css/default.css">
     
     
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
-</script>
-<script type="text/x-mathjax-config">
-MathJax.Hub.Config({
-  tex2jax: {
-    inlineMath: [['$','$'], ['\\(','\\)']],
-    displayMath: [['$$','$$'], ['\[','\]']],
-    processEscapes: true,
-    processEnvironments: true,
-    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
-    TeX: { equationNumbers: { autoNumber: "AMS" },
-         extensions: ["AMSmath.js", "AMSthm.js", "AMSsymbols.js", "physics.js"] }
-  }
-});
-</script>
+    <script>
+  window.MathJax = {
+    tex: {
+      inlineMath: [['$','$'], ['\\(','\\)']],
+      displayMath: [['$$','$$'], ['\[','\]']],
+      processEscapes: true,
+      processEnvironments: true
+    },
+    options: {
+      skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre']
+    }
+  };
+  </script>
+  <script type="text/javascript" id="MathJax-script" async
+    src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js">
+  </script>
 </head>
 
 <body>
+    <main>
     <article>
         <header>
             <div><span class="date">Nov  7, 2019</span></div>
@@ -124,6 +126,7 @@ Public Opinion Quarterly, 19, 321-325.</p>
 
         </div>
     </article>
+    </main>
     <footer id="site-footer">
         <nav id="footer-menu"><a href="/">Home</a> | <a href="/about">About</a></nav>
         <p>&copy; 2018-2020 Tobias Kolditz</p>
