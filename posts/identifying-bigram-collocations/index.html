@@ -60,10 +60,12 @@ $$</div>
 <h3>Likelihood ratios</h3>
 <p><a href="#dunning-1993">Dunning (1993)</a> proposed <em>likelihood ratios</em> as more appropriate test for collocations. His method does not require normally distributed data and produces more interpretable numbers than the t-test statistic. The computed statistic is asymptotically $\chi ^2$ distributed, so we can consult the same table as we do for <em>Pearson's chi-squared</em> test to determine confidence levels. Furthermore, the statistic is more appropriate for sparse data than Pearson's $X^2$.</p>
 <p>We start by defining the hypotheses we want to test. I copy the definitions from <a href="#manning-sch%C3%BCtze-1999">Manning and Schütze's (1999)</a>.</p>
-<div>$$
-H_0: P(w_2|w_1) = p = P(w_2|\neg w_1)\\
+<p>$$
+H_0: P(w_2|w_1) = p = P(w_2|\neg w_1)
+$$
+$$
 H_A: P(w_2|w_1) = p_1 \neq p_2 = P(w_2|\neg w_1)
-$$</div>
+$$</p>
 <p>Note that this does not follow directly from the definition above. The test is two-sided because the null hypothesis is an equality (independence of $w_1$ and $w_2$). If it is rejected, we could have $P(w_2|w_1) &gt; P(w_2|\neg w_1)$ or $P(w_2|w_1) &lt; P(w_2|\neg w_1)$. In the latter case, we wouldn't be dealing with a collocation according to our definition. We can solve this problem by additionally testing for the direction.</p>
 <p>Now we compute the logarithm of the likelihood ratios, the ratio between the different likelihoods of obtaining the observed frequencies under the two hypotheses.</p>
 <div>$$\begin{align}
