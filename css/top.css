@@ -1,9 +1,19 @@
-ul {
-    list-style-type: none; /* Remove bullets */
-    padding: 0; /* Remove padding */
-    margin: 0; /* Remove margins */
+div.index {
+    display: flex;
+    flex-direction: column;
 }
 
-body {
-    text-align: center;
+a.post {
+    display: flex;
+    flex-direction: row;
+    border-bottom: dashed 1px;
+    padding: 0.2em 0;
+    text-decoration: none;
+}
+
+span.date {
+    width: 4em;
+    text-align: right;
+    flex-shrink: 0;
+    margin-left: auto;
 }

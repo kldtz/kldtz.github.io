@@ -29,11 +29,23 @@
 </head>
 
 <body>
+    <nav class="top-menu">
+        <div class="top-menu">
+            <ul class="left-menu">
+                <li class="menu-item"><a href="/">Home</a></li>
+                <li class="menu-item"><a href="/about">About</a></li>
+            </ul>
+            <ul class="right-menu">
+                <li class="menu-item"><a href="https://github.com/kldtz"><img class="icon" src="/img/github-120.png"></a></li>
+                <li class="menu-item"><a href="/rss.xml"><img class="icon" src="/img/rss-128.png"></a></li>
+            </ul>
+        </div>
+    </nav>
     <main>
     <article>
         <header>
-            <div><span class="date">Mar 26, 2019</span></div>
             <h1>F1 Score as a Measure of Set Similarity</h1>
+            <div class="date"><span class="date">Mar 26, 2019</span></div>
         </header>
         <div class="content">
             <p>In machine learning the F1 score is often used to evaluate the performance of classifiers. In this context it is usually thought of in terms of true positives, false positives and false negatives from a binary contingency table. However, thinking of the F1 score as a simple measure of set similarity may give us better intuitions about its properties and limitations.</p>
@@ -101,8 +113,7 @@ $$</div>
     </article>
     </main>
     <footer id="site-footer">
-        <nav id="footer-menu"><a href="/">Home</a> | <a href="/about">About</a></nav>
-        <p>&copy; 2018-2020 Tobias Kolditz</p>
+        <a id="footer-name" href="/">&copy; 2018-2020<br>Tobias Kolditz</a>
     </footer>
     
 </body>

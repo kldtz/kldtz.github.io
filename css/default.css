@@ -17,20 +17,64 @@ body {
     text-align: center;
 }
 
-#site-footer p {
-    margin: 0;
-}
-
-#footer-menu {
-    font-weight: bold;
-    font-size: 20px;
-}
-
-#footer-menu a {
+#footer-name {
     text-decoration: none;
 }
 
+/* Top navigation */
+
+.top-menu > ul {
+    /* no bullets */
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+nav.top-menu {
+    border-bottom: solid 1px;
+    padding-bottom: 1em;
+}
+
+div.top-menu {
+    display: flex;
+}
+
+ul.left-menu {
+    display: flex;
+}
+
+.left-menu > li.menu-item {
+    margin-right: 2em;
+}
+
+ul.right-menu {
+    margin-left: auto; 
+    display: flex;
+}
+
+.right-menu > li.menu-item {
+    margin-left: 2em;
+}
+
+li.menu-item > a {
+    text-decoration: none;
+    font-weight: bold;
+}
+
+img.icon {
+    height: 32px;
+    width: auto;
+}
+
+#github {
+    background: url(/img/GitHub-Mark-32px.png);
+}
+
 /* Headlines */
+
+div.date {
+    text-align: center;
+}
 
 h1, h2, h3 {
     line-height: 1.2;
@@ -38,6 +82,7 @@ h1, h2, h3 {
 
 h1 {
     font-size: 1.7em;
+    text-align: center;
 }
 
 /* Links */
