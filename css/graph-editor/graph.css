@@ -1,0 +1,125 @@
+text {
+    font-size: 18px;
+}
+
+/* Nodes */
+
+g.node > circle {
+    stroke: black;
+    fill: white;
+    stroke-width: 2px;
+}
+
+g.node > text {
+    text-anchor: middle;
+}
+
+g.node:hover {
+    cursor: grab;
+}
+
+g.node.selected>circle {
+    fill: orange;
+}
+
+g.node.selected > marker {
+    fill: orange;
+}
+
+g.node:hover > circle {
+    fill: orange;
+}
+
+text.hidden {
+    display: none;
+}
+
+/* Edges */
+
+path.line.hidden {
+    stroke-width: 0;
+    stroke: white;
+}
+
+path.line {
+    stroke: black;
+    stroke-width: 6px;
+    marker-end: url("#end-arrow")
+}
+
+.edge.selected > path {
+    stroke: orange;
+    marker-end: url("#selected-end-arrow");
+}
+
+.edge.selected > text {
+    fill: orange;
+}
+
+marker {
+    fill: black;
+}
+
+#selected-end-arrow {
+    fill: orange;
+}
+
+.edge:hover {
+    cursor: pointer;
+}
+
+.edge:hover .line {
+    marker-end: url("#selected-end-arrow");
+    stroke: orange;
+}
+
+.edge:hover text {
+    fill: orange;
+}
+
+/* Intermediate edge during drag */
+
+path.line.dragline {
+    marker-end: url("#mark-end-arrow");
+}
+
+path.line.dragline.hidden {
+    marker-end: none;
+}
+
+path.line.dragline:hover {
+    stroke: black;
+    cursor: pointer;
+}
+
+/* Toolbar */
+
+#toolbox {
+    bottom: 0;
+    left: 0;
+    margin-bottom: 0.5em;
+    margin-left: 1em;
+    border: 2px solid #EEEEEE;
+    border-radius: 5px;
+    padding: 1em;
+    z-index: 5;
+    width: 115px;
+}
+
+#toolbox input {
+    width: 30px;
+    opacity: 0.4;
+}
+
+#toolbox input:hover {
+    opacity: 1;
+    cursor: pointer;
+}
+
+#select-file {
+    display: none;
+}
+
+#download-input {
+    margin: 0 0.5em;
+}
