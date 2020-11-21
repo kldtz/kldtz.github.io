@@ -337,9 +337,11 @@ class Graph {
             .data([d])
             .enter()
             .append("foreignObject")
-            // TODO: middle position + rotate via transform: rotate(20deg);
+            // TODO: rotate via transform: rotate(20deg);
             .attr("x", d.target.x - (d.target.x - d.source.x) / 2)
             .attr("y", d.target.y - (d.target.y - d.source.y) / 2)
+            .attr("height", 100)
+            .attr("width", 100)
             .append("xhtml:div")
             //.style("transform", "rotate(20deg)")
             .attr("id", "editable-p")
