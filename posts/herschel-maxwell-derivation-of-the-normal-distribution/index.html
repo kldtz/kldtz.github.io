@@ -53,7 +53,7 @@
 f(x) = \frac{1}{\sigma \sqrt{2\pi}} e^{-\frac{1}{2} ( \frac{x - \mu}{\sigma} )^2}
 $$</p>
 <p>It describes the well-known bell-shaped curve that is centered around the mean $\mu$, has inflection points at one standard deviation $\sigma$ around the mean, and integrates to one. Because of the <a href="https://en.wikipedia.org/wiki/Central_limit_theorem">central limit theorem</a>, this curve is lurking behind every corner in statistics.</p>
-<p>I recently read three beautiful derivations of this function in Jaynes (2003). In the following I'm expanding a bit on the <em>Herschel-Maxwell derivation</em> presented there. Not in a rigorous way, but in order to build some intuition. I'm starting off with a little thought experiment given by Herschel himself in 1869:</p>
+<p>I recently read three beautiful derivations of this function in Jaynes (2003). In the following I'm expanding on the <em>Herschel-Maxwell derivation</em> presented there. Not in a rigorous way, but in order to build some intuition. I'm starting off with a thought experiment given by Herschel himself in 1869:</p>
 <blockquote>
 <p>Suppose a ball dropped from a given height, with the intention
 that it shall fall on a given mark.<a id="fn-1"></a><sup><a href="#1">1</a></sup></p>
@@ -91,7 +91,7 @@ $$</p>
 h(x) + h(y) = h(\sqrt{x^2 + y^2})
 $$</p>
 <p>Clearly $h(x)$ is a composition of the square and an exponential function. The base of the exponential doesn't matter, the important point is the relationship $b^x \cdot b^y = b^{x+y}$. Since $b^x = (c^{\log_c b})^x = c^{(\log_c b) x}$, we can just pick a base and introduce a constant <em>a</em> that allows us to switch to any base: $
-h(x) = e^{ax^2}$. After expanding $h(x)$ again, we can solve for $f(x)$.</p>
+h(x) = e^{ax^2}$. After expanding $h(x)$ again, we solve for $f(x)$.</p>
 <p>$$
 f(x) = f(0) \cdot e^{ax^2}
 $$</p>
