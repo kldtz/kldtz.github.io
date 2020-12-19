@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <title>Basic Web App with Rust</title>
+    <link rel="alternate" type="application/rss+xml" href="https://proceed-to-decode.com/rss.xml" title="Proceed to Decode">
+    <link rel="stylesheet" href="/css/default.css">
+    
+    <link rel="stylesheet" href="/lib/highlight.js/styles/default.css">
+<script src="/lib/highlight.js/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+    
+</head>
+
+<body>
+    <nav class="top-menu">
+        <div class="top-menu">
+            <ul class="left-menu">
+                <li class="menu-item"><a href="/">Home</a></li>
+                <li class="menu-item"><a href="/about">About</a></li>
+            </ul>
+            <ul class="right-menu">
+                <li class="menu-item"><a href="https://github.com/kldtz"><img class="icon" src="/img/github-120.png" alt="GitHub"></a></li>
+                <li class="menu-item"><a href="/rss.xml"><img class="icon" src="/img/rss-128.png" alt="RSS"></a></li>
+            </ul>
+        </div>
+    </nav>
+    <main>
+    <article>
+        <header>
+            <h1>Basic Web App with Rust</h1>
+            <div class="date"><span class="date">Dec 19, 2020</span></div>
+        </header>
+        <div class="content">
+            <p>This post describes the Rust stack (<a href="https://github.com/actix/actix-web">Actix Web</a>, <a href="https://github.com/diesel-rs/diesel">Diesel</a>, <a href="https://github.com/djc/askama">Askama</a>) for a basic web app that consists of a REST API, a Postgres database and a few views with JavaScript and CSS. The app is adding a backend to the editable graph from my <a href="/posts/graph-editor-demo/">previous post</a>. It allows creating and editing directed graphs. Each action is persisted in the database immediately. The code is on <a href="https://github.com/kldtz/graph-editor-app">GitHub</a>. Apart from the documentation and GitHub issues belonging to the different frameworks, I found Tore Pettersen's <a href="https://cloudmaker.dev/how-to-create-a-rest-api-in-rust/">tutorial on creating a REST API in Rust</a> most helpful.</p>
+<h2>Server and routes</h2>
+<p>The way you define methods and routes in <em>Actix Web</em> is very similar to the way it's done in Python frameworks like <em>FastAPI</em>. HTTP method and URL path are annotated on a Rust method. The request body, path and query parameters, as well as application state can be passed as arguments into the method. This is the hello-world example copied from the <em>Actix Web</em> documentation:</p>
+<pre><code class="language-rust">use actix_web::{get, web, App, HttpServer, Responder};
+
+#[get(&quot;/{id}/{name}/index.html&quot;)]
+async fn index(web::Path((id, name)): web::Path&lt;(u32, String)&gt;) -&gt; impl Responder {
+    format!(&quot;Hello {}! id:{}&quot;, name, id)
+}
+
+#[actix_web::main]
+async fn main() -&gt; std::io::Result&lt;()&gt; {
+    HttpServer::new(|| App::new().service(index))
+        .bind(&quot;127.0.0.1:8080&quot;)?
+        .run()
+        .await
+}
+</code></pre>
+<p>An HTTP server is created from an application factory, which in this example is a closure that captures the index method defined in its environment. In the closure, an application instance is created, on which the index endpoint is registered. The factory is used to construct an application instance for each thread. It's possible to have shared data, but I don't need any in this simple app.</p>
+<h2>Database</h2>
+<p>For interacting with the database, I use <a href="https://github.com/diesel-rs/diesel"><strong>Diesel</strong></a>. It provides object-relational mapping (ORM) and versioned migrations. Each migration consists of two parts: one running the migration (e.g., creating a table), one reverting the migration (e.g., dropping the created table). In the simplest case, each part is an SQL file (<code>up.sql</code> and <code>down.sql</code>). If you don't like writing SQL, you can use <a href="https://github.com/rust-db/barrel"><em>barrel</em></a> with Diesel, which allows you to write your migrations in Rust. Diesel comes with its own CLI, that does the necessary setup, generates and runs/reverts migrations, similar to <code>rails db</code>. The interface is well-structured and documented. The command I found most useful during development was <code>diesel database reset</code>, which drops your database, recreates it and runs all migrations.</p>
+<p>Diesel doesn't support asynchronous operations, so we need to offload our queries to a connection pool. I like the solution presented in <a href="https://cloudmaker.dev/how-to-create-a-rest-api-in-rust/">Tore Pettersen's blog post</a> and blatantly copied the whole <code>db.rs</code> file from there. With this in place, you can write your models and queries. A model is a struct for which Diesel traits can be derived automatically. This is one of the models I use for the graph nodes:</p>
+<pre><code class="language-rust">#[derive(Serialize, Deserialize, Queryable, Identifiable, Associations)]
+#[belongs_to(parent = &quot;Graph&quot;)]
+#[table_name = &quot;node&quot;]
+pub struct Node {
+    pub id: i32,
+    pub node_label: String,
+    pub graph_id: i32,
+    pub x_coord: f64,
+    pub y_coord: f64,
+    pub created_at: NaiveDateTime,
+    pub updated_at: Option&lt;NaiveDateTime&gt;,
+}
+</code></pre>
+<p>The following traits are derived automatically:</p>
+<ul>
+<li><code>Serialize/Deserialize</code>: generates (de)serialization implementations provided by <a href="https://serde.rs/"><strong>Serde</strong></a></li>
+<li><code>Queryable</code>: node struct can be the result of an SQL query</li>
+<li><code>Identifiable</code>: node struct represents single DB row with an <code>id</code> method returning an identifier, prerequisite for Associations</li>
+<li><code>Associations</code>: enables <code>belongs_to</code> relation to the parent model <code>Graph</code></li>
+</ul>
+<p>With this model, a simple query for a node with a given ID looks like this:</p>
+<pre><code class="language-rust">node::table.filter(node::id.eq(id)).first(&amp;connection).unwrap()
+</code></pre>
+<p>The <code>filter</code> method adds the ID check to the <code>where</code> clause of the query, <code>first</code> attempts to load a single record from our pooled connection.</p>
+<p>When creating a new node, I don't want to provide the ID and creation timestamp, since I set up Postgres to do this, so I have a second struct with a subset of fields, deriving the <code>Insertable</code> trait that provides us with an implementation of <code>insert_into</code>.</p>
+<pre><code class="language-rust">#[derive(Serialize, Deserialize, Insertable)]
+#[table_name = &quot;node&quot;]
+pub struct NodeInit {
+    pub node_label: String,
+    pub graph_id: i32,
+    pub x_coord: f64,
+    pub y_coord: f64,
+}
+</code></pre>
+<p>To allow for flexible patches of subsets of attributes, you can define a model with optional fields like this:</p>
+<pre><code class="language-rust">#[derive(Serialize, Deserialize, AsChangeset)]
+#[table_name = &quot;node&quot;]
+pub struct NodePatch {
+    pub node_label: Option&lt;String&gt;,
+    pub x_coord: Option&lt;f64&gt;,
+    pub y_coord: Option&lt;f64&gt;,
+}
+</code></pre>
+<p>The <code>AsChangeset</code> trait allows this struct to be passed to <code>update.set</code>. Optional fields will be skipped if their value is <code>None</code>.</p>
+<h2>Template engine</h2>
+<p>To show some views to the user, it's nice to have a good template engine. I first tried the Rust version of <a href="https://github.com/sunng87/handlebars-rust">Handlebars</a> because I was familiar with it from JavaScript, but later I switched to <a href="https://github.com/djc/askama"><strong>Askama</strong></a>. The main difference between both is that <em>Askama</em> generates Rust code from the templates at compile time, taking full advantage of Rust's type system, while <em>Handlebars</em> processes the templates at runtime. Since all my templates are known at compile time, I don't need <em>Handlebar's</em> flexibility and can enjoy the advantages of <em>Askama</em>.</p>
+<p>Here is an example of template inheritance. I defined a parent template with some minimal HTML structure around a content block.</p>
+<pre><code class="language-html">&lt;!-- base.html --&gt;
+&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+
+&lt;head&gt;
+    &lt;meta charset=&quot;UTF-8&quot;&gt;
+    &lt;title&gt;{{ title }}&lt;/title&gt;
+&lt;/head&gt;
+
+&lt;body&gt;
+    &lt;h1&gt;{{title}}&lt;/h1&gt;
+    {% block content %}{% endblock %}
+&lt;/body&gt;
+
+&lt;/html&gt;
+</code></pre>
+<p>Another template extends this base template and defines the content block.</p>
+<pre><code class="language-html">{% extends &quot;base.html&quot; %}
+{% block content %}
+
+&lt;div&gt;
+    &lt;svg id=&quot;graph&quot;&gt;&lt;/svg&gt;
+&lt;/div&gt;
+
+&lt;script src=&quot;https://d3js.org/d3.v6.min.js&quot;&gt;&lt;/script&gt;
+&lt;script src=&quot;/static/graph.js&quot;&gt;&lt;/script&gt;
+
+{% endblock content %}
+</code></pre>
+<p>In the code, define a struct for each template that contains the data used in the template. Derive <em>Askama's</em> <code>Template</code> trait and annotate the path to the template. All templates live in the <code>templates</code> directory under your project root. The path is relative to this directory.</p>
+<pre><code class="language-rust">#[derive(Template)]
+#[template(path = &quot;graphs/index.html&quot;)]
+struct GraphsTemplate&lt;'a&gt; {
+    title: &amp;'a str,
+    graphs: Vec&lt;Graph&gt;,
+}
+</code></pre>
+<p>To compile the template, instantiate the struct with some data, for example with a page title and some objects from the database, and call the <code>render</code> method on it. The result can be used to create an HTTP response.</p>
+<pre><code class="language-rust">let graphs = Graph::find_all()?;
+let template = GraphsTemplate {
+    title: &quot;Graphs&quot;,
+    graphs: graphs,
+};
+let body = template.render()?;
+HttpResponse::Ok().body(body)
+</code></pre>
+<h2>Static files</h2>
+<p>In the template above, I linked to a JavaScript file with a root-relative URL. To make that work, I serve a directory of static files by registering the static file handling service provided by <code>actix-files</code> on the app in the application factory.</p>
+<pre><code class="language-rust">use actix_files as fs;
+
+App::new().service(fs::Files::new(&quot;/static&quot;, &quot;./static&quot;))
+</code></pre>
+
+        </div>
+    </article>
+    </main>
+    <footer id="site-footer">
+        <a id="footer-name" href="/">&copy; 2018-2020<br>Tobias Kolditz</a>
+    </footer>
+    
+</body>
+
+</html>
