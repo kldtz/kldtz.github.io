@@ -1,0 +1,117 @@
+g.note.transparent:hover {
+    opacity: 1;
+}
+
+g.note {
+    fill: white;
+    stroke-width: 1px;
+    stroke: black;
+}
+
+g.note.selected>circle {
+    opacity: 1;
+    stroke-dasharray: 4, 4;
+    stroke-width: 3px;
+}
+
+g.note.hidden {
+    opacity: 0;
+}
+
+g.note.transparent {
+    opacity: 0.3;
+}
+
+g.note.visible {
+    opacity: 1;
+    fill: white;
+}
+
+g.note.blue {
+    fill: steelblue;
+}
+
+g.note.blue>text {
+    stroke: white;
+    fill: white;
+}
+
+g.note.red {
+    fill: indianred;
+}
+
+g.note.red>text {
+    stroke: white;
+    fill: white;
+}
+
+g.note.green {
+    fill: teal;
+}
+
+g.note.green>text {
+    stroke: white;
+    fill: white;
+}
+
+path.string {
+    stroke: black;
+    fill: none;
+}
+
+path.frets {
+    stroke: black;
+    stroke-width: 1px;
+    fill: none;
+}
+
+g.note>text {
+    stroke: black;
+    stroke-width: 0px;
+    fill: black;
+    text-anchor: middle;
+    dominant-baseline: middle;
+    font-size: 18px;
+}
+
+circle.marker {
+    stroke: gray;
+    fill: gray;
+}
+
+#editable-div {
+    text-align: center;
+    font-size: 18px;
+}
+
+#fretboard-diagram-creator {
+    padding-top: 10px;
+    /* border: 1px solid; */
+}
+
+div.menu {
+    text-align: center;
+    /* text-align: center; */
+}
+
+@supports (width: 100vw) {
+    figure.half-full {
+        max-width: 100vw;
+        width: 1000px;
+        position: relative;
+        left: 50%;
+        right: 50%;
+        margin-left: -500px;
+        margin-right: -500px;
+    }
+    @media only screen and (max-width: 1000px) {
+        figure.half-full {
+            max-width: 100vw;
+            width: 100%;
+            left: 0;
+            right: 0;
+            margin: 0;
+            overflow-y: auto;
+        }
+    }
+}
