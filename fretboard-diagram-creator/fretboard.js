@@ -103,7 +103,7 @@ class Fretboard {
                     setClassName(selected, { color: "white" });
                     break;
                 case "KeyR":
-                    setClassName(selected, { color: "red"});
+                    setClassName(selected, { color: "red" });
                     break;
             }
         })
@@ -278,6 +278,8 @@ class Fretboard {
 
         this.editableText.children[0].innerHTML = this.selectedText.innerHTML;
         this.editableText.children[0].focus();
+        // select all text in editable div
+        document.execCommand('selectAll', false, null);
     }
 
     toggleVisibility() {
