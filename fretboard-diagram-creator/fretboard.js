@@ -350,7 +350,7 @@ svgButton.addEventListener('click', () => {
     svgLink.click();
 });
 
-const PROPERTIES = ["opacity", "fill", "stroke", "stroke-width", "text-anchor", "dominant-baseline"]
+const PROPERTIES = ["fill", "stroke", "stroke-width", "text-anchor", "dominant-baseline"]
 
 function inlineCSS(svg) {
     const svgElements = document.querySelectorAll("svg *");
@@ -358,7 +358,13 @@ function inlineCSS(svg) {
     const clonedElements = clonedSVG.querySelectorAll("*");
     for (let i = 0; i < svgElements.length; i++) {
         const computedStyle = getComputedStyle(svgElements[i]);
-        const styles = {}
+        // remove invisible elements to reduce file size
+        const opacity = computedStyle.getPropertyValue('opacity');
+        if (opacity === '0') {
+            clonedElements[i].remove();
+            continue;
+        }
+        const styles = {opacity: opacity}
         for (let attr of PROPERTIES) {
             let value = computedStyle.getPropertyValue(attr);
             if (value) {
