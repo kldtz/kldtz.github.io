@@ -74,11 +74,6 @@ g.note>text {
     font-size: 18px;
 }
 
-circle.marker {
-    stroke: gray;
-    fill: gray;
-}
-
 #editable-div {
     text-align: center;
     font-size: 18px;
@@ -92,6 +87,11 @@ circle.marker {
 div.menu {
     text-align: center;
     /* text-align: center; */
+}
+
+text.marker {
+    text-anchor: middle;
+    font-size: 16px;
 }
 
 @supports (width: 100vw) {
@@ -114,4 +114,14 @@ div.menu {
             overflow-y: auto;
         }
     }
+}
+
+.num-input {
+    font-variant-numeric: tabular-nums;
+    font-feature-settings: "tnum";
+}
+
+.error {
+    font-size: 18px;
+    text-anchor: middle;
 }

@@ -12,7 +12,7 @@ function setAttributes(elem, attrs) {
     }
 }
 
-function setClassName(elem, classes) {
+function generateClassValue(elem, classes) {
     var classValues = elem.className.baseVal.split(" ");
     if ('type' in classes) {
         classValues[0] = classes.type;
@@ -23,7 +23,7 @@ function setClassName(elem, classes) {
     if ('visibility' in classes) {
         classValues[2] = classes.visibility;
     }
-    elem.setAttribute('class', classValues.join(' '));
+    return classValues.join(' ');
 }
 
 function createSvgElement(tag, attributes = null) {
@@ -42,22 +42,74 @@ class Fretboard {
             offsetX: 30,
             offsetY: 30,
             stringIntervals: [24, 19, 15, 10, 5, 0],
-            numFrets: 12,
+            markers: [3, 5, 7, 9, 12, 15, 17, 19, 21],
             fretWidth: 70,
             stringSpacing: 40,
             minStringSize: 0.2,
             circleRadius: 18,
             notes: ['E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B', 'C', 'C#', 'D', 'D#'],
         };
+        this.consts.numStrings = this.consts.stringIntervals.length;
+        this.consts.fretHeight = (this.consts.numStrings - 1) * this.consts.stringSpacing;
 
         this.state = {
             selected: null,
             visibility: 'transparent',
+            startFret: 0,
+            endFret: 12,
         };
-        this.consts.numStrings = this.consts.stringIntervals.length;
-        this.consts.fretHeight = (this.consts.numStrings - 1) * this.consts.stringSpacing;
-        this.consts.fretboardWidth = this.consts.fretWidth * this.consts.numFrets;
+
+        this.computeDependents();
+
+        this.data = {};
+
         this.draw();
+    }
+
+    computeDependents() {
+        this.state.numFrets = this.state.endFret - this.state.startFret;
+        this.state.fretboardWidth = this.consts.fretWidth * this.state.numFrets;
+    }
+
+    setFretWindow(fretWindow) {
+        const start = 'start' in fretWindow ? fretWindow.start : this.state.startFret;
+        const end = 'end' in fretWindow ? fretWindow.end : this.state.endFret;
+        this.erase();
+        if (start < 0 || start > 20 || end < 1 || end > 20) {
+            this.drawError("Invalid fret value(s)!");
+            return;
+        }
+        if (end <= start) {
+            this.drawError("End fret must not be smaller than start fret!");
+            this.state.startFret = start;
+            this.state.endFret = end;
+            return;
+        }
+        if (end - start > 12) {
+            this.drawError("Maximal number of displayable frets is 12, <br/> e.g., 1st to 12th or 4th to 15th!");
+            this.state.startFret = start;
+            this.state.endFret = end;
+            return;
+        }
+
+        this.state.startFret = start;
+        this.state.endFret = end;
+
+        this.computeDependents();
+        this.draw();
+    }
+
+    drawError(message) {
+        const text = createSvgElement('text', {
+            x: 400,
+            y: 140,
+            class: 'error',
+        });
+        text.innerHTML = message;
+        this.svg.appendChild(text);
+        setAttributes(this.svg, {
+            width: 800,
+        });
     }
 
     draw() {
@@ -67,9 +119,14 @@ class Fretboard {
         this.drawNotes();
         this.addEditableDiv();
 
+        // adjust diagram width to number of selected frets
+        setAttributes(this.svg, {
+            width: this.state.fretboardWidth + 2 * this.consts.offsetX,
+        })
+
         this.svg.addEventListener('click', () => {
             if (this.state.selected) {
-                setClassName(this.state.selected, {
+                this.updateNote(this.state.selected, {
                     visibility: 'visible',
                 });
                 this.state.selected = null;
@@ -77,7 +134,7 @@ class Fretboard {
         });
 
         document.addEventListener('keydown', (event) => {
-            if (!this.state.selected || !event.code || this.selectedText) {
+            if (!this.state.selected || !event.code) {
                 return;
             }
             const selected = this.state.selected;
@@ -89,21 +146,21 @@ class Fretboard {
                     if (text) {
                         text.innerHTML = text.getAttribute('data-note');
                     }
-                    setClassName(selected,
+                    this.updateNote(selected,
                         { color: "white", visibility: this.state.visibility });
                     this.state.selected = null;
                     break;
                 case 'KeyB':
-                    setClassName(selected, { color: "blue" });
+                    this.updateNote(selected, { color: "blue" });
                     break;
                 case 'KeyG':
-                    setClassName(selected, { color: "green" });
+                    this.updateNote(selected, { color: "green" });
                     break;
                 case "KeyW":
-                    setClassName(selected, { color: "white" });
+                    this.updateNote(selected, { color: "white" });
                     break;
                 case "KeyR":
-                    setClassName(selected, { color: "red" });
+                    this.updateNote(selected, { color: "red" });
                     break;
             }
         })
@@ -111,8 +168,8 @@ class Fretboard {
 
     drawFrets() {
         var pathSegments = ["M " + this.consts.offsetX + " " + this.consts.offsetY];
-        for (let i = 0; i < this.consts.numFrets + 1; i++) {
-            let factor = i % 2 == 0 ? 1 : -1;
+        for (let i = this.state.startFret; i < (this.state.endFret + 1); i++) {
+            let factor = (i - this.state.startFret) % 2 == 0 ? 1 : -1;
             pathSegments.push("v " + (factor) * this.consts.fretHeight);
             pathSegments.push("m " + this.consts.fretWidth + " " + 0);
         }
@@ -130,26 +187,18 @@ class Fretboard {
         const markers = createSvgElement('g', {
             class: 'markers'
         });
-        for (let i of [2, 4, 6, 8]) {
-            const marker = createSvgElement('circle', {
+        const filteredMarkers = this.consts.markers
+            .filter(i => i > this.state.startFret && i <= this.state.endFret);
+        for (let i of filteredMarkers) {
+            const marker = createSvgElement('text', {
                 class: 'marker',
-                cx: this.consts.offsetX + i * this.consts.fretWidth + (this.consts.fretWidth / 2),
-                cy: this.consts.offsetY + this.consts.fretHeight + this.consts.stringSpacing,
-                r: 5,
-            })
+                x: this.consts.offsetX + (i - 1 - this.state.startFret) * this.consts.fretWidth + (this.consts.fretWidth / 2),
+                y: this.consts.offsetY + this.consts.fretHeight + this.consts.stringSpacing,
+            });
+            marker.innerHTML = i;
             markers.appendChild(marker);
         }
         this.svg.appendChild(markers);
-
-        for (let i of [-10, 10]) {
-            const marker = createSvgElement('circle', {
-                class: 'marker',
-                cx: this.consts.offsetX + 11 * this.consts.fretWidth + (this.consts.fretWidth / 2) + i,
-                cy: this.consts.offsetY + this.consts.fretHeight + this.consts.stringSpacing,
-                r: 5,
-            })
-            markers.appendChild(marker);
-        }
     }
 
     drawStrings() {
@@ -158,7 +207,7 @@ class Fretboard {
         })
         this.svg.appendChild(this.strings);
         for (let i = 0; i < this.consts.numStrings; i++) {
-            let path = "M " + this.consts.offsetX + " " + (this.consts.offsetY + i * this.consts.stringSpacing) + " h " + this.consts.fretboardWidth;
+            let path = "M " + this.consts.offsetX + " " + (this.consts.offsetY + i * this.consts.stringSpacing) + " h " + this.state.fretboardWidth;
             const string = createSvgElement('path', {
                 'class': 'string',
                 'd': path,
@@ -175,35 +224,19 @@ class Fretboard {
             'class': 'notes',
         })
         this.svg.appendChild(this.notes);
-        for (let i = 0; i < this.consts.numFrets; i++) {
+        for (let i = this.state.startFret; i < this.state.endFret; i++) {
             for (let j = 0; j < this.consts.numStrings; j++) {
-                const x = this.consts.offsetX + (this.consts.fretWidth / 2) + this.consts.fretWidth * i;
+                const noteId = `f${i}-s${j}`;
+                const x = this.consts.offsetX + (this.consts.fretWidth / 2) + this.consts.fretWidth * (i - this.state.startFret);
                 const y = this.consts.offsetY + this.consts.stringSpacing * j;
                 const note = createSvgElement('g', {
+                    'id': noteId,
                     'transform': "translate(" + x + "," + y + ")",
                     'data-x': x,
                     'data-y': y,
                 });
-                setClassName(note,
-                    { type: 'note', color: 'white', visibility: this.state.visibility });
                 this.notes.appendChild(note);
-                note.addEventListener("click", (event) => {
-                    event.stopPropagation();
-                    const note = event.currentTarget;
-                    if (this.state.selected) {
-                        setClassName(this.state.selected, {
-                            visibility: 'visible',
-                        });
-                    }
-                    setClassName(note, {
-                        visibility: 'selected',
-                    });
-                    this.state.selected = note;
-
-                    if (event.ctrlKey) {
-                        this.editSelectedLabel();
-                    }
-                });
+                note.addEventListener("click", (event) => this.noteClickHandler(event));
 
                 const circle = createSvgElement('circle', {
                     'r': this.consts.circleRadius,
@@ -217,41 +250,31 @@ class Fretboard {
                     'data-note': noteName,
                 });
                 text.innerHTML = noteName;
+
                 note.appendChild(text);
+
+                const update = (noteId in this.data) ? this.data[noteId] : { type: 'note', color: 'white', visibility: this.state.visibility };
+                this.updateNote(note, update);
             }
         }
     }
 
-    addEditableDiv() {
-        this.editableText = createSvgElement('foreignObject', {
-            class: 'hidden',
-        });
-        const div = document.createElement('div');
-        div.setAttribute('contentEditable', 'true');
-        div.setAttribute('id', 'editable-div')
-        div.addEventListener('keydown', (event) => {
-            event.stopPropagation();
-            if (event.code === 'Enter') {
-                event.target.blur();
-            }
-        });
-        div.addEventListener('blur', (event) => {
-            this.selectedText.innerHTML = this.editableText.children[0].innerHTML;
-            this.editableText.children[0].innerHTML = '';
-            setAttributes(this.selectedText, {
-                styles: {
-                    display: 'block',
-                }
+    noteClickHandler(event) {
+        event.stopPropagation();
+        const note = event.currentTarget;
+        if (this.state.selected) {
+            this.updateNote(this.state.selected, {
+                visibility: 'visible',
             });
-            setAttributes(this.editableText, {
-                styles: {
-                    display: 'none',
-                }
-            });
-            this.selectedText = null;
-        })
-        this.editableText.appendChild(div);
-        this.svg.appendChild(this.editableText);
+        }
+        this.updateNote(note, {
+            visibility: 'selected',
+        });
+        this.state.selected = note;
+
+        if (event.ctrlKey) {
+            this.editSelectedLabel();
+        }
     }
 
     editSelectedLabel() {
@@ -269,51 +292,115 @@ class Fretboard {
             }
         });
 
-        this.selectedText = selected.children[1];
-        setAttributes(this.selectedText, {
+        const selectedText = this.state.selected.children[1];
+        setAttributes(selectedText, {
             styles: {
                 display: 'none',
             }
         });
 
-        this.editableText.children[0].innerHTML = this.selectedText.innerHTML;
+        this.editableText.children[0].innerHTML = selectedText.innerHTML;
         this.editableText.children[0].focus();
         // select all text in editable div
         document.execCommand('selectAll', false, null);
     }
 
+    addEditableDiv() {
+        this.editableText = createSvgElement('foreignObject', {
+            class: 'hidden',
+        });
+        const div = document.createElement('div');
+        div.setAttribute('contentEditable', 'true');
+        div.setAttribute('id', 'editable-div')
+        div.addEventListener('keydown', (event) => {
+            event.stopPropagation();
+            if (event.code === 'Enter') {
+                event.target.blur();
+            }
+        });
+        div.addEventListener('blur', (event) => {
+            if (!this.state.selected) {
+                return;
+            }
+            const selectedText = this.state.selected.children[1];
+
+            this.updateNote(this.state.selected, {
+                noteText: this.editableText.children[0].innerHTML,
+            })
+
+            this.editableText.children[0].innerHTML = '';
+            setAttributes(selectedText, {
+                styles: {
+                    display: 'block',
+                }
+            });
+            setAttributes(this.editableText, {
+                styles: {
+                    display: 'none',
+                }
+            });
+        })
+        this.editableText.appendChild(div);
+        this.svg.appendChild(this.editableText);
+    }
+
+    updateNote(elem, update) {
+        if (!(elem.id in this.data)) {
+            this.data[elem.id] = {};
+        }
+        const classValue = generateClassValue(elem, update);
+        elem.setAttribute('class', classValue);
+
+        if ('noteText' in update) {
+            elem.children[1].innerHTML = update.noteText;
+        }
+
+        const noteData = this.data[elem.id];
+        for (let [key, value] of Object.entries(update)) {
+            noteData[key] = value;
+        }
+    }
+
     toggleVisibility() {
+        this.state.visibility = this.state.visibility === 'hidden' ? 'transparent' : 'hidden';
         for (let note of this.notes.children) {
             if (note.className.baseVal.endsWith('visible') || note.className.baseVal.endsWith('selected')) {
                 continue;
             }
-            this.state.visibility = note.className.baseVal.endsWith('hidden') ? 'transparent' : 'hidden';
-            setClassName(note, {
+            this.updateNote(note, {
                 visibility: this.state.visibility,
             })
+        }
+
+        for (let [_key, value] of Object.entries(this.data)) {
+            value['visibility'] = this.state.visibility;
         }
     }
 
     clearSelection() {
         if (this.state.selected) {
-            setClassName(this.state.selected, {
+            this.updateNote(this.state.selected, {
                 visibility: 'visible',
             });
             this.state.selected = null;
         }
     }
 
+    erase() {
+        this.svg.innerHTML = "";
+    }
+
     reset() {
+        this.data = {};
         for (let note of this.notes.children) {
             // reset text
             const text = note.children[1];
             if (text) {
                 text.innerHTML = text.getAttribute('data-note');
             }
-            setClassName(note,
-                { color: "white", visibility: this.state.visibility });
+            this.updateNote(note,
+                { type: "note", color: "white", visibility: this.state.visibility });
             this.state.selected = null;
-            this.state.selectedText = null;
         }
     }
 }
@@ -364,7 +451,7 @@ function inlineCSS(svg) {
             clonedElements[i].remove();
             continue;
         }
-        const styles = {opacity: opacity}
+        const styles = { opacity: opacity }
         for (let attr of PROPERTIES) {
             let value = computedStyle.getPropertyValue(attr);
             if (value) {
@@ -380,10 +467,22 @@ function inlineCSS(svg) {
 
 /* Reset button */
 
-var resetButton = document.getElementById('reset');
+const resetButton = document.getElementById('reset');
 resetButton.addEventListener('click', (event) => {
     const doReset = window.confirm("Do you really want to reset your diagram?");
     if (doReset) {
         fretboard.reset();
     }
+});
+
+/* Fret window */
+
+const startFret = document.getElementById('start-fret');
+startFret.addEventListener('input', (event) => {
+    fretboard.setFretWindow({ start: event.target.value - 1 });
+});
+
+const endFret = document.getElementById('end-fret');
+endFret.addEventListener('input', (event) => {
+    fretboard.setFretWindow({ end: parseInt(event.target.value) });
 });

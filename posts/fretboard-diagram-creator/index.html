@@ -34,14 +34,22 @@
         </header>
         <div class="content">
             <figure id="fretboard-diagram-creator" class="half-full">
-  <svg xmlns="http://www.w3.org/2000/svg" id="fretboard" width=900 height=290 style="background-color: white;">
+  <svg xmlns="http://www.w3.org/2000/svg" id="fretboard" width=900 height=280 style="background-color: white;">
 </svg>
 </figure>
 <div class="menu">
-    <button id="visibility" class="button">Toggle</button>
-    <button id="save-svg" class="button">Save</button>
-    <button id="reset" class="button">Reset</button>
-    <a id="svg-link" download="fretboard-diagram.svg"></a>
+  <p>
+  <button id="visibility" class="button">Toggle</button>
+  <button id="save-svg" class="button">Save</button>
+  <button id="reset" class="button">Reset</button>
+  <a id="svg-link" download="fretboard-diagram.svg"></a>
+  </p>
+<p>
+  <label>Start:</label>
+  <input id="start-fret" type="number" class="num-input" value="1" name="startFret" min=1 max=20 maxlength="2" style="width: 5ch" autocomplete=off>
+  <label>End:</label>
+  <input id="end-fret" type="number" class="num-input" value="12" name="startFret" min=1 max=20 maxlength="2" style="width: 5ch" autocomplete=off>
+  </p>
 </div>
 <h3>Interactions</h3>
 <ul>
@@ -52,12 +60,13 @@
 <li>Click <em>Toggle</em> to <strong>hide</strong> all notes that you have not selected or make them appear again. Do this before you save the diagram to save the version you prefer.</li>
 <li>Click <em>Save</em> to <strong>save</strong> the diagram as SVG.</li>
 <li>Click <em>Reset</em> to <strong>reset</strong> your diagram and start from scratch.</li>
+<li>Enter <em>start</em> fret and <em>end</em> fret to <strong>display a different part of the fretboard</strong>. Changes outside of the displayed part are kept until the diagram is reset.</li>
 </ul>
 <p>Remember that all of this only runs in your browser, so be careful about refreshing the page. Implemented in plain JavaScript, without dependencies.</p>
 <h3>Example diagram</h3>
 <p>A Dorian scale with fingerings. Root notes highlighted in blue, sixths in green.</p>
 <figure id="fretboard-diagram-creator" class="half-full">
-<img src="/img/fretboard-diagram-creator/a-dorian-1-6.svg" alt="Example fretboard diagram" width=900 height=290>
+<img src="/img/fretboard-diagram-creator/a-dorian-1-6-crop.svg" alt="Example fretboard diagram" width=400 height=auto>
 </figure>
 <script src="/fretboard-diagram-creator/fretboard.js"></script>
         </div>
