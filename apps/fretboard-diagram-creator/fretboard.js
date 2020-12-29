@@ -373,6 +373,9 @@ class Fretboard {
         }
 
         for (let [_key, value] of Object.entries(this.data)) {
+            if (value['visibility'] === 'visible' || value['visibility'] === 'selected') {
+                continue;
+            }
             value['visibility'] = this.state.visibility;
         }
     }
@@ -387,6 +390,7 @@ class Fretboard {
     }
 
     erase() {
+        this.clearSelection();
         this.svg.innerHTML = "";
     }
 
