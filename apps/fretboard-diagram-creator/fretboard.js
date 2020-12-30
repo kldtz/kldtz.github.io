@@ -85,8 +85,8 @@ class Fretboard {
             this.state.endFret = end;
             return;
         }
-        if (end - start > 12) {
-            this.drawError("Maximal number of displayable frets is 12, <br/> e.g., 1st to 12th or 4th to 15th!");
+        if (end - start > 16) {
+            this.drawError("Maximal number of displayable frets is 16, <br/> e.g., 1st to 16th or 4th to 19th!");
             this.state.startFret = start;
             this.state.endFret = end;
             return;
