@@ -36,6 +36,15 @@ g.note.blue>text {
     fill: white;
 }
 
+g.note.black {
+    fill: black;
+}
+
+g.note.black>text {
+    stroke: white;
+    fill: white;
+}
+
 g.note.red {
     fill: indianred;
 }

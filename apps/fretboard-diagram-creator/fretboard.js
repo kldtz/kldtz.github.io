@@ -153,6 +153,9 @@ class Fretboard {
                 case 'KeyB':
                     this.updateNote(selected, { color: "blue" });
                     break;
+                case 'KeyD':
+                    this.updateNote(selected, { color: "black" });
+                    break;
                 case 'KeyG':
                     this.updateNote(selected, { color: "green" });
                     break;
