@@ -39,7 +39,7 @@ class Fretboard {
     constructor(opts) {
         this.svg = opts.svg;
         this.consts = {
-            offsetX: 30,
+            offsetX: 40,
             offsetY: 30,
             stringIntervals: [24, 19, 15, 10, 5, 0],
             markers: [3, 5, 7, 9, 12, 15, 17, 19, 21],
@@ -142,7 +142,7 @@ class Fretboard {
                 case 'Backspace':
                 case 'Delete':
                     // reset text
-                    const text = selected.children[1];
+                    const text = selected.lastChild;
                     if (text) {
                         text.innerHTML = text.getAttribute('data-note');
                     }
@@ -224,6 +224,42 @@ class Fretboard {
             'class': 'notes',
         })
         this.svg.appendChild(this.notes);
+
+        for (let j = 0; j < this.consts.numStrings; j++) {
+            const noteId = `o-s${j}`;
+            const x = this.consts.offsetX / 2;
+            const y = this.consts.offsetY + this.consts.stringSpacing * j;
+            const note = createSvgElement('g', {
+                'id': noteId,
+                'transform': "translate(" + x + "," + y + ")",
+                'data-x': x,
+                'data-y': y,
+            });
+            this.notes.appendChild(note);
+            note.addEventListener("click", (event) => this.noteClickHandler(event));
+
+            const circle = createSvgElement('circle', {
+                'r': this.consts.circleRadius,
+                // don't show circle
+                'stroke': 'none',
+            });
+            note.appendChild(circle);
+
+            // compute name of note
+            let interval = this.consts.stringIntervals[j];
+            let noteName = this.consts.notes[interval % 12];
+            const text = createSvgElement('text', {
+                'data-note': noteName,
+            });
+            text.innerHTML = noteName;
+
+            note.appendChild(text);
+
+            const update = (noteId in this.data) ? this.data[noteId] : { type: 'note', color: 'white', visibility: this.state.visibility };
+            this.updateNote(note, update);
+
+        }
+
         for (let i = this.state.startFret; i < this.state.endFret; i++) {
             for (let j = 0; j < this.consts.numStrings; j++) {
                 const noteId = `f${i}-s${j}`;
@@ -292,7 +328,7 @@ class Fretboard {
             }
         });
 
-        const selectedText = this.state.selected.children[1];
+        const selectedText = this.state.selected.lastChild;
         setAttributes(selectedText, {
             styles: {
                 display: 'none',
@@ -309,6 +345,9 @@ class Fretboard {
         this.editableText = createSvgElement('foreignObject', {
             class: 'hidden',
         });
+        this.editableText.addEventListener('click', (event) => {
+            event.stopPropagation();
+        });
         const div = document.createElement('div');
         div.setAttribute('contentEditable', 'true');
         div.setAttribute('id', 'editable-div')
@@ -322,11 +361,15 @@ class Fretboard {
             if (!this.state.selected) {
                 return;
             }
-            const selectedText = this.state.selected.children[1];
+            const selectedText = this.state.selected.lastChild;
 
-            this.updateNote(this.state.selected, {
-                noteText: this.editableText.children[0].innerHTML,
-            })
+            var newText = this.editableText.children[0].innerText;
+            // don't allow empty labels
+            if (newText.trim()) {
+                this.updateNote(this.state.selected, {
+                    noteText: newText,
+                });
+            }
 
             this.editableText.children[0].innerHTML = '';
             setAttributes(selectedText, {
@@ -352,7 +395,7 @@ class Fretboard {
         elem.setAttribute('class', classValue);
 
         if ('noteText' in update) {
-            elem.children[1].innerHTML = update.noteText;
+            elem.lastChild.innerHTML = update.noteText;
         }
 
         const noteData = this.data[elem.id];
@@ -398,7 +441,7 @@ class Fretboard {
         this.data = {};
         for (let note of this.notes.children) {
             // reset text
-            const text = note.children[1];
+            const text = note.lastChild;
             if (text) {
                 text.innerHTML = text.getAttribute('data-note');
             }
