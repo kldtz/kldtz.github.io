@@ -222,78 +222,66 @@ class Fretboard {
         }
     }
 
+    drawNote(noteId, x, y, noteName, isOpen) {
+        const note = createSvgElement('g', {
+            'id': noteId,
+            'transform': "translate(" + x + "," + y + ")",
+            'data-x': x,
+            'data-y': y,
+        });
+        this.notes.appendChild(note);
+        note.addEventListener("click", (event) => this.noteClickHandler(event));
+
+        const circle = createSvgElement('circle', {
+            'r': this.consts.circleRadius,
+        });
+        if (isOpen) {
+            setAttributes(circle, {
+                // don't show circle around open notes
+                'stroke': 'none',
+            })
+        }
+        note.appendChild(circle);
+
+        // compute name of note
+        const text = createSvgElement('text', {
+            'data-note': noteName,
+        });
+        text.innerHTML = noteName;
+
+        note.appendChild(text);
+
+        const update = (noteId in this.data) ? this.data[noteId] : { type: 'note', color: 'white', visibility: this.state.visibility };
+        this.updateNote(note, update);
+    }
+
+    computeNoteName(fret, string) {
+        const interval = this.consts.stringIntervals[string] + fret + 1;
+        return this.consts.notes[interval % 12];
+    }
+
     drawNotes() {
         this.notes = createSvgElement('g', {
             'class': 'notes',
         })
         this.svg.appendChild(this.notes);
 
+        // open notes (fret: -1)
         for (let j = 0; j < this.consts.numStrings; j++) {
             const noteId = `o-s${j}`;
             const x = this.consts.offsetX / 2;
             const y = this.consts.offsetY + this.consts.stringSpacing * j;
-            const note = createSvgElement('g', {
-                'id': noteId,
-                'transform': "translate(" + x + "," + y + ")",
-                'data-x': x,
-                'data-y': y,
-            });
-            this.notes.appendChild(note);
-            note.addEventListener("click", (event) => this.noteClickHandler(event));
-
-            const circle = createSvgElement('circle', {
-                'r': this.consts.circleRadius,
-                // don't show circle
-                'stroke': 'none',
-            });
-            note.appendChild(circle);
-
-            // compute name of note
-            let interval = this.consts.stringIntervals[j];
-            let noteName = this.consts.notes[interval % 12];
-            const text = createSvgElement('text', {
-                'data-note': noteName,
-            });
-            text.innerHTML = noteName;
-
-            note.appendChild(text);
-
-            const update = (noteId in this.data) ? this.data[noteId] : { type: 'note', color: 'white', visibility: this.state.visibility };
-            this.updateNote(note, update);
-
+            const noteName = this.computeNoteName(-1, j);
+            this.drawNote(noteId, x, y, noteName, true);
         }
-
+        // notes on fretboard
         for (let i = this.state.startFret; i < this.state.endFret; i++) {
             for (let j = 0; j < this.consts.numStrings; j++) {
                 const noteId = `f${i}-s${j}`;
                 const x = this.consts.offsetX + (this.consts.fretWidth / 2) + this.consts.fretWidth * (i - this.state.startFret);
                 const y = this.consts.offsetY + this.consts.stringSpacing * j;
-                const note = createSvgElement('g', {
-                    'id': noteId,
-                    'transform': "translate(" + x + "," + y + ")",
-                    'data-x': x,
-                    'data-y': y,
-                });
-                this.notes.appendChild(note);
-                note.addEventListener("click", (event) => this.noteClickHandler(event));
-
-                const circle = createSvgElement('circle', {
-                    'r': this.consts.circleRadius,
-                });
-                note.appendChild(circle);
-
-                // compute name of note
-                let interval = this.consts.stringIntervals[j] + i + 1;
-                let noteName = this.consts.notes[interval % 12];
-                const text = createSvgElement('text', {
-                    'data-note': noteName,
-                });
-                text.innerHTML = noteName;
-
-                note.appendChild(text);
-
-                const update = (noteId in this.data) ? this.data[noteId] : { type: 'note', color: 'white', visibility: this.state.visibility };
-                this.updateNote(note, update);
+                const noteName = this.computeNoteName(i, j);
+                this.drawNote(noteId, x, y, noteName, false);
             }
         }
     }
