@@ -4,37 +4,45 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    
     <meta name="description" content="Annotated walkthrough of the finite state OT implementation for word-final obstruent devoicing by Gerdemann and Hulden (2012).">
+    
     <title>Finite State Optimality Theory: Final Obstruent Devoicing</title>
-    <link rel="alternate" type="application/rss+xml" href="https://proceed-to-decode.com/rss.xml" title="Proceed to Decode">
+    <link rel="alternate" type="application/rss+xml" href="https://proceed-to-decode.com/rss.xml"
+        title="Proceed to Decode">
     <link rel="stylesheet" href="/css/default.css">
+    
     
     <link rel="stylesheet" href="/lib/highlight.js/styles/default.css">
 <script src="/lib/highlight.js/highlight.min.js"></script>
 <script>hljs.initHighlightingOnLoad();</script>
     
+    
+    
+    
 </head>
 
 <body>
     <nav class="top-menu">
-        <div class="top-menu">
-            <ul class="left-menu">
-                <li class="menu-item"><a href="/">Home</a></li>
-                <li class="menu-item"><a href="/about">About</a></li>
-            </ul>
-            <ul class="right-menu">
-                <li class="menu-item"><a href="https://github.com/kldtz"><img class="icon" src="/img/github-120.png" alt="GitHub"></a></li>
-                <li class="menu-item"><a href="/rss.xml"><img class="icon" src="/img/rss-128.png" alt="RSS"></a></li>
-            </ul>
-        </div>
-    </nav>
+    <div class="top-menu">
+        <ul class="left-menu">
+            <li class="menu-item"><a href="/">Home</a></li>
+            <li class="menu-item"><a href="/about">About</a></li>
+        </ul>
+        <ul class="right-menu">
+            <li class="menu-item"><a href="https://github.com/kldtz"><img class="icon" src="/img/github-120.png"
+                        alt="GitHub"></a></li>
+            <li class="menu-item"><a href="/rss.xml"><img class="icon" src="/img/rss-128.png" alt="RSS"></a></li>
+        </ul>
+    </div>
+</nav>
     <main>
-    <article>
-        <header>
-            <h1>Finite State Optimality Theory: Final Obstruent Devoicing</h1>
-            <div class="date"><span class="date">Aug 28, 2020</span></div>
-        </header>
-        <div class="content">
+        <article>
+            <header>
+                <h1>Finite State Optimality Theory: Final Obstruent Devoicing</h1>
+                <div class="date"><span class="date">Aug 28, 2020</span></div>
+            </header>
             <p>Recently I read an article by <a href="#gerdemann-hulden-2012">Gerdemann and Hulden (2012)</a> in which they provide finite-state implementations for two Optimality Theory (OT) analyses<sup id="fn-1"><a href="#1">1</a></sup> together with an easy proof of nonregularity of OT grammars. This post is an annotated walkthrough of their OT implementation for <a href="https://en.wikipedia.org/wiki/Final-obstruent_devoicing">word-final obstruent devoicing</a> (e.g., German <em>/lob/</em> &gt; <em>[lo​ːp]</em>), a phonological process that is observed in typologically diverse languages, which makes it a prototypical showcase for the universal constraints proposed by OT. For their implementation, they use the finite-state toolkit <a href="https://fomafst.github.io/"><em>foma</em></a> <a href="#hulden-2009">(Hulden, 2009)</a>. I will introduce necessary notation informally as it comes up, the following table only lists <em>foma</em>'s deviations from the POSIX regex standard:</p>
 <table><thead><tr><th>Notation</th><th>Description</th></tr></thead><tbody>
 <tr><td><code>~A</code></td><td>Complement</td></tr>
@@ -188,12 +196,11 @@ test identity
 <p><a id="gerdemann-van-noord-2000"></a> Gerdemann, D., &amp; Van Noord, G. (2000). <a href="https://www.aclweb.org/anthology/W00-1804.pdf">Approximation and exactness in finite state optimality theory.</a> In <em>Proceedings of the Fith Workshop of the ACL Special Interest Group in Computational Phonology</em> (pp. 34-45).</p>
 <p><a id="hulden-2009"></a> Hulden, M. (2009). <a href="https://www.aclweb.org/anthology/E09-2008.pdf">Foma: a finite-state compiler and library.</a> In <em>Proceedings of the Demonstrations Session at EACL 2009</em> (pp. 29-32).</p>
 
-        </div>
-    </article>
+        </article>
     </main>
     <footer id="site-footer">
-        <a id="footer-name" href="/">&copy; 2018-2020<br>Tobias Kolditz</a>
-    </footer>
+    <a id="footer-name" href="/">&copy; 2018-2021<br>Tobias Kolditz</a>
+</footer>
     
 </body>
 

@@ -4,37 +4,45 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    
     <meta name="description" content="This post describes the Rust stack for a basic web app that consists of a REST API, a Postgres database and a few views with JavaScript and CSS.">
+    
     <title>Basic Web App with Rust</title>
-    <link rel="alternate" type="application/rss+xml" href="https://proceed-to-decode.com/rss.xml" title="Proceed to Decode">
+    <link rel="alternate" type="application/rss+xml" href="https://proceed-to-decode.com/rss.xml"
+        title="Proceed to Decode">
     <link rel="stylesheet" href="/css/default.css">
+    
     
     <link rel="stylesheet" href="/lib/highlight.js/styles/default.css">
 <script src="/lib/highlight.js/highlight.min.js"></script>
 <script>hljs.initHighlightingOnLoad();</script>
     
+    
+    
+    
 </head>
 
 <body>
     <nav class="top-menu">
-        <div class="top-menu">
-            <ul class="left-menu">
-                <li class="menu-item"><a href="/">Home</a></li>
-                <li class="menu-item"><a href="/about">About</a></li>
-            </ul>
-            <ul class="right-menu">
-                <li class="menu-item"><a href="https://github.com/kldtz"><img class="icon" src="/img/github-120.png" alt="GitHub"></a></li>
-                <li class="menu-item"><a href="/rss.xml"><img class="icon" src="/img/rss-128.png" alt="RSS"></a></li>
-            </ul>
-        </div>
-    </nav>
+    <div class="top-menu">
+        <ul class="left-menu">
+            <li class="menu-item"><a href="/">Home</a></li>
+            <li class="menu-item"><a href="/about">About</a></li>
+        </ul>
+        <ul class="right-menu">
+            <li class="menu-item"><a href="https://github.com/kldtz"><img class="icon" src="/img/github-120.png"
+                        alt="GitHub"></a></li>
+            <li class="menu-item"><a href="/rss.xml"><img class="icon" src="/img/rss-128.png" alt="RSS"></a></li>
+        </ul>
+    </div>
+</nav>
     <main>
-    <article>
-        <header>
-            <h1>Basic Web App with Rust</h1>
-            <div class="date"><span class="date">Dec 19, 2020</span></div>
-        </header>
-        <div class="content">
+        <article>
+            <header>
+                <h1>Basic Web App with Rust</h1>
+                <div class="date"><span class="date">Dec 19, 2020</span></div>
+            </header>
             <p>This post describes the Rust stack (<a href="https://github.com/actix/actix-web">Actix Web</a>, <a href="https://github.com/diesel-rs/diesel">Diesel</a>, <a href="https://github.com/djc/askama">Askama</a>) for a basic web app that consists of a REST API, a Postgres database and a few views with JavaScript and CSS. The app is adding a backend to the editable graph from my <a href="/posts/graph-editor-demo/">previous post</a>. It allows creating and editing directed graphs. Each action is persisted in the database immediately. The code is on <a href="https://github.com/kldtz/graph-editor-app/tree/v0.1.0">GitHub</a>. Apart from the documentation and GitHub issues belonging to the different frameworks, I found Tore Pettersen's <a href="https://cloudmaker.dev/how-to-create-a-rest-api-in-rust/">tutorial on creating a REST API in Rust</a> most helpful.</p>
 <h2>Server and routes</h2>
 <p>The way you define methods and routes in <em>Actix Web</em> is very similar to the way it's done in Python frameworks like <em>FastAPI</em>. HTTP method and URL path are annotated on a Rust method. The request body, path and query parameters, as well as application state can be passed as arguments into the method. This is the hello-world example copied from the <em>Actix Web</em> documentation:</p>
@@ -157,12 +165,11 @@ HttpResponse::Ok().body(body)
 App::new().service(fs::Files::new(&quot;/static&quot;, &quot;./static&quot;))
 </code></pre>
 
-        </div>
-    </article>
+        </article>
     </main>
     <footer id="site-footer">
-        <a id="footer-name" href="/">&copy; 2018-2020<br>Tobias Kolditz</a>
-    </footer>
+    <a id="footer-name" href="/">&copy; 2018-2021<br>Tobias Kolditz</a>
+</footer>
     
 </body>
 

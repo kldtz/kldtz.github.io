@@ -4,37 +4,45 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    
     <meta name="description" content="Converting spelled-out German cardinal numbers to numerals and vice versa. Exercise in writing finite-state transducers.">
+    
     <title>Transducing German Cardinal Numbers</title>
-    <link rel="alternate" type="application/rss+xml" href="https://proceed-to-decode.com/rss.xml" title="Proceed to Decode">
+    <link rel="alternate" type="application/rss+xml" href="https://proceed-to-decode.com/rss.xml"
+        title="Proceed to Decode">
     <link rel="stylesheet" href="/css/default.css">
+    
     
     <link rel="stylesheet" href="/lib/highlight.js/styles/default.css">
 <script src="/lib/highlight.js/highlight.min.js"></script>
 <script>hljs.initHighlightingOnLoad();</script>
     
+    
+    
+    
 </head>
 
 <body>
     <nav class="top-menu">
-        <div class="top-menu">
-            <ul class="left-menu">
-                <li class="menu-item"><a href="/">Home</a></li>
-                <li class="menu-item"><a href="/about">About</a></li>
-            </ul>
-            <ul class="right-menu">
-                <li class="menu-item"><a href="https://github.com/kldtz"><img class="icon" src="/img/github-120.png" alt="GitHub"></a></li>
-                <li class="menu-item"><a href="/rss.xml"><img class="icon" src="/img/rss-128.png" alt="RSS"></a></li>
-            </ul>
-        </div>
-    </nav>
+    <div class="top-menu">
+        <ul class="left-menu">
+            <li class="menu-item"><a href="/">Home</a></li>
+            <li class="menu-item"><a href="/about">About</a></li>
+        </ul>
+        <ul class="right-menu">
+            <li class="menu-item"><a href="https://github.com/kldtz"><img class="icon" src="/img/github-120.png"
+                        alt="GitHub"></a></li>
+            <li class="menu-item"><a href="/rss.xml"><img class="icon" src="/img/rss-128.png" alt="RSS"></a></li>
+        </ul>
+    </div>
+</nav>
     <main>
-    <article>
-        <header>
-            <h1>Transducing German Cardinal Numbers</h1>
-            <div class="date"><span class="date">Sep  6, 2020</span></div>
-        </header>
-        <div class="content">
+        <article>
+            <header>
+                <h1>Transducing German Cardinal Numbers</h1>
+                <div class="date"><span class="date">Sep  6, 2020</span></div>
+            </header>
             <p>This is a little excercise in writing finite-state transducers. The goal is to convert spelled-out German cardinal numbers from 1 to 9999 to numerals and vice versa. I will construct the transducer by going from written-out numbers to numerals, e.g., from <em>zweiunddreißig</em> to <em>32</em>. The implementation is done with the finite-state toolkit <a href="https://fomafst.github.io/"><em>foma</em></a>.</p>
 <h2>Intermediate representation</h2>
 <p>In a first step, we convert each written-out number into an intermediate representation by transducing compound parts to numerals in linear order, for example, <em>neuntausend-zweihundert-acht-und-vierzig</em> (hyphens added for better readability) should become <code>9000+200+8&amp;40</code>. Let's start with two-digit numbers.</p>
@@ -119,12 +127,11 @@ apply down&gt; fünftausenddreiundzwanzig
 <hr>
 <p><a id="1" href="#fn-1"><sup>1</sup></a> Words of the <em>lower</em> or <em>second</em> projection of <code>Intermediate</code>, that is, words <em>o</em> for which an input <em>i</em> exists such that <code>Intermediate</code> maps <em>i</em> to <em>o</em>.</p>
 
-        </div>
-    </article>
+        </article>
     </main>
     <footer id="site-footer">
-        <a id="footer-name" href="/">&copy; 2018-2020<br>Tobias Kolditz</a>
-    </footer>
+    <a id="footer-name" href="/">&copy; 2018-2021<br>Tobias Kolditz</a>
+</footer>
     
 </body>
 

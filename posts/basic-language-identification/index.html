@@ -4,37 +4,45 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    
     <meta name="description" content="Most frequent words vs. character frequencies for language identification.">
+    
     <title>Basic Language Identification</title>
-    <link rel="alternate" type="application/rss+xml" href="https://proceed-to-decode.com/rss.xml" title="Proceed to Decode">
+    <link rel="alternate" type="application/rss+xml" href="https://proceed-to-decode.com/rss.xml"
+        title="Proceed to Decode">
     <link rel="stylesheet" href="/css/default.css">
+    
     
     <link rel="stylesheet" href="/lib/highlight.js/styles/default.css">
 <script src="/lib/highlight.js/highlight.min.js"></script>
 <script>hljs.initHighlightingOnLoad();</script>
     
+    
+    
+    
 </head>
 
 <body>
     <nav class="top-menu">
-        <div class="top-menu">
-            <ul class="left-menu">
-                <li class="menu-item"><a href="/">Home</a></li>
-                <li class="menu-item"><a href="/about">About</a></li>
-            </ul>
-            <ul class="right-menu">
-                <li class="menu-item"><a href="https://github.com/kldtz"><img class="icon" src="/img/github-120.png" alt="GitHub"></a></li>
-                <li class="menu-item"><a href="/rss.xml"><img class="icon" src="/img/rss-128.png" alt="RSS"></a></li>
-            </ul>
-        </div>
-    </nav>
+    <div class="top-menu">
+        <ul class="left-menu">
+            <li class="menu-item"><a href="/">Home</a></li>
+            <li class="menu-item"><a href="/about">About</a></li>
+        </ul>
+        <ul class="right-menu">
+            <li class="menu-item"><a href="https://github.com/kldtz"><img class="icon" src="/img/github-120.png"
+                        alt="GitHub"></a></li>
+            <li class="menu-item"><a href="/rss.xml"><img class="icon" src="/img/rss-128.png" alt="RSS"></a></li>
+        </ul>
+    </div>
+</nav>
     <main>
-    <article>
-        <header>
-            <h1>Basic Language Identification</h1>
-            <div class="date"><span class="date">Oct 27, 2018</span></div>
-        </header>
-        <div class="content">
+        <article>
+            <header>
+                <h1>Basic Language Identification</h1>
+                <div class="date"><span class="date">Oct 27, 2018</span></div>
+            </header>
             <p>At the end of last semester I gave a student who just started programming the task of implementing two basic language identification algorithms, one identifies the language of a text based on the most frequent words of a language, the other one based on character frequencies. Here I briefly present my own solution in Python and evaluate both methods.</p>
 <p>We don't need to reinvent the wheel, so let's use some well-known libraries:</p>
 <pre><code class="language-python">import os
@@ -161,12 +169,11 @@ def iterate_paths(root):
 <hr>
 <p><a id="koehn-2005"></a>Philipp Koehn (2005). Europarl: A Parallel Corpus for Statistical Machine Translation, MT Summit 2005.</p>
 
-        </div>
-    </article>
+        </article>
     </main>
     <footer id="site-footer">
-        <a id="footer-name" href="/">&copy; 2018-2020<br>Tobias Kolditz</a>
-    </footer>
+    <a id="footer-name" href="/">&copy; 2018-2021<br>Tobias Kolditz</a>
+</footer>
     
 </body>
 

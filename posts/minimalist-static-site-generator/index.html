@@ -4,10 +4,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    
     <meta name="description" content="Switching from Hugo to a self-hacked solution for generating this static site.">
+    
     <title>A Minimalist Static Site Generator</title>
-    <link rel="alternate" type="application/rss+xml" href="https://proceed-to-decode.com/rss.xml" title="Proceed to Decode">
+    <link rel="alternate" type="application/rss+xml" href="https://proceed-to-decode.com/rss.xml"
+        title="Proceed to Decode">
     <link rel="stylesheet" href="/css/default.css">
+    
+    
+    
     
     
     
@@ -15,34 +22,33 @@
 
 <body>
     <nav class="top-menu">
-        <div class="top-menu">
-            <ul class="left-menu">
-                <li class="menu-item"><a href="/">Home</a></li>
-                <li class="menu-item"><a href="/about">About</a></li>
-            </ul>
-            <ul class="right-menu">
-                <li class="menu-item"><a href="https://github.com/kldtz"><img class="icon" src="/img/github-120.png" alt="GitHub"></a></li>
-                <li class="menu-item"><a href="/rss.xml"><img class="icon" src="/img/rss-128.png" alt="RSS"></a></li>
-            </ul>
-        </div>
-    </nav>
+    <div class="top-menu">
+        <ul class="left-menu">
+            <li class="menu-item"><a href="/">Home</a></li>
+            <li class="menu-item"><a href="/about">About</a></li>
+        </ul>
+        <ul class="right-menu">
+            <li class="menu-item"><a href="https://github.com/kldtz"><img class="icon" src="/img/github-120.png"
+                        alt="GitHub"></a></li>
+            <li class="menu-item"><a href="/rss.xml"><img class="icon" src="/img/rss-128.png" alt="RSS"></a></li>
+        </ul>
+    </div>
+</nav>
     <main>
-    <article>
-        <header>
-            <h1>A Minimalist Static Site Generator</h1>
-            <div class="date"><span class="date">Aug 25, 2020</span></div>
-        </header>
-        <div class="content">
+        <article>
+            <header>
+                <h1>A Minimalist Static Site Generator</h1>
+                <div class="date"><span class="date">Aug 25, 2020</span></div>
+            </header>
             <p>So far I have been using <a href="https://gohugo.io/">Hugo</a> with a customized version of the <a href="https://github.com/Track3/hermit">Hermit</a> theme to generate this site. This worked well and looked nice. However, Hugo is a relatively complex framework that keeps evolving (occasionally breaking stuff on updates) and the theme consists of a lot of files with styles, templates and scripts that I needed to maintain by myself since I customized them (in a not so clean way). Overall it felt like overkill for my purposes and being on vacation, I hacked together <a href="https://github.com/kldtz/static-site">my own minimalist site generator</a> that suits my needs.</p>
 <p>As the basis I use a Makefile that copies static files and calls a Rust script on each Markdown file to transform it into HTML with <a href="https://github.com/raphlinus/pulldown-cmark">pulldown-cmark</a>. Each file is self-contained (well, except for internal links) such that only modified files need to be considered. The Markdown files consist of a header with meta data and the actual Markdown. The header declares a template which is filled with the Markdown content and optionally further data declared in the header, e.g., page title, creation date, script and style paths. Predefined keywords enable features such as math typesetting with <a href="https://www.mathjax.org/">MathJax</a> and syntax highlighting with <a href="https://highlightjs.org/">highlight.js</a>.</p>
 <p>Writing and editing is the same as before, but now I have full control of the generation process, don't need to read any manuals, and can get by with a bare minimum of CSS and JavaScript.</p>
 
-        </div>
-    </article>
+        </article>
     </main>
     <footer id="site-footer">
-        <a id="footer-name" href="/">&copy; 2018-2020<br>Tobias Kolditz</a>
-    </footer>
+    <a id="footer-name" href="/">&copy; 2018-2021<br>Tobias Kolditz</a>
+</footer>
     
 </body>
 

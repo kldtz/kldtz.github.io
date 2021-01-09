@@ -4,35 +4,44 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    
     <meta name="description" content="Visualization of top-down parsing as graph search with D3 and dagre.">
+    
     <title>Top-Down Parsing as Graph Search</title>
-    <link rel="alternate" type="application/rss+xml" href="https://proceed-to-decode.com/rss.xml" title="Proceed to Decode">
+    <link rel="alternate" type="application/rss+xml" href="https://proceed-to-decode.com/rss.xml"
+        title="Proceed to Decode">
     <link rel="stylesheet" href="/css/default.css">
+    
     <link rel="stylesheet" href="/css/graph.css">
+    
+    
+    
+    
     
     
 </head>
 
 <body>
     <nav class="top-menu">
-        <div class="top-menu">
-            <ul class="left-menu">
-                <li class="menu-item"><a href="/">Home</a></li>
-                <li class="menu-item"><a href="/about">About</a></li>
-            </ul>
-            <ul class="right-menu">
-                <li class="menu-item"><a href="https://github.com/kldtz"><img class="icon" src="/img/github-120.png" alt="GitHub"></a></li>
-                <li class="menu-item"><a href="/rss.xml"><img class="icon" src="/img/rss-128.png" alt="RSS"></a></li>
-            </ul>
-        </div>
-    </nav>
+    <div class="top-menu">
+        <ul class="left-menu">
+            <li class="menu-item"><a href="/">Home</a></li>
+            <li class="menu-item"><a href="/about">About</a></li>
+        </ul>
+        <ul class="right-menu">
+            <li class="menu-item"><a href="https://github.com/kldtz"><img class="icon" src="/img/github-120.png"
+                        alt="GitHub"></a></li>
+            <li class="menu-item"><a href="/rss.xml"><img class="icon" src="/img/rss-128.png" alt="RSS"></a></li>
+        </ul>
+    </div>
+</nav>
     <main>
-    <article>
-        <header>
-            <h1>Top-Down Parsing as Graph Search</h1>
-            <div class="date"><span class="date">Sep 30, 2018</span></div>
-        </header>
-        <div class="content">
+        <article>
+            <header>
+                <h1>Top-Down Parsing as Graph Search</h1>
+                <div class="date"><span class="date">Sep 30, 2018</span></div>
+            </header>
             <p>The workings of a directional top-down parser can be nicely explained in terms of a graph search problem. In the past days I played a bit with <a href="https://d3js.org/">D3</a> and <a href="https://github.com/dagrejs/dagre">dagre</a> and generated some graph visualizations that provide an intuitive understanding of the algorithm.</p>
 <!--more-->
 <h2>The Basics</h2>
@@ -79,12 +88,11 @@ B -&gt; b | bS | aBB   (6, 7, 8)
 <script src="/lib/dagre/dagre.min.js"></script>
 <script src="/js/config_dag.js"></script>
 
-        </div>
-    </article>
+        </article>
     </main>
     <footer id="site-footer">
-        <a id="footer-name" href="/">&copy; 2018-2020<br>Tobias Kolditz</a>
-    </footer>
+    <a id="footer-name" href="/">&copy; 2018-2021<br>Tobias Kolditz</a>
+</footer>
     
 </body>
 

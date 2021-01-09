@@ -4,10 +4,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    
     <meta name="description" content="Introducing my Chrome extension 'Read Russian' for translating and learning Russian vocabulary.">
+    
     <title>Learning Russian by Reading</title>
-    <link rel="alternate" type="application/rss+xml" href="https://proceed-to-decode.com/rss.xml" title="Proceed to Decode">
+    <link rel="alternate" type="application/rss+xml" href="https://proceed-to-decode.com/rss.xml"
+        title="Proceed to Decode">
     <link rel="stylesheet" href="/css/default.css">
+    
+    
+    
     
     
     
@@ -15,24 +22,24 @@
 
 <body>
     <nav class="top-menu">
-        <div class="top-menu">
-            <ul class="left-menu">
-                <li class="menu-item"><a href="/">Home</a></li>
-                <li class="menu-item"><a href="/about">About</a></li>
-            </ul>
-            <ul class="right-menu">
-                <li class="menu-item"><a href="https://github.com/kldtz"><img class="icon" src="/img/github-120.png" alt="GitHub"></a></li>
-                <li class="menu-item"><a href="/rss.xml"><img class="icon" src="/img/rss-128.png" alt="RSS"></a></li>
-            </ul>
-        </div>
-    </nav>
+    <div class="top-menu">
+        <ul class="left-menu">
+            <li class="menu-item"><a href="/">Home</a></li>
+            <li class="menu-item"><a href="/about">About</a></li>
+        </ul>
+        <ul class="right-menu">
+            <li class="menu-item"><a href="https://github.com/kldtz"><img class="icon" src="/img/github-120.png"
+                        alt="GitHub"></a></li>
+            <li class="menu-item"><a href="/rss.xml"><img class="icon" src="/img/rss-128.png" alt="RSS"></a></li>
+        </ul>
+    </div>
+</nav>
     <main>
-    <article>
-        <header>
-            <h1>Learning Russian by Reading</h1>
-            <div class="date"><span class="date">Oct  3, 2018</span></div>
-        </header>
-        <div class="content">
+        <article>
+            <header>
+                <h1>Learning Russian by Reading</h1>
+                <div class="date"><span class="date">Oct  3, 2018</span></div>
+            </header>
             <p>I like picking up words and grammatical skills while reading texts in a new language. Since I'm learning Russian at the moment, I developed a little Chrome extension that supports this style of learning for the Russian language. The extension is available at the <a href="https://chrome.google.com/webstore/detail/read-russian/bfiedbggkbnefgngmdkhofddgpfjahcd">Chrome Web Store</a>.</p>
 <h2>Motivation</h2>
 <p>Reading a text in a new foreign language usually involves looking up a lot of words in a dictionary. One of the most comprehensive and free online dictionaries is the <a href="https://www.wiktionary.org/">Wiktionary</a>. While we don't need to search heavy physical dictionaries anymore, to look up a word on Wiktionary we still need to open another Browser tab, type in or copy the unknown word, possibly follow redirections and skim through a long page with information about etymology, pronunciation, word senses, inflection tables, lists of lexically related words etc. for several languages (at least the Slavic languages have a large shared vocabulary). By the time I find the information I'm looking for, I usually forgot the sentence that I was trying to understand by looking up the unknown word. I'm forced to reread the sentence and maybe the preceding sentences. If my vocabulary is very restricted and I need to look up several words in a sentence, this is getting tiresome.</p>
@@ -59,12 +66,11 @@
 </ol>
 <p>I went for the Wikitext option, as I realized that English Wiktionary authors of articles on Russian words have a preferred set of templates that I can cover without too much effort and I figured that skipping some obscure templates is better than running the risk of a complete loss of functionality after minor WikiMedia updates. Since I didn't want to pull any WikiMedia template parser code into the project, I implemented my own shallow parser, following a 'good enough' approach. It deals with a fixed set of frequently used templates and supports nested templates. To keep things simple (both for me as a developer and for the user), I only extract a subset of the available information. The code is available on <a href="https://github.com/kldtz/read-russian">GitHub</a>.</p>
 
-        </div>
-    </article>
+        </article>
     </main>
     <footer id="site-footer">
-        <a id="footer-name" href="/">&copy; 2018-2020<br>Tobias Kolditz</a>
-    </footer>
+    <a id="footer-name" href="/">&copy; 2018-2021<br>Tobias Kolditz</a>
+</footer>
     
 </body>
 

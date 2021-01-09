@@ -4,10 +4,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    
     <meta name="description" content="F1 score defined in terms of two sets (Dice coefficient).">
+    
     <title>F1 Score as a Measure of Set Similarity</title>
-    <link rel="alternate" type="application/rss+xml" href="https://proceed-to-decode.com/rss.xml" title="Proceed to Decode">
+    <link rel="alternate" type="application/rss+xml" href="https://proceed-to-decode.com/rss.xml"
+        title="Proceed to Decode">
     <link rel="stylesheet" href="/css/default.css">
+    
+    
+    
     
     
     <script>
@@ -26,28 +33,29 @@
   <script type="text/javascript" id="MathJax-script" async
     src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js">
   </script>
+    
 </head>
 
 <body>
     <nav class="top-menu">
-        <div class="top-menu">
-            <ul class="left-menu">
-                <li class="menu-item"><a href="/">Home</a></li>
-                <li class="menu-item"><a href="/about">About</a></li>
-            </ul>
-            <ul class="right-menu">
-                <li class="menu-item"><a href="https://github.com/kldtz"><img class="icon" src="/img/github-120.png" alt="GitHub"></a></li>
-                <li class="menu-item"><a href="/rss.xml"><img class="icon" src="/img/rss-128.png" alt="RSS"></a></li>
-            </ul>
-        </div>
-    </nav>
+    <div class="top-menu">
+        <ul class="left-menu">
+            <li class="menu-item"><a href="/">Home</a></li>
+            <li class="menu-item"><a href="/about">About</a></li>
+        </ul>
+        <ul class="right-menu">
+            <li class="menu-item"><a href="https://github.com/kldtz"><img class="icon" src="/img/github-120.png"
+                        alt="GitHub"></a></li>
+            <li class="menu-item"><a href="/rss.xml"><img class="icon" src="/img/rss-128.png" alt="RSS"></a></li>
+        </ul>
+    </div>
+</nav>
     <main>
-    <article>
-        <header>
-            <h1>F1 Score as a Measure of Set Similarity</h1>
-            <div class="date"><span class="date">Mar 26, 2019</span></div>
-        </header>
-        <div class="content">
+        <article>
+            <header>
+                <h1>F1 Score as a Measure of Set Similarity</h1>
+                <div class="date"><span class="date">Mar 26, 2019</span></div>
+            </header>
             <p>In machine learning the F1 score is often used to evaluate the performance of classifiers. In this context it is usually thought of in terms of true positives, false positives and false negatives from a binary contingency table. However, thinking of the F1 score as a simple measure of set similarity may give us better intuitions about its properties and limitations.</p>
 <h2>F1 Score from Two Sets</h2>
 <p>Given a set $R$ of expected or <strong>real elements</strong> and a set $P$ of <strong>predicted elements</strong>, we can define the sets of <strong>true positives</strong> $TP$, <strong>false positives</strong> $FP$ and <strong>false negatives</strong> $FN$ via basic set operations.</p>
@@ -109,12 +117,11 @@ $$</div>
 <p>Note that $TN$ is not defined if we have only two sets and thus does not affect the F score. For some tasks this is a desired property, e.g., in Information Retrieval (IR) or Named Entity Recognition (NER), where the set of true negatives can be ill-defined, uncountable or just extremely large. </p>
 <p>If we have a fixed set of items and our classifier assigns exactly one label per item, we have $S$. When we calculate F1 over all classes, for each item with matching labels we get a true positive, otherwise a false positive and a false negative, thus by definition $|TN| = 0$. In this case (micro-)F1 equals accuracy (the number of items where labels match divided by the total number of items) with all its limitations (<a href="https://en.wikipedia.org/wiki/Accuracy_paradox">accuracy paradox</a>).</p>
 
-        </div>
-    </article>
+        </article>
     </main>
     <footer id="site-footer">
-        <a id="footer-name" href="/">&copy; 2018-2020<br>Tobias Kolditz</a>
-    </footer>
+    <a id="footer-name" href="/">&copy; 2018-2021<br>Tobias Kolditz</a>
+</footer>
     
 </body>
 
