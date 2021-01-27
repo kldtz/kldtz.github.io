@@ -133,13 +133,3 @@ img {
     margin: auto;
     border-radius: 4px;
 }
-
-/* Mathjax */
-
-.has-jax {
-    font: inherit;
-    background: inherit;
-    border: 0;
-    padding: 0;
-    color: inherit;
-}
