@@ -7,6 +7,12 @@ body {
     font-size: 18px;
     color: #333;
     padding: 0 10px;
+    hyphens: auto;
+    text-align: justify;
+}
+
+blockquote {
+    font-size: 16px;
 }
 
 /* Footer */
@@ -132,4 +138,14 @@ img {
     height: auto;
     margin: auto;
     border-radius: 4px;
+}
+
+/* Annotations */
+
+ruby {
+    ruby-position: under;
+}
+
+rt {
+    font-size: 14px;
 }
