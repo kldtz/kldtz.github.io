@@ -28,9 +28,8 @@
             <li class="menu-item"><a href="/about">About</a></li>
         </ul>
         <ul class="right-menu">
-            <li class="menu-item"><a href="https://github.com/kldtz"><img class="icon" src="/img/github_icon.svg"
-                        alt="GitHub icon"></a></li>
-            <li class="menu-item"><a href="/rss.xml"><img class="icon" src="/img/rss_icon.svg" alt="RSS icon"></a></li>
+            <li class="menu-item"><a href="https://github.com/kldtz"><svg height="32" role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>GitHub icon</title><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg></a></li>
+            <li class="menu-item"><a href="/rss.xml"><svg version="1.0" xmlns="http://www.w3.org/2000/svg" height="32" viewBox="0 0 128.000000 128.000000" preserveAspectRatio="xMidYMid meet"><g transform="translate(0.000000,128.000000) scale(0.100000,-0.100000)" stroke="none"><path d="M575 1274 c-11 -2 -45 -9 -75 -15 -216 -42 -418 -239 -475 -464 -19 -76 -19 -234 0 -310 55 -218 237 -402 455 -461 103 -28 254 -24 357 10 276 90 456 353 440 642 -18 323 -276 581 -599 598 -46 3 -92 3 -103 0z m-70 -290 c219 -52 417 -239 484 -457 11 -37 23 -97 27 -132 l7 -65 -66 0 c-72 0 -77 4 -77 68 0 49 -41 161 -80 222 -43 66 -132 148 -206 187 -63 34 -165 63 -221 63 l-33 0 0 63 c0 35 3 67 6 70 8 8 82 -1 159 -19z m-28 -232 c147 -46 258 -164 298 -317 26 -103 25 -105 -49 -105 -70 0 -67 -3 -81 70 -23 113 -140 220 -260 237 l-45 6 0 63 0 64 39 0 c22 0 65 -8 98 -18z m18 -266 c35 -35 41 -69 18 -108 -48 -82 -163 -51 -163 42 0 80 91 120 145 66z"/></g></svg></a></li>
         </ul>
     </div>
 </nav>
@@ -49,64 +48,1093 @@
 <h3>Step 1</h3>
 <p>Our active point is <em>(R, ε)</em> and we look at the first character <em>a</em>. We find that the root does not have an <em>a</em>-transition (very last <code>else</code> block in the <code>test_and_split</code> routine), so we add an <em>a</em>-transition to the newly created leaf node 1 (within the main loop of the <code>update</code> routine). We follow the suffix link from the root node, which brings us to the auxiliary state. This state has all possible transitions, so it also has an <em>a</em>-transition and we're done. We didn't split any node, so no suffix link needs to be set (at the end of the <code>update</code> routine).</p>
 <figure class="middle">
-    <img src="/img/ukkonens_algorithm/abaabcab-1.dot.svg"/> <figcaption>
+    <svg width="267pt" height="44pt"
+ viewBox="0.00 0.00 267.00 44.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g  class="graph" transform="scale(1 1) rotate(0) translate(4 40)">
+<title>suffixtree</title>
+<!-- ⊥ -->
+<g  class="node">
+<title>⊥</title>
+<ellipse fill="none" stroke="black" cx="18" cy="-18" rx="18" ry="18"/>
+<text text-anchor="middle" x="18" y="-14.3" font-family="Times,serif" font-size="14.00">⊥</text>
+</g>
+<!-- R -->
+<g  class="node">
+<title>R</title>
+<ellipse fill="none" stroke="black" cx="129" cy="-18" rx="18" ry="18"/>
+<text text-anchor="middle" x="129" y="-14.3" font-family="Times,serif" font-size="14.00">R</text>
+</g>
+<!-- ⊥&#45;&gt;R -->
+<g  class="edge">
+<title>⊥&#45;&gt;R</title>
+<path fill="none" stroke="black" d="M36.03,-18C53.29,-18 80.26,-18 100.54,-18"/>
+<polygon fill="black" stroke="black" points="100.73,-21.5 110.73,-18 100.73,-14.5 100.73,-21.5"/>
+<text text-anchor="middle" x="73.5" y="-21.8" font-family="Times,serif" font-size="14.00">0,0: *</text>
+</g>
+<!-- R&#45;&gt;⊥ -->
+<g  class="edge">
+<title>R&#45;&gt;⊥</title>
+<path fill="none" stroke="steelblue" d="M110.92,-16.83C105.22,-16.49 98.84,-16.17 93,-16 75.67,-15.51 71.33,-15.51 54,-16 51.44,-16.07 48.79,-16.18 46.13,-16.3"/>
+<polygon fill="steelblue" stroke="steelblue" points="45.88,-12.8 36.08,-16.83 46.25,-19.79 45.88,-12.8"/>
+</g>
+<!-- 1 -->
+<g  class="node">
+<title>1</title>
+<ellipse fill="none" stroke="black" cx="241" cy="-18" rx="18" ry="18"/>
+<text text-anchor="middle" x="241" y="-14.3" font-family="Times,serif" font-size="14.00">1</text>
+</g>
+<!-- R&#45;&gt;1 -->
+<g  class="edge">
+<title>R&#45;&gt;1</title>
+<path fill="none" stroke="black" d="M147.19,-18C164.79,-18 192.39,-18 212.93,-18"/>
+<polygon fill="black" stroke="black" points="212.93,-21.5 222.93,-18 212.93,-14.5 212.93,-21.5"/>
+<text text-anchor="middle" x="185" y="-21.8" font-family="Times,serif" font-size="14.00">1,1: a</text>
+</g>
+</g>
+</svg> <figcaption>
             <p>Step 1: a|baabcab#</p>
         </figcaption>
 </figure>
 <h3>Step 2</h3>
 <p>According to lemma 2, following the <em>a</em>-transition from our previous end point, the auxiliary state, gives us the new active point with the canonic reference pair <em>(R, ε)</em>. The next steps are exactly the same as before, only for character <em>b</em>. The transition to our first state grows automatically since we use a variable tracking the length of the processed string as the second index on transitions leading up to leafs.</p>
 <figure class="middle">
-    <img src="/img/ukkonens_algorithm/abaabcab-2.dot.svg"/> <figcaption>
+    <svg width="276pt" height="98pt"
+ viewBox="0.00 0.00 276.00 98.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g  class="graph" transform="scale(1 1) rotate(0) translate(4 94)">
+<title>suffixtree</title>
+<!-- ⊥ -->
+<g  class="node">
+<title>⊥</title>
+<ellipse fill="none" stroke="black" cx="18" cy="-45" rx="18" ry="18"/>
+<text text-anchor="middle" x="18" y="-41.3" font-family="Times,serif" font-size="14.00">⊥</text>
+</g>
+<!-- R -->
+<g  class="node">
+<title>R</title>
+<ellipse fill="none" stroke="black" cx="129" cy="-45" rx="18" ry="18"/>
+<text text-anchor="middle" x="129" y="-41.3" font-family="Times,serif" font-size="14.00">R</text>
+</g>
+<!-- ⊥&#45;&gt;R -->
+<g  class="edge">
+<title>⊥&#45;&gt;R</title>
+<path fill="none" stroke="black" d="M36.03,-45C53.29,-45 80.26,-45 100.54,-45"/>
+<polygon fill="black" stroke="black" points="100.73,-48.5 110.73,-45 100.73,-41.5 100.73,-48.5"/>
+<text text-anchor="middle" x="73.5" y="-48.8" font-family="Times,serif" font-size="14.00">0,0: *</text>
+</g>
+<!-- R&#45;&gt;⊥ -->
+<g  class="edge">
+<title>R&#45;&gt;⊥</title>
+<path fill="none" stroke="steelblue" d="M110.92,-43.83C105.22,-43.49 98.84,-43.17 93,-43 75.67,-42.51 71.33,-42.51 54,-43 51.44,-43.07 48.79,-43.18 46.13,-43.3"/>
+<polygon fill="steelblue" stroke="steelblue" points="45.88,-39.8 36.08,-43.83 46.25,-46.79 45.88,-39.8"/>
+</g>
+<!-- 1 -->
+<g  class="node">
+<title>1</title>
+<ellipse fill="none" stroke="black" cx="250" cy="-72" rx="18" ry="18"/>
+<text text-anchor="middle" x="250" y="-68.3" font-family="Times,serif" font-size="14.00">1</text>
+</g>
+<!-- R&#45;&gt;1 -->
+<g  class="edge">
+<title>R&#45;&gt;1</title>
+<path fill="none" stroke="black" d="M146.8,-48.81C166.47,-53.27 199.29,-60.72 222.42,-65.97"/>
+<polygon fill="black" stroke="black" points="221.76,-69.41 232.29,-68.21 223.31,-62.58 221.76,-69.41"/>
+<text text-anchor="middle" x="189.5" y="-67.8" font-family="Times,serif" font-size="14.00">1,2: ab</text>
+</g>
+<!-- 2 -->
+<g  class="node">
+<title>2</title>
+<ellipse fill="none" stroke="black" cx="250" cy="-18" rx="18" ry="18"/>
+<text text-anchor="middle" x="250" y="-14.3" font-family="Times,serif" font-size="14.00">2</text>
+</g>
+<!-- R&#45;&gt;2 -->
+<g  class="edge">
+<title>R&#45;&gt;2</title>
+<path fill="none" stroke="black" d="M146.22,-38.86C152.08,-36.79 158.78,-34.61 165,-33 183.82,-28.12 205.42,-24.3 222.01,-21.74"/>
+<polygon fill="black" stroke="black" points="222.73,-25.17 232.1,-20.24 221.7,-18.25 222.73,-25.17"/>
+<text text-anchor="middle" x="189.5" y="-36.8" font-family="Times,serif" font-size="14.00">2,2: b</text>
+</g>
+</g>
+</svg> <figcaption>
             <p>Step 2: ab|aabcab#</p>
         </figcaption>
 </figure>
 <h3>Step 3</h3>
 <p>Our existing two transitions again grow automatically. We notice that our active point already has an <em>a</em>-transition (<code>test_and_split</code> routine), so we don't need to create a new state. Active point and end point are the same.</p>
 <figure class="middle">
-    <img src="/img/ukkonens_algorithm/abaabcab-3.dot.svg"/> <figcaption>
+    <svg width="285pt" height="98pt"
+ viewBox="0.00 0.00 285.00 98.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g  class="graph" transform="scale(1 1) rotate(0) translate(4 94)">
+<title>suffixtree</title>
+<!-- ⊥ -->
+<g  class="node">
+<title>⊥</title>
+<ellipse fill="none" stroke="black" cx="18" cy="-45" rx="18" ry="18"/>
+<text text-anchor="middle" x="18" y="-41.3" font-family="Times,serif" font-size="14.00">⊥</text>
+</g>
+<!-- R -->
+<g  class="node">
+<title>R</title>
+<ellipse fill="none" stroke="black" cx="129" cy="-45" rx="18" ry="18"/>
+<text text-anchor="middle" x="129" y="-41.3" font-family="Times,serif" font-size="14.00">R</text>
+</g>
+<!-- ⊥&#45;&gt;R -->
+<g  class="edge">
+<title>⊥&#45;&gt;R</title>
+<path fill="none" stroke="black" d="M36.03,-45C53.29,-45 80.26,-45 100.54,-45"/>
+<polygon fill="black" stroke="black" points="100.73,-48.5 110.73,-45 100.73,-41.5 100.73,-48.5"/>
+<text text-anchor="middle" x="73.5" y="-48.8" font-family="Times,serif" font-size="14.00">0,0: *</text>
+</g>
+<!-- R&#45;&gt;⊥ -->
+<g  class="edge">
+<title>R&#45;&gt;⊥</title>
+<path fill="none" stroke="steelblue" d="M110.92,-43.83C105.22,-43.49 98.84,-43.17 93,-43 75.67,-42.51 71.33,-42.51 54,-43 51.44,-43.07 48.79,-43.18 46.13,-43.3"/>
+<polygon fill="steelblue" stroke="steelblue" points="45.88,-39.8 36.08,-43.83 46.25,-46.79 45.88,-39.8"/>
+</g>
+<!-- 1 -->
+<g  class="node">
+<title>1</title>
+<ellipse fill="none" stroke="black" cx="259" cy="-72" rx="18" ry="18"/>
+<text text-anchor="middle" x="259" y="-68.3" font-family="Times,serif" font-size="14.00">1</text>
+</g>
+<!-- R&#45;&gt;1 -->
+<g  class="edge">
+<title>R&#45;&gt;1</title>
+<path fill="none" stroke="black" d="M146.73,-48.53C168.2,-53.06 205.69,-60.97 231.16,-66.34"/>
+<polygon fill="black" stroke="black" points="230.76,-69.83 241.26,-68.47 232.2,-62.98 230.76,-69.83"/>
+<text text-anchor="middle" x="194" y="-67.8" font-family="Times,serif" font-size="14.00">1,3: aba</text>
+</g>
+<!-- 2 -->
+<g  class="node">
+<title>2</title>
+<ellipse fill="none" stroke="black" cx="259" cy="-18" rx="18" ry="18"/>
+<text text-anchor="middle" x="259" y="-14.3" font-family="Times,serif" font-size="14.00">2</text>
+</g>
+<!-- R&#45;&gt;2 -->
+<g  class="edge">
+<title>R&#45;&gt;2</title>
+<path fill="none" stroke="black" d="M146.21,-38.8C152.06,-36.73 158.77,-34.56 165,-33 186.88,-27.53 212.18,-23.6 230.87,-21.14"/>
+<polygon fill="black" stroke="black" points="231.54,-24.58 241.02,-19.86 230.67,-17.63 231.54,-24.58"/>
+<text text-anchor="middle" x="194" y="-36.8" font-family="Times,serif" font-size="14.00">2,3: ba</text>
+</g>
+</g>
+</svg> <figcaption>
             <p>Step 3: aba|abcab#</p>
         </figcaption>
 </figure>
 <h3>Step 4</h3>
 <p>Based on our previous end point, the new active point is <em>(R, a)</em> and we're looking at another <em>a</em>. The transition we are on continues with <em>b</em>, so we need to split it at this point (we jump into the first <code>if</code> block and then the nested <code>else</code> of <code>test_and_split</code>). We create state 3. We insert state 3 between the root and state 1 (adjusting the start index of state 1). Now we add an <em>a</em>-transition from state 3 to the second newly created state 4. We follow the suffix link to the auxiliary state and canonize it ('consuming' one symbol), which brings us back to the root. We find that there already is an <em>a</em>-transition from the root, so we reached the end point. Now we suffix-link our newly created internal state 3 to the end point, the root (final step of the <em>update</em> routine).</p>
 <figure class="middle">
-    <img src="/img/ukkonens_algorithm/abaabcab-4.dot.svg"/> <figcaption>
+    <svg width="415pt" height="129pt"
+ viewBox="0.00 0.00 415.00 129.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g  class="graph" transform="scale(1 1) rotate(0) translate(4 125)">
+<title>suffixtree</title>
+<!-- ⊥ -->
+<g  class="node">
+<title>⊥</title>
+<ellipse fill="none" stroke="black" cx="18" cy="-48" rx="18" ry="18"/>
+<text text-anchor="middle" x="18" y="-44.3" font-family="Times,serif" font-size="14.00">⊥</text>
+</g>
+<!-- R -->
+<g  class="node">
+<title>R</title>
+<ellipse fill="none" stroke="black" cx="129" cy="-48" rx="18" ry="18"/>
+<text text-anchor="middle" x="129" y="-44.3" font-family="Times,serif" font-size="14.00">R</text>
+</g>
+<!-- ⊥&#45;&gt;R -->
+<g  class="edge">
+<title>⊥&#45;&gt;R</title>
+<path fill="none" stroke="black" d="M36.03,-48C53.29,-48 80.26,-48 100.54,-48"/>
+<polygon fill="black" stroke="black" points="100.73,-51.5 110.73,-48 100.73,-44.5 100.73,-51.5"/>
+<text text-anchor="middle" x="73.5" y="-51.8" font-family="Times,serif" font-size="14.00">0,0: *</text>
+</g>
+<!-- R&#45;&gt;⊥ -->
+<g  class="edge">
+<title>R&#45;&gt;⊥</title>
+<path fill="none" stroke="steelblue" d="M110.92,-46.83C105.22,-46.49 98.84,-46.17 93,-46 75.67,-45.51 71.33,-45.51 54,-46 51.44,-46.07 48.79,-46.18 46.13,-46.3"/>
+<polygon fill="steelblue" stroke="steelblue" points="45.88,-42.8 36.08,-46.83 46.25,-49.79 45.88,-42.8"/>
+</g>
+<!-- 3 -->
+<g  class="node">
+<title>3</title>
+<ellipse fill="none" stroke="black" cx="259" cy="-76" rx="18" ry="18"/>
+<text text-anchor="middle" x="259" y="-72.3" font-family="Times,serif" font-size="14.00">3</text>
+</g>
+<!-- R&#45;&gt;3 -->
+<g  class="edge">
+<title>R&#45;&gt;3</title>
+<path fill="none" stroke="black" d="M146.26,-53.57C152.12,-55.46 158.82,-57.47 165,-59 187.08,-64.47 212.5,-68.99 231.18,-72"/>
+<polygon fill="black" stroke="black" points="230.64,-75.46 241.07,-73.55 231.73,-68.54 230.64,-75.46"/>
+<text text-anchor="middle" x="194" y="-73.8" font-family="Times,serif" font-size="14.00">1,1: a</text>
+</g>
+<!-- 2 -->
+<g  class="node">
+<title>2</title>
+<ellipse fill="none" stroke="black" cx="259" cy="-18" rx="18" ry="18"/>
+<text text-anchor="middle" x="259" y="-14.3" font-family="Times,serif" font-size="14.00">2</text>
+</g>
+<!-- R&#45;&gt;2 -->
+<g  class="edge">
+<title>R&#45;&gt;2</title>
+<path fill="none" stroke="black" d="M145.32,-39.87C151.31,-36.99 158.34,-33.98 165,-32 186.59,-25.58 211.91,-22.01 230.68,-20.09"/>
+<polygon fill="black" stroke="black" points="231.26,-23.55 240.89,-19.14 230.61,-16.58 231.26,-23.55"/>
+<text text-anchor="middle" x="194" y="-35.8" font-family="Times,serif" font-size="14.00">2,4: baa</text>
+</g>
+<!-- 3&#45;&gt;R -->
+<g  class="edge">
+<title>3&#45;&gt;R</title>
+<path fill="none" stroke="steelblue" d="M242.24,-68.79C236.31,-66.33 229.44,-63.75 223,-62 201.27,-56.1 175.95,-52.5 157.23,-50.42"/>
+<polygon fill="steelblue" stroke="steelblue" points="157.35,-46.92 147.04,-49.38 156.63,-53.88 157.35,-46.92"/>
+</g>
+<!-- 1 -->
+<g  class="node">
+<title>1</title>
+<ellipse fill="none" stroke="black" cx="389" cy="-103" rx="18" ry="18"/>
+<text text-anchor="middle" x="389" y="-99.3" font-family="Times,serif" font-size="14.00">1</text>
+</g>
+<!-- 3&#45;&gt;1 -->
+<g  class="edge">
+<title>3&#45;&gt;1</title>
+<path fill="none" stroke="black" d="M276.73,-79.53C298.2,-84.06 335.69,-91.97 361.16,-97.34"/>
+<polygon fill="black" stroke="black" points="360.76,-100.83 371.26,-99.47 362.2,-93.98 360.76,-100.83"/>
+<text text-anchor="middle" x="324" y="-98.8" font-family="Times,serif" font-size="14.00">2,4: baa</text>
+</g>
+<!-- 4 -->
+<g  class="node">
+<title>4</title>
+<ellipse fill="none" stroke="black" cx="389" cy="-49" rx="18" ry="18"/>
+<text text-anchor="middle" x="389" y="-45.3" font-family="Times,serif" font-size="14.00">4</text>
+</g>
+<!-- 3&#45;&gt;4 -->
+<g  class="edge">
+<title>3&#45;&gt;4</title>
+<path fill="none" stroke="black" d="M276.21,-69.8C282.06,-67.73 288.77,-65.56 295,-64 316.88,-58.53 342.18,-54.6 360.87,-52.14"/>
+<polygon fill="black" stroke="black" points="361.54,-55.58 371.02,-50.86 360.67,-48.63 361.54,-55.58"/>
+<text text-anchor="middle" x="324" y="-67.8" font-family="Times,serif" font-size="14.00">4,4: a</text>
+</g>
+</g>
+</svg> <figcaption>
             <p>Step 4: abaa|bcab#</p>
         </figcaption>
 </figure>
 <h3>Step 5</h3>
 <p>The new active point is <em>(3, ε)</em>. We find a <em>b</em>-transition from our active point, so again active point and end point are the same.</p>
 <figure class="middle">
-    <img src="/img/ukkonens_algorithm/abaabcab-5.dot.svg"/> <figcaption>
+    <svg width="433pt" height="129pt"
+ viewBox="0.00 0.00 433.00 129.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g  class="graph" transform="scale(1 1) rotate(0) translate(4 125)">
+<title>suffixtree</title>
+<!-- ⊥ -->
+<g  class="node">
+<title>⊥</title>
+<ellipse fill="none" stroke="black" cx="18" cy="-48" rx="18" ry="18"/>
+<text text-anchor="middle" x="18" y="-44.3" font-family="Times,serif" font-size="14.00">⊥</text>
+</g>
+<!-- R -->
+<g  class="node">
+<title>R</title>
+<ellipse fill="none" stroke="black" cx="129" cy="-48" rx="18" ry="18"/>
+<text text-anchor="middle" x="129" y="-44.3" font-family="Times,serif" font-size="14.00">R</text>
+</g>
+<!-- ⊥&#45;&gt;R -->
+<g  class="edge">
+<title>⊥&#45;&gt;R</title>
+<path fill="none" stroke="black" d="M36.03,-48C53.29,-48 80.26,-48 100.54,-48"/>
+<polygon fill="black" stroke="black" points="100.73,-51.5 110.73,-48 100.73,-44.5 100.73,-51.5"/>
+<text text-anchor="middle" x="73.5" y="-51.8" font-family="Times,serif" font-size="14.00">0,0: *</text>
+</g>
+<!-- R&#45;&gt;⊥ -->
+<g  class="edge">
+<title>R&#45;&gt;⊥</title>
+<path fill="none" stroke="steelblue" d="M110.92,-46.83C105.22,-46.49 98.84,-46.17 93,-46 75.67,-45.51 71.33,-45.51 54,-46 51.44,-46.07 48.79,-46.18 46.13,-46.3"/>
+<polygon fill="steelblue" stroke="steelblue" points="45.88,-42.8 36.08,-46.83 46.25,-49.79 45.88,-42.8"/>
+</g>
+<!-- 3 -->
+<g  class="node">
+<title>3</title>
+<ellipse fill="none" stroke="black" cx="268" cy="-76" rx="18" ry="18"/>
+<text text-anchor="middle" x="268" y="-72.3" font-family="Times,serif" font-size="14.00">3</text>
+</g>
+<!-- R&#45;&gt;3 -->
+<g  class="edge">
+<title>R&#45;&gt;3</title>
+<path fill="none" stroke="black" d="M146.25,-53.62C152.11,-55.52 158.81,-57.52 165,-59 190.13,-65.01 219.24,-69.64 239.91,-72.53"/>
+<polygon fill="black" stroke="black" points="239.51,-76.01 249.89,-73.89 240.45,-69.08 239.51,-76.01"/>
+<text text-anchor="middle" x="198.5" y="-74.8" font-family="Times,serif" font-size="14.00">1,1: a</text>
+</g>
+<!-- 2 -->
+<g  class="node">
+<title>2</title>
+<ellipse fill="none" stroke="black" cx="268" cy="-18" rx="18" ry="18"/>
+<text text-anchor="middle" x="268" y="-14.3" font-family="Times,serif" font-size="14.00">2</text>
+</g>
+<!-- R&#45;&gt;2 -->
+<g  class="edge">
+<title>R&#45;&gt;2</title>
+<path fill="none" stroke="black" d="M144.9,-39.44C150.96,-36.31 158.14,-33.04 165,-31 189.62,-23.67 218.8,-20.47 239.62,-19.08"/>
+<polygon fill="black" stroke="black" points="239.9,-22.57 249.68,-18.5 239.5,-15.58 239.9,-22.57"/>
+<text text-anchor="middle" x="198.5" y="-34.8" font-family="Times,serif" font-size="14.00">2,5: baab</text>
+</g>
+<!-- 3&#45;&gt;R -->
+<g  class="edge">
+<title>3&#45;&gt;R</title>
+<path fill="none" stroke="steelblue" d="M251.25,-68.75C245.32,-66.28 238.45,-63.71 232,-62 207.13,-55.43 177.99,-51.82 157.24,-49.92"/>
+<polygon fill="steelblue" stroke="steelblue" points="157.47,-46.43 147.22,-49.08 156.89,-53.4 157.47,-46.43"/>
+</g>
+<!-- 1 -->
+<g  class="node">
+<title>1</title>
+<ellipse fill="none" stroke="black" cx="407" cy="-103" rx="18" ry="18"/>
+<text text-anchor="middle" x="407" y="-99.3" font-family="Times,serif" font-size="14.00">1</text>
+</g>
+<!-- 3&#45;&gt;1 -->
+<g  class="edge">
+<title>3&#45;&gt;1</title>
+<path fill="none" stroke="black" d="M285.8,-79.31C309.11,-83.91 351.53,-92.27 379.24,-97.73"/>
+<polygon fill="black" stroke="black" points="378.58,-101.16 389.06,-99.66 379.93,-94.29 378.58,-101.16"/>
+<text text-anchor="middle" x="337.5" y="-98.8" font-family="Times,serif" font-size="14.00">2,5: baab</text>
+</g>
+<!-- 4 -->
+<g  class="node">
+<title>4</title>
+<ellipse fill="none" stroke="black" cx="407" cy="-49" rx="18" ry="18"/>
+<text text-anchor="middle" x="407" y="-45.3" font-family="Times,serif" font-size="14.00">4</text>
+</g>
+<!-- 3&#45;&gt;4 -->
+<g  class="edge">
+<title>3&#45;&gt;4</title>
+<path fill="none" stroke="black" d="M285.2,-69.75C291.05,-67.68 297.76,-65.52 304,-64 329.03,-57.92 358.15,-53.94 378.86,-51.61"/>
+<polygon fill="black" stroke="black" points="379.28,-55.09 388.85,-50.55 378.54,-48.13 379.28,-55.09"/>
+<text text-anchor="middle" x="337.5" y="-67.8" font-family="Times,serif" font-size="14.00">4,5: ab</text>
+</g>
+</g>
+</svg> <figcaption>
             <p>Step 5: abaab|cab#</p>
         </figcaption>
 </figure>
 <h3>Step 6</h3>
 <p>The new active point is <em>(3, b)</em>. The transition we are on does not continue with the current character <em>c</em>, so we need to split again, as in step 4, creating states 5 and 6. We keep a reference to the new internal state 5 (to set its suffix link later) and follow the suffix link of the active point to the root, where we find the need to split the existing transition <em>baab</em> after the first <em>b</em> to add the suffix <em>bc</em>. After creating internal state 7, we can set the suffix link on state 5. We follow the suffix link from the active point (root) to the auxiliary state. Canonization 'consumes' one symbol and brings us back to the root, where we add the missing <em>c</em>-transition to the new state 9. State 7 was the last internal state created and gets a suffix link to the last canonized suffix link we followed, root. The final suffix link we follow brings us to the auxiliary state, which is the end point.</p>
 <figure class="middle">
-    <img src="/img/ukkonens_algorithm/abaabcab-6.dot.svg"/> <figcaption>
+    <svg width="670pt" height="248pt"
+ viewBox="0.00 0.00 670.00 247.50" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g  class="graph" transform="scale(1 1) rotate(0) translate(4 243.5)">
+<title>suffixtree</title>
+<!-- ⊥ -->
+<g  class="node">
+<title>⊥</title>
+<ellipse fill="none" stroke="black" cx="18" cy="-78.5" rx="18" ry="18"/>
+<text text-anchor="middle" x="18" y="-74.8" font-family="Times,serif" font-size="14.00">⊥</text>
+</g>
+<!-- R -->
+<g  class="node">
+<title>R</title>
+<ellipse fill="none" stroke="black" cx="129" cy="-78.5" rx="18" ry="18"/>
+<text text-anchor="middle" x="129" y="-74.8" font-family="Times,serif" font-size="14.00">R</text>
+</g>
+<!-- ⊥&#45;&gt;R -->
+<g  class="edge">
+<title>⊥&#45;&gt;R</title>
+<path fill="none" stroke="black" d="M36.03,-78.5C53.29,-78.5 80.26,-78.5 100.54,-78.5"/>
+<polygon fill="black" stroke="black" points="100.73,-82 110.73,-78.5 100.73,-75 100.73,-82"/>
+<text text-anchor="middle" x="73.5" y="-82.3" font-family="Times,serif" font-size="14.00">0,0: *</text>
+</g>
+<!-- R&#45;&gt;⊥ -->
+<g  class="edge">
+<title>R&#45;&gt;⊥</title>
+<path fill="none" stroke="steelblue" d="M110.92,-77.33C105.22,-76.99 98.84,-76.67 93,-76.5 75.67,-76.01 71.33,-76.01 54,-76.5 51.44,-76.57 48.79,-76.68 46.13,-76.8"/>
+<polygon fill="steelblue" stroke="steelblue" points="45.88,-73.31 36.08,-77.33 46.25,-80.3 45.88,-73.31"/>
+</g>
+<!-- 3 -->
+<g  class="node">
+<title>3</title>
+<ellipse fill="none" stroke="black" cx="241" cy="-130.5" rx="18" ry="18"/>
+<text text-anchor="middle" x="241" y="-126.8" font-family="Times,serif" font-size="14.00">3</text>
+</g>
+<!-- R&#45;&gt;3 -->
+<g  class="edge">
+<title>R&#45;&gt;3</title>
+<path fill="none" stroke="black" d="M140.47,-92.81C146.76,-100.39 155.39,-109.19 165,-114.5 179.63,-122.59 197.94,-126.59 212.81,-128.57"/>
+<polygon fill="black" stroke="black" points="212.61,-132.07 222.93,-129.68 213.37,-125.11 212.61,-132.07"/>
+<text text-anchor="middle" x="185" y="-130.3" font-family="Times,serif" font-size="14.00">1,1: a</text>
+</g>
+<!-- 7 -->
+<g  class="node">
+<title>7</title>
+<ellipse fill="none" stroke="black" cx="507" cy="-78.5" rx="18" ry="18"/>
+<text text-anchor="middle" x="507" y="-74.8" font-family="Times,serif" font-size="14.00">7</text>
+</g>
+<!-- R&#45;&gt;7 -->
+<g  class="edge">
+<title>R&#45;&gt;7</title>
+<path fill="none" stroke="black" d="M147.13,-78.5C206.71,-78.5 405.22,-78.5 478.51,-78.5"/>
+<polygon fill="black" stroke="black" points="478.77,-82 488.77,-78.5 478.77,-75 478.77,-82"/>
+<text text-anchor="middle" x="305.5" y="-82.3" font-family="Times,serif" font-size="14.00">2,2: b</text>
+</g>
+<!-- 9 -->
+<g  class="node">
+<title>9</title>
+<ellipse fill="none" stroke="black" cx="241" cy="-32.5" rx="18" ry="18"/>
+<text text-anchor="middle" x="241" y="-28.8" font-family="Times,serif" font-size="14.00">9</text>
+</g>
+<!-- R&#45;&gt;9 -->
+<g  class="edge">
+<title>R&#45;&gt;9</title>
+<path fill="none" stroke="black" d="M142.26,-65.89C148.56,-60.1 156.65,-53.61 165,-49.5 179.94,-42.15 198.13,-37.92 212.85,-35.53"/>
+<polygon fill="black" stroke="black" points="213.46,-38.97 222.86,-34.08 212.46,-32.05 213.46,-38.97"/>
+<text text-anchor="middle" x="185" y="-53.3" font-family="Times,serif" font-size="14.00">6,6: c</text>
+</g>
+<!-- 3&#45;&gt;R -->
+<g  class="edge">
+<title>3&#45;&gt;R</title>
+<path fill="none" stroke="steelblue" d="M224.27,-123.07C206.15,-114.5 176.14,-100.31 154.85,-90.25"/>
+<polygon fill="steelblue" stroke="steelblue" points="156.3,-87.06 145.76,-85.95 153.31,-93.39 156.3,-87.06"/>
+</g>
+<!-- 5 -->
+<g  class="node">
+<title>5</title>
+<ellipse fill="none" stroke="black" cx="370" cy="-178.5" rx="18" ry="18"/>
+<text text-anchor="middle" x="370" y="-174.8" font-family="Times,serif" font-size="14.00">5</text>
+</g>
+<!-- 3&#45;&gt;5 -->
+<g  class="edge">
+<title>3&#45;&gt;5</title>
+<path fill="none" stroke="black" d="M257.49,-138.55C263.5,-141.54 270.5,-144.84 277,-147.5 298.85,-156.45 324.33,-164.88 342.93,-170.69"/>
+<polygon fill="black" stroke="black" points="341.9,-174.03 352.48,-173.63 343.96,-167.34 341.9,-174.03"/>
+<text text-anchor="middle" x="305.5" y="-171.3" font-family="Times,serif" font-size="14.00">2,2: b</text>
+</g>
+<!-- 4 -->
+<g  class="node">
+<title>4</title>
+<ellipse fill="none" stroke="black" cx="370" cy="-124.5" rx="18" ry="18"/>
+<text text-anchor="middle" x="370" y="-120.8" font-family="Times,serif" font-size="14.00">4</text>
+</g>
+<!-- 3&#45;&gt;4 -->
+<g  class="edge">
+<title>3&#45;&gt;4</title>
+<path fill="none" stroke="black" d="M259.13,-129.69C280.24,-128.69 316.4,-126.99 341.44,-125.8"/>
+<polygon fill="black" stroke="black" points="341.91,-129.29 351.74,-125.32 341.58,-122.29 341.91,-129.29"/>
+<text text-anchor="middle" x="305.5" y="-132.3" font-family="Times,serif" font-size="14.00">4,6: abc</text>
+</g>
+<!-- 5&#45;&gt;7 -->
+<g  class="edge">
+<title>5&#45;&gt;7</title>
+<path fill="none" stroke="steelblue" d="M384.94,-168.18C408.28,-150.89 455.48,-115.93 483.55,-95.13"/>
+<polygon fill="steelblue" stroke="steelblue" points="485.98,-97.69 491.93,-88.92 481.82,-92.06 485.98,-97.69"/>
+</g>
+<!-- 1 -->
+<g  class="node">
+<title>1</title>
+<ellipse fill="none" stroke="black" cx="507" cy="-221.5" rx="18" ry="18"/>
+<text text-anchor="middle" x="507" y="-217.8" font-family="Times,serif" font-size="14.00">1</text>
+</g>
+<!-- 5&#45;&gt;1 -->
+<g  class="edge">
+<title>5&#45;&gt;1</title>
+<path fill="none" stroke="black" d="M386.45,-186.23C392.46,-189.06 399.46,-192.14 406,-194.5 430.34,-203.28 458.92,-210.73 479.28,-215.56"/>
+<polygon fill="black" stroke="black" points="478.57,-218.99 489.11,-217.84 480.16,-212.17 478.57,-218.99"/>
+<text text-anchor="middle" x="438.5" y="-216.3" font-family="Times,serif" font-size="14.00">3,6: aabc</text>
+</g>
+<!-- 6 -->
+<g  class="node">
+<title>6</title>
+<ellipse fill="none" stroke="black" cx="507" cy="-167.5" rx="18" ry="18"/>
+<text text-anchor="middle" x="507" y="-163.8" font-family="Times,serif" font-size="14.00">6</text>
+</g>
+<!-- 5&#45;&gt;6 -->
+<g  class="edge">
+<title>5&#45;&gt;6</title>
+<path fill="none" stroke="black" d="M388.1,-177.11C411.02,-175.24 451.97,-171.9 479.06,-169.7"/>
+<polygon fill="black" stroke="black" points="479.36,-173.18 489.04,-168.88 478.79,-166.21 479.36,-173.18"/>
+<text text-anchor="middle" x="438.5" y="-179.3" font-family="Times,serif" font-size="14.00">6,6: c</text>
+</g>
+<!-- 7&#45;&gt;R -->
+<g  class="edge">
+<title>7&#45;&gt;R</title>
+<path fill="none" stroke="steelblue" d="M491.04,-69.46C448.99,-45.17 326.13,18.09 223,-5.5 195.1,-11.88 187.26,-15.51 165,-33.5 157.59,-39.49 150.8,-47.35 145.21,-54.81"/>
+<polygon fill="steelblue" stroke="steelblue" points="142.15,-53.08 139.24,-63.26 147.87,-57.11 142.15,-53.08"/>
+</g>
+<!-- 2 -->
+<g  class="node">
+<title>2</title>
+<ellipse fill="none" stroke="black" cx="644" cy="-105.5" rx="18" ry="18"/>
+<text text-anchor="middle" x="644" y="-101.8" font-family="Times,serif" font-size="14.00">2</text>
+</g>
+<!-- 7&#45;&gt;2 -->
+<g  class="edge">
+<title>7&#45;&gt;2</title>
+<path fill="none" stroke="black" d="M524.82,-81.87C547.66,-86.43 588.74,-94.65 615.94,-100.09"/>
+<polygon fill="black" stroke="black" points="615.47,-103.57 625.96,-102.09 616.84,-96.7 615.47,-103.57"/>
+<text text-anchor="middle" x="575.5" y="-101.3" font-family="Times,serif" font-size="14.00">3,6: aabc</text>
+</g>
+<!-- 8 -->
+<g  class="node">
+<title>8</title>
+<ellipse fill="none" stroke="black" cx="644" cy="-51.5" rx="18" ry="18"/>
+<text text-anchor="middle" x="644" y="-47.8" font-family="Times,serif" font-size="14.00">8</text>
+</g>
+<!-- 7&#45;&gt;8 -->
+<g  class="edge">
+<title>7&#45;&gt;8</title>
+<path fill="none" stroke="black" d="M524.2,-72.26C530.05,-70.19 536.76,-68.03 543,-66.5 567.29,-60.57 595.5,-56.6 615.75,-54.24"/>
+<polygon fill="black" stroke="black" points="616.28,-57.7 625.83,-53.12 615.51,-50.74 616.28,-57.7"/>
+<text text-anchor="middle" x="575.5" y="-70.3" font-family="Times,serif" font-size="14.00">6,6: c</text>
+</g>
+</g>
+</svg> <figcaption>
             <p>Step 6: abaabc|ab#</p>
         </figcaption>
 </figure>
 <h3>Step 7</h3>
 <p>The active point is <em>(R, ε)</em> and we are looking at character <em>a</em>, for which there is already a transition. Active point and end point are the same.</p>
 <figure class="middle">
-    <img src="/img/ukkonens_algorithm/abaabcab-7.dot.svg"/> <figcaption>
+    <svg width="702pt" height="247pt"
+ viewBox="0.00 0.00 702.00 246.70" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g  class="graph" transform="scale(1 1) rotate(0) translate(4 242.7)">
+<title>suffixtree</title>
+<!-- ⊥ -->
+<g  class="node">
+<title>⊥</title>
+<ellipse fill="none" stroke="black" cx="18" cy="-77.7" rx="18" ry="18"/>
+<text text-anchor="middle" x="18" y="-74" font-family="Times,serif" font-size="14.00">⊥</text>
+</g>
+<!-- R -->
+<g  class="node">
+<title>R</title>
+<ellipse fill="none" stroke="black" cx="129" cy="-77.7" rx="18" ry="18"/>
+<text text-anchor="middle" x="129" y="-74" font-family="Times,serif" font-size="14.00">R</text>
+</g>
+<!-- ⊥&#45;&gt;R -->
+<g  class="edge">
+<title>⊥&#45;&gt;R</title>
+<path fill="none" stroke="black" d="M36.03,-77.7C53.29,-77.7 80.26,-77.7 100.54,-77.7"/>
+<polygon fill="black" stroke="black" points="100.73,-81.2 110.73,-77.7 100.73,-74.2 100.73,-81.2"/>
+<text text-anchor="middle" x="73.5" y="-81.5" font-family="Times,serif" font-size="14.00">0,0: *</text>
+</g>
+<!-- R&#45;&gt;⊥ -->
+<g  class="edge">
+<title>R&#45;&gt;⊥</title>
+<path fill="none" stroke="steelblue" d="M110.92,-76.53C105.22,-76.19 98.84,-75.87 93,-75.7 75.67,-75.21 71.33,-75.21 54,-75.7 51.44,-75.77 48.79,-75.88 46.13,-76"/>
+<polygon fill="steelblue" stroke="steelblue" points="45.88,-72.5 36.08,-76.53 46.25,-79.5 45.88,-72.5"/>
+</g>
+<!-- 3 -->
+<g  class="node">
+<title>3</title>
+<ellipse fill="none" stroke="black" cx="249" cy="-129.7" rx="18" ry="18"/>
+<text text-anchor="middle" x="249" y="-126" font-family="Times,serif" font-size="14.00">3</text>
+</g>
+<!-- R&#45;&gt;3 -->
+<g  class="edge">
+<title>R&#45;&gt;3</title>
+<path fill="none" stroke="black" d="M140.43,-92.09C146.71,-99.68 155.33,-108.48 165,-113.7 182.06,-122.91 203.6,-126.87 220.47,-128.55"/>
+<polygon fill="black" stroke="black" points="220.54,-132.07 230.78,-129.36 221.09,-125.09 220.54,-132.07"/>
+<text text-anchor="middle" x="189" y="-130.5" font-family="Times,serif" font-size="14.00">1,1: a</text>
+</g>
+<!-- 7 -->
+<g  class="node">
+<title>7</title>
+<ellipse fill="none" stroke="black" cx="531" cy="-77.7" rx="18" ry="18"/>
+<text text-anchor="middle" x="531" y="-74" font-family="Times,serif" font-size="14.00">7</text>
+</g>
+<!-- R&#45;&gt;7 -->
+<g  class="edge">
+<title>R&#45;&gt;7</title>
+<path fill="none" stroke="black" d="M147.19,-77.7C209.76,-77.7 425.73,-77.7 502.58,-77.7"/>
+<polygon fill="black" stroke="black" points="502.88,-81.2 512.88,-77.7 502.88,-74.2 502.88,-81.2"/>
+<text text-anchor="middle" x="317.5" y="-81.5" font-family="Times,serif" font-size="14.00">2,2: b</text>
+</g>
+<!-- 9 -->
+<g  class="node">
+<title>9</title>
+<ellipse fill="none" stroke="black" cx="249" cy="-31.7" rx="18" ry="18"/>
+<text text-anchor="middle" x="249" y="-28" font-family="Times,serif" font-size="14.00">9</text>
+</g>
+<!-- R&#45;&gt;9 -->
+<g  class="edge">
+<title>R&#45;&gt;9</title>
+<path fill="none" stroke="black" d="M142.23,-65.01C148.51,-59.2 156.6,-52.73 165,-48.7 182.52,-40.3 204.05,-36.05 220.79,-33.89"/>
+<polygon fill="black" stroke="black" points="221.46,-37.34 231.02,-32.76 220.69,-30.38 221.46,-37.34"/>
+<text text-anchor="middle" x="189" y="-52.5" font-family="Times,serif" font-size="14.00">6,7: ca</text>
+</g>
+<!-- 3&#45;&gt;R -->
+<g  class="edge">
+<title>3&#45;&gt;R</title>
+<path fill="none" stroke="steelblue" d="M232.34,-122.8C212.64,-114.12 178.59,-99.11 155.21,-88.81"/>
+<polygon fill="steelblue" stroke="steelblue" points="156.48,-85.54 145.91,-84.71 153.65,-91.95 156.48,-85.54"/>
+</g>
+<!-- 5 -->
+<g  class="node">
+<title>5</title>
+<ellipse fill="none" stroke="black" cx="386" cy="-177.7" rx="18" ry="18"/>
+<text text-anchor="middle" x="386" y="-174" font-family="Times,serif" font-size="14.00">5</text>
+</g>
+<!-- 3&#45;&gt;5 -->
+<g  class="edge">
+<title>3&#45;&gt;5</title>
+<path fill="none" stroke="black" d="M265.45,-137.83C271.46,-140.83 278.47,-144.12 285,-146.7 309.47,-156.37 338.24,-165.02 358.63,-170.71"/>
+<polygon fill="black" stroke="black" points="357.89,-174.13 368.46,-173.4 359.74,-167.38 357.89,-174.13"/>
+<text text-anchor="middle" x="317.5" y="-171.5" font-family="Times,serif" font-size="14.00">2,2: b</text>
+</g>
+<!-- 4 -->
+<g  class="node">
+<title>4</title>
+<ellipse fill="none" stroke="black" cx="386" cy="-123.7" rx="18" ry="18"/>
+<text text-anchor="middle" x="386" y="-120" font-family="Times,serif" font-size="14.00">4</text>
+</g>
+<!-- 3&#45;&gt;4 -->
+<g  class="edge">
+<title>3&#45;&gt;4</title>
+<path fill="none" stroke="black" d="M267.1,-128.94C289.9,-127.93 330.52,-126.12 357.61,-124.92"/>
+<polygon fill="black" stroke="black" points="357.78,-128.41 367.61,-124.47 357.47,-121.42 357.78,-128.41"/>
+<text text-anchor="middle" x="317.5" y="-131.5" font-family="Times,serif" font-size="14.00">4,7: abca</text>
+</g>
+<!-- 5&#45;&gt;7 -->
+<g  class="edge">
+<title>5&#45;&gt;7</title>
+<path fill="none" stroke="steelblue" d="M401.23,-167.75C426.07,-150.38 477.53,-114.39 507.32,-93.56"/>
+<polygon fill="steelblue" stroke="steelblue" points="509.63,-96.21 515.82,-87.61 505.62,-90.48 509.63,-96.21"/>
+</g>
+<!-- 1 -->
+<g  class="node">
+<title>1</title>
+<ellipse fill="none" stroke="black" cx="531" cy="-220.7" rx="18" ry="18"/>
+<text text-anchor="middle" x="531" y="-217" font-family="Times,serif" font-size="14.00">1</text>
+</g>
+<!-- 5&#45;&gt;1 -->
+<g  class="edge">
+<title>5&#45;&gt;1</title>
+<path fill="none" stroke="black" d="M402.43,-185.49C408.44,-188.33 415.44,-191.4 422,-193.7 449.12,-203.2 481.16,-210.77 503.27,-215.45"/>
+<polygon fill="black" stroke="black" points="502.75,-218.92 513.25,-217.51 504.17,-212.06 502.75,-218.92"/>
+<text text-anchor="middle" x="458.5" y="-216.5" font-family="Times,serif" font-size="14.00">3,7: aabca</text>
+</g>
+<!-- 6 -->
+<g  class="node">
+<title>6</title>
+<ellipse fill="none" stroke="black" cx="531" cy="-166.7" rx="18" ry="18"/>
+<text text-anchor="middle" x="531" y="-163" font-family="Times,serif" font-size="14.00">6</text>
+</g>
+<!-- 5&#45;&gt;6 -->
+<g  class="edge">
+<title>5&#45;&gt;6</title>
+<path fill="none" stroke="black" d="M403.97,-176.4C428.24,-174.53 473.16,-171.07 502.29,-168.83"/>
+<polygon fill="black" stroke="black" points="502.91,-172.29 512.61,-168.04 502.37,-165.32 502.91,-172.29"/>
+<text text-anchor="middle" x="458.5" y="-178.5" font-family="Times,serif" font-size="14.00">6,7: ca</text>
+</g>
+<!-- 7&#45;&gt;R -->
+<g  class="edge">
+<title>7&#45;&gt;R</title>
+<path fill="none" stroke="steelblue" d="M514.86,-69.21C471.15,-45.74 340.84,16.9 231,-4.7 199.9,-10.82 190.15,-12.41 165,-31.7 157.13,-37.74 150.12,-45.96 144.48,-53.8"/>
+<polygon fill="steelblue" stroke="steelblue" points="141.42,-52.08 138.72,-62.33 147.22,-56 141.42,-52.08"/>
+</g>
+<!-- 2 -->
+<g  class="node">
+<title>2</title>
+<ellipse fill="none" stroke="black" cx="676" cy="-104.7" rx="18" ry="18"/>
+<text text-anchor="middle" x="676" y="-101" font-family="Times,serif" font-size="14.00">2</text>
+</g>
+<!-- 7&#45;&gt;2 -->
+<g  class="edge">
+<title>7&#45;&gt;2</title>
+<path fill="none" stroke="black" d="M548.97,-80.9C573.48,-85.53 619.04,-94.13 648.15,-99.63"/>
+<polygon fill="black" stroke="black" points="647.58,-103.08 658.06,-101.5 648.88,-96.21 647.58,-103.08"/>
+<text text-anchor="middle" x="603.5" y="-100.5" font-family="Times,serif" font-size="14.00">3,7: aabca</text>
+</g>
+<!-- 8 -->
+<g  class="node">
+<title>8</title>
+<ellipse fill="none" stroke="black" cx="676" cy="-50.7" rx="18" ry="18"/>
+<text text-anchor="middle" x="676" y="-47" font-family="Times,serif" font-size="14.00">8</text>
+</g>
+<!-- 7&#45;&gt;8 -->
+<g  class="edge">
+<title>7&#45;&gt;8</title>
+<path fill="none" stroke="black" d="M548.19,-71.42C554.04,-69.35 560.75,-67.19 567,-65.7 594.22,-59.21 626.01,-55.21 648.02,-52.99"/>
+<polygon fill="black" stroke="black" points="648.35,-56.48 657.98,-52.05 647.69,-49.51 648.35,-56.48"/>
+<text text-anchor="middle" x="603.5" y="-69.5" font-family="Times,serif" font-size="14.00">6,7: ca</text>
+</g>
+</g>
+</svg> <figcaption>
             <p>Step 7: abaabca|b#</p>
         </figcaption>
 </figure>
 <h3>Step 8</h3>
 <p>The canonized reference pair to the active point is <em>(3, ε)</em> and the current character is <em>b</em>, for which state 3 has a transition. Active point and endpoint are the same.</p>
 <figure class="middle">
-    <img src="/img/ukkonens_algorithm/abaabcab-7.dot.svg"/> <figcaption>
+    <svg width="702pt" height="247pt"
+ viewBox="0.00 0.00 702.00 246.70" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g  class="graph" transform="scale(1 1) rotate(0) translate(4 242.7)">
+<title>suffixtree</title>
+<!-- ⊥ -->
+<g  class="node">
+<title>⊥</title>
+<ellipse fill="none" stroke="black" cx="18" cy="-77.7" rx="18" ry="18"/>
+<text text-anchor="middle" x="18" y="-74" font-family="Times,serif" font-size="14.00">⊥</text>
+</g>
+<!-- R -->
+<g  class="node">
+<title>R</title>
+<ellipse fill="none" stroke="black" cx="129" cy="-77.7" rx="18" ry="18"/>
+<text text-anchor="middle" x="129" y="-74" font-family="Times,serif" font-size="14.00">R</text>
+</g>
+<!-- ⊥&#45;&gt;R -->
+<g  class="edge">
+<title>⊥&#45;&gt;R</title>
+<path fill="none" stroke="black" d="M36.03,-77.7C53.29,-77.7 80.26,-77.7 100.54,-77.7"/>
+<polygon fill="black" stroke="black" points="100.73,-81.2 110.73,-77.7 100.73,-74.2 100.73,-81.2"/>
+<text text-anchor="middle" x="73.5" y="-81.5" font-family="Times,serif" font-size="14.00">0,0: *</text>
+</g>
+<!-- R&#45;&gt;⊥ -->
+<g  class="edge">
+<title>R&#45;&gt;⊥</title>
+<path fill="none" stroke="steelblue" d="M110.92,-76.53C105.22,-76.19 98.84,-75.87 93,-75.7 75.67,-75.21 71.33,-75.21 54,-75.7 51.44,-75.77 48.79,-75.88 46.13,-76"/>
+<polygon fill="steelblue" stroke="steelblue" points="45.88,-72.5 36.08,-76.53 46.25,-79.5 45.88,-72.5"/>
+</g>
+<!-- 3 -->
+<g  class="node">
+<title>3</title>
+<ellipse fill="none" stroke="black" cx="249" cy="-129.7" rx="18" ry="18"/>
+<text text-anchor="middle" x="249" y="-126" font-family="Times,serif" font-size="14.00">3</text>
+</g>
+<!-- R&#45;&gt;3 -->
+<g  class="edge">
+<title>R&#45;&gt;3</title>
+<path fill="none" stroke="black" d="M140.43,-92.09C146.71,-99.68 155.33,-108.48 165,-113.7 182.06,-122.91 203.6,-126.87 220.47,-128.55"/>
+<polygon fill="black" stroke="black" points="220.54,-132.07 230.78,-129.36 221.09,-125.09 220.54,-132.07"/>
+<text text-anchor="middle" x="189" y="-130.5" font-family="Times,serif" font-size="14.00">1,1: a</text>
+</g>
+<!-- 7 -->
+<g  class="node">
+<title>7</title>
+<ellipse fill="none" stroke="black" cx="531" cy="-77.7" rx="18" ry="18"/>
+<text text-anchor="middle" x="531" y="-74" font-family="Times,serif" font-size="14.00">7</text>
+</g>
+<!-- R&#45;&gt;7 -->
+<g  class="edge">
+<title>R&#45;&gt;7</title>
+<path fill="none" stroke="black" d="M147.19,-77.7C209.76,-77.7 425.73,-77.7 502.58,-77.7"/>
+<polygon fill="black" stroke="black" points="502.88,-81.2 512.88,-77.7 502.88,-74.2 502.88,-81.2"/>
+<text text-anchor="middle" x="317.5" y="-81.5" font-family="Times,serif" font-size="14.00">2,2: b</text>
+</g>
+<!-- 9 -->
+<g  class="node">
+<title>9</title>
+<ellipse fill="none" stroke="black" cx="249" cy="-31.7" rx="18" ry="18"/>
+<text text-anchor="middle" x="249" y="-28" font-family="Times,serif" font-size="14.00">9</text>
+</g>
+<!-- R&#45;&gt;9 -->
+<g  class="edge">
+<title>R&#45;&gt;9</title>
+<path fill="none" stroke="black" d="M142.23,-65.01C148.51,-59.2 156.6,-52.73 165,-48.7 182.52,-40.3 204.05,-36.05 220.79,-33.89"/>
+<polygon fill="black" stroke="black" points="221.46,-37.34 231.02,-32.76 220.69,-30.38 221.46,-37.34"/>
+<text text-anchor="middle" x="189" y="-52.5" font-family="Times,serif" font-size="14.00">6,7: ca</text>
+</g>
+<!-- 3&#45;&gt;R -->
+<g  class="edge">
+<title>3&#45;&gt;R</title>
+<path fill="none" stroke="steelblue" d="M232.34,-122.8C212.64,-114.12 178.59,-99.11 155.21,-88.81"/>
+<polygon fill="steelblue" stroke="steelblue" points="156.48,-85.54 145.91,-84.71 153.65,-91.95 156.48,-85.54"/>
+</g>
+<!-- 5 -->
+<g  class="node">
+<title>5</title>
+<ellipse fill="none" stroke="black" cx="386" cy="-177.7" rx="18" ry="18"/>
+<text text-anchor="middle" x="386" y="-174" font-family="Times,serif" font-size="14.00">5</text>
+</g>
+<!-- 3&#45;&gt;5 -->
+<g  class="edge">
+<title>3&#45;&gt;5</title>
+<path fill="none" stroke="black" d="M265.45,-137.83C271.46,-140.83 278.47,-144.12 285,-146.7 309.47,-156.37 338.24,-165.02 358.63,-170.71"/>
+<polygon fill="black" stroke="black" points="357.89,-174.13 368.46,-173.4 359.74,-167.38 357.89,-174.13"/>
+<text text-anchor="middle" x="317.5" y="-171.5" font-family="Times,serif" font-size="14.00">2,2: b</text>
+</g>
+<!-- 4 -->
+<g  class="node">
+<title>4</title>
+<ellipse fill="none" stroke="black" cx="386" cy="-123.7" rx="18" ry="18"/>
+<text text-anchor="middle" x="386" y="-120" font-family="Times,serif" font-size="14.00">4</text>
+</g>
+<!-- 3&#45;&gt;4 -->
+<g  class="edge">
+<title>3&#45;&gt;4</title>
+<path fill="none" stroke="black" d="M267.1,-128.94C289.9,-127.93 330.52,-126.12 357.61,-124.92"/>
+<polygon fill="black" stroke="black" points="357.78,-128.41 367.61,-124.47 357.47,-121.42 357.78,-128.41"/>
+<text text-anchor="middle" x="317.5" y="-131.5" font-family="Times,serif" font-size="14.00">4,7: abca</text>
+</g>
+<!-- 5&#45;&gt;7 -->
+<g  class="edge">
+<title>5&#45;&gt;7</title>
+<path fill="none" stroke="steelblue" d="M401.23,-167.75C426.07,-150.38 477.53,-114.39 507.32,-93.56"/>
+<polygon fill="steelblue" stroke="steelblue" points="509.63,-96.21 515.82,-87.61 505.62,-90.48 509.63,-96.21"/>
+</g>
+<!-- 1 -->
+<g  class="node">
+<title>1</title>
+<ellipse fill="none" stroke="black" cx="531" cy="-220.7" rx="18" ry="18"/>
+<text text-anchor="middle" x="531" y="-217" font-family="Times,serif" font-size="14.00">1</text>
+</g>
+<!-- 5&#45;&gt;1 -->
+<g  class="edge">
+<title>5&#45;&gt;1</title>
+<path fill="none" stroke="black" d="M402.43,-185.49C408.44,-188.33 415.44,-191.4 422,-193.7 449.12,-203.2 481.16,-210.77 503.27,-215.45"/>
+<polygon fill="black" stroke="black" points="502.75,-218.92 513.25,-217.51 504.17,-212.06 502.75,-218.92"/>
+<text text-anchor="middle" x="458.5" y="-216.5" font-family="Times,serif" font-size="14.00">3,7: aabca</text>
+</g>
+<!-- 6 -->
+<g  class="node">
+<title>6</title>
+<ellipse fill="none" stroke="black" cx="531" cy="-166.7" rx="18" ry="18"/>
+<text text-anchor="middle" x="531" y="-163" font-family="Times,serif" font-size="14.00">6</text>
+</g>
+<!-- 5&#45;&gt;6 -->
+<g  class="edge">
+<title>5&#45;&gt;6</title>
+<path fill="none" stroke="black" d="M403.97,-176.4C428.24,-174.53 473.16,-171.07 502.29,-168.83"/>
+<polygon fill="black" stroke="black" points="502.91,-172.29 512.61,-168.04 502.37,-165.32 502.91,-172.29"/>
+<text text-anchor="middle" x="458.5" y="-178.5" font-family="Times,serif" font-size="14.00">6,7: ca</text>
+</g>
+<!-- 7&#45;&gt;R -->
+<g  class="edge">
+<title>7&#45;&gt;R</title>
+<path fill="none" stroke="steelblue" d="M514.86,-69.21C471.15,-45.74 340.84,16.9 231,-4.7 199.9,-10.82 190.15,-12.41 165,-31.7 157.13,-37.74 150.12,-45.96 144.48,-53.8"/>
+<polygon fill="steelblue" stroke="steelblue" points="141.42,-52.08 138.72,-62.33 147.22,-56 141.42,-52.08"/>
+</g>
+<!-- 2 -->
+<g  class="node">
+<title>2</title>
+<ellipse fill="none" stroke="black" cx="676" cy="-104.7" rx="18" ry="18"/>
+<text text-anchor="middle" x="676" y="-101" font-family="Times,serif" font-size="14.00">2</text>
+</g>
+<!-- 7&#45;&gt;2 -->
+<g  class="edge">
+<title>7&#45;&gt;2</title>
+<path fill="none" stroke="black" d="M548.97,-80.9C573.48,-85.53 619.04,-94.13 648.15,-99.63"/>
+<polygon fill="black" stroke="black" points="647.58,-103.08 658.06,-101.5 648.88,-96.21 647.58,-103.08"/>
+<text text-anchor="middle" x="603.5" y="-100.5" font-family="Times,serif" font-size="14.00">3,7: aabca</text>
+</g>
+<!-- 8 -->
+<g  class="node">
+<title>8</title>
+<ellipse fill="none" stroke="black" cx="676" cy="-50.7" rx="18" ry="18"/>
+<text text-anchor="middle" x="676" y="-47" font-family="Times,serif" font-size="14.00">8</text>
+</g>
+<!-- 7&#45;&gt;8 -->
+<g  class="edge">
+<title>7&#45;&gt;8</title>
+<path fill="none" stroke="black" d="M548.19,-71.42C554.04,-69.35 560.75,-67.19 567,-65.7 594.22,-59.21 626.01,-55.21 648.02,-52.99"/>
+<polygon fill="black" stroke="black" points="648.35,-56.48 657.98,-52.05 647.69,-49.51 648.35,-56.48"/>
+<text text-anchor="middle" x="603.5" y="-69.5" font-family="Times,serif" font-size="14.00">6,7: ca</text>
+</g>
+</g>
+</svg> <figcaption>
             <p>Step 8: abaabcab|#</p>
         </figcaption>
 </figure>
 <h3>Step 9</h3>
 <p>The canonized reference pair to the active point is <em>(5, ε)</em> and the current character is the string terminator <em>$</em>. Because this character is unique, we have to follow the suffix links from the active point and create new states at each state on the path until we arrive at the auxiliary state, which is the end point.</p>
 <figure class="middle">
-    <img src="/img/ukkonens_algorithm/abaabcab-9.dot.svg"
-         alt="Suffix tree for 'abaabcab'"/> <figcaption>
+    <svg width="786pt" height="321pt"
+ viewBox="0.00 0.00 786.00 321.08" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g  class="graph" transform="scale(1 1) rotate(0) translate(4 317.08)">
+<title>suffixtree</title>
+<!-- ⊥ -->
+<g  class="node">
+<title>⊥</title>
+<ellipse fill="none" stroke="black" cx="18" cy="-109.08" rx="18" ry="18"/>
+<text text-anchor="middle" x="18" y="-105.38" font-family="Times,serif" font-size="14.00">⊥</text>
+</g>
+<!-- R -->
+<g  class="node">
+<title>R</title>
+<ellipse fill="none" stroke="black" cx="129" cy="-109.08" rx="18" ry="18"/>
+<text text-anchor="middle" x="129" y="-105.38" font-family="Times,serif" font-size="14.00">R</text>
+</g>
+<!-- ⊥&#45;&gt;R -->
+<g  class="edge">
+<title>⊥&#45;&gt;R</title>
+<path fill="none" stroke="black" d="M36.03,-109.08C53.29,-109.08 80.26,-109.08 100.54,-109.08"/>
+<polygon fill="black" stroke="black" points="100.73,-112.58 110.73,-109.08 100.73,-105.58 100.73,-112.58"/>
+<text text-anchor="middle" x="73.5" y="-112.88" font-family="Times,serif" font-size="14.00">0,0: *</text>
+</g>
+<!-- R&#45;&gt;⊥ -->
+<g  class="edge">
+<title>R&#45;&gt;⊥</title>
+<path fill="none" stroke="steelblue" d="M110.92,-107.9C105.22,-107.56 98.84,-107.24 93,-107.08 75.67,-106.58 71.33,-106.58 54,-107.08 51.44,-107.15 48.79,-107.25 46.13,-107.37"/>
+<polygon fill="steelblue" stroke="steelblue" points="45.88,-103.88 36.08,-107.9 46.25,-110.87 45.88,-103.88"/>
+</g>
+<!-- 3 -->
+<g  class="node">
+<title>3</title>
+<ellipse fill="none" stroke="black" cx="270" cy="-189.08" rx="18" ry="18"/>
+<text text-anchor="middle" x="270" y="-185.38" font-family="Times,serif" font-size="14.00">3</text>
+</g>
+<!-- R&#45;&gt;3 -->
+<g  class="edge">
+<title>R&#45;&gt;3</title>
+<path fill="none" stroke="black" d="M135.65,-126C141.05,-139.5 150.53,-157.8 165,-168.08 187.46,-184.02 219.16,-188.5 241.65,-189.47"/>
+<polygon fill="black" stroke="black" points="241.79,-192.98 251.87,-189.7 241.95,-185.98 241.79,-192.98"/>
+<text text-anchor="middle" x="199.5" y="-191.88" font-family="Times,serif" font-size="14.00">1,1: a</text>
+</g>
+<!-- 7 -->
+<g  class="node">
+<title>7</title>
+<ellipse fill="none" stroke="black" cx="594" cy="-132.08" rx="18" ry="18"/>
+<text text-anchor="middle" x="594" y="-128.38" font-family="Times,serif" font-size="14.00">7</text>
+</g>
+<!-- R&#45;&gt;7 -->
+<g  class="edge">
+<title>R&#45;&gt;7</title>
+<path fill="none" stroke="black" d="M146.58,-114.13C152.36,-115.68 158.91,-117.2 165,-118.08 314.89,-139.53 497.17,-135.71 565.44,-133.25"/>
+<polygon fill="black" stroke="black" points="565.9,-136.73 575.76,-132.86 565.63,-129.74 565.9,-136.73"/>
+<text text-anchor="middle" x="349" y="-137.88" font-family="Times,serif" font-size="14.00">2,2: b</text>
+</g>
+<!-- 9 -->
+<g  class="node">
+<title>9</title>
+<ellipse fill="none" stroke="black" cx="270" cy="-86.08" rx="18" ry="18"/>
+<text text-anchor="middle" x="270" y="-82.38" font-family="Times,serif" font-size="14.00">9</text>
+</g>
+<!-- R&#45;&gt;9 -->
+<g  class="edge">
+<title>R&#45;&gt;9</title>
+<path fill="none" stroke="black" d="M147.09,-106.12C152.78,-105.14 159.16,-104.05 165,-103.08 191.12,-98.7 220.96,-93.84 241.95,-90.44"/>
+<polygon fill="black" stroke="black" points="242.75,-93.85 252.06,-88.8 241.63,-86.94 242.75,-93.85"/>
+<text text-anchor="middle" x="199.5" y="-106.88" font-family="Times,serif" font-size="14.00">6,9: cab#</text>
+</g>
+<!-- 12 -->
+<g  class="node">
+<title>12</title>
+<ellipse fill="none" stroke="black" cx="270" cy="-32.08" rx="18" ry="18"/>
+<text text-anchor="middle" x="270" y="-28.38" font-family="Times,serif" font-size="14.00">12</text>
+</g>
+<!-- R&#45;&gt;12 -->
+<g  class="edge">
+<title>R&#45;&gt;12</title>
+<path fill="none" stroke="black" d="M140.84,-95.36C147.24,-87.98 155.86,-79.16 165,-73.08 189.26,-56.92 220.86,-45.6 242.83,-39.01"/>
+<polygon fill="black" stroke="black" points="243.83,-42.37 252.48,-36.24 241.9,-35.64 243.83,-42.37"/>
+<text text-anchor="middle" x="199.5" y="-76.88" font-family="Times,serif" font-size="14.00">9,9: #</text>
+</g>
+<!-- 3&#45;&gt;R -->
+<g  class="edge">
+<title>3&#45;&gt;R</title>
+<path fill="none" stroke="steelblue" d="M253.81,-180.89C247.71,-177.7 240.58,-174.1 234,-171.08 203.92,-157.27 192.72,-161.16 165,-143.08 159.23,-139.31 153.59,-134.5 148.58,-129.69"/>
+<polygon fill="steelblue" stroke="steelblue" points="150.81,-126.97 141.3,-122.29 145.82,-131.88 150.81,-126.97"/>
+</g>
+<!-- 5 -->
+<g  class="node">
+<title>5</title>
+<ellipse fill="none" stroke="black" cx="428" cy="-241.08" rx="18" ry="18"/>
+<text text-anchor="middle" x="428" y="-237.38" font-family="Times,serif" font-size="14.00">5</text>
+</g>
+<!-- 3&#45;&gt;5 -->
+<g  class="edge">
+<title>3&#45;&gt;5</title>
+<path fill="none" stroke="black" d="M286.02,-197.64C292.1,-200.88 299.26,-204.43 306,-207.08 337.63,-219.51 375.56,-229.4 400.42,-235.24"/>
+<polygon fill="black" stroke="black" points="399.68,-238.66 410.21,-237.49 401.25,-231.84 399.68,-238.66"/>
+<text text-anchor="middle" x="349" y="-236.88" font-family="Times,serif" font-size="14.00">2,2: b</text>
+</g>
+<!-- 4 -->
+<g  class="node">
+<title>4</title>
+<ellipse fill="none" stroke="black" cx="428" cy="-187.08" rx="18" ry="18"/>
+<text text-anchor="middle" x="428" y="-183.38" font-family="Times,serif" font-size="14.00">4</text>
+</g>
+<!-- 3&#45;&gt;4 -->
+<g  class="edge">
+<title>3&#45;&gt;4</title>
+<path fill="none" stroke="black" d="M288.29,-188.85C315.23,-188.51 367.46,-187.84 399.58,-187.43"/>
+<polygon fill="black" stroke="black" points="399.68,-190.93 409.63,-187.3 399.59,-183.93 399.68,-190.93"/>
+<text text-anchor="middle" x="349" y="-191.88" font-family="Times,serif" font-size="14.00">4,9: abcab#</text>
+</g>
+<!-- 5&#45;&gt;7 -->
+<g  class="edge">
+<title>5&#45;&gt;7</title>
+<path fill="none" stroke="steelblue" d="M438.51,-226.36C447.69,-212.3 460.68,-192.85 464,-190.08 480.48,-176.31 534.66,-154.28 567.33,-141.7"/>
+<polygon fill="steelblue" stroke="steelblue" points="568.62,-144.96 576.71,-138.12 566.12,-138.42 568.62,-144.96"/>
+</g>
+<!-- 1 -->
+<g  class="node">
+<title>1</title>
+<ellipse fill="none" stroke="black" cx="594" cy="-295.08" rx="18" ry="18"/>
+<text text-anchor="middle" x="594" y="-291.38" font-family="Times,serif" font-size="14.00">1</text>
+</g>
+<!-- 5&#45;&gt;1 -->
+<g  class="edge">
+<title>5&#45;&gt;1</title>
+<path fill="none" stroke="black" d="M443.96,-250.19C450.03,-253.62 457.2,-257.35 464,-260.08 498.08,-273.73 539.3,-283.88 565.83,-289.63"/>
+<polygon fill="black" stroke="black" points="565.39,-293.12 575.89,-291.76 566.83,-286.27 565.39,-293.12"/>
+<text text-anchor="middle" x="511" y="-290.88" font-family="Times,serif" font-size="14.00">3,9: aabcab#</text>
+</g>
+<!-- 6 -->
+<g  class="node">
+<title>6</title>
+<ellipse fill="none" stroke="black" cx="594" cy="-241.08" rx="18" ry="18"/>
+<text text-anchor="middle" x="594" y="-237.38" font-family="Times,serif" font-size="14.00">6</text>
+</g>
+<!-- 5&#45;&gt;6 -->
+<g  class="edge">
+<title>5&#45;&gt;6</title>
+<path fill="none" stroke="black" d="M446.24,-241.08C474.74,-241.08 531.88,-241.08 565.84,-241.08"/>
+<polygon fill="black" stroke="black" points="565.99,-244.58 575.99,-241.08 565.99,-237.58 565.99,-244.58"/>
+<text text-anchor="middle" x="511" y="-244.88" font-family="Times,serif" font-size="14.00">6,9: cab#</text>
+</g>
+<!-- 10 -->
+<g  class="node">
+<title>10</title>
+<ellipse fill="none" stroke="black" cx="594" cy="-187.08" rx="18" ry="18"/>
+<text text-anchor="middle" x="594" y="-183.38" font-family="Times,serif" font-size="14.00">10</text>
+</g>
+<!-- 5&#45;&gt;10 -->
+<g  class="edge">
+<title>5&#45;&gt;10</title>
+<path fill="none" stroke="black" d="M443.96,-231.96C450.03,-228.53 457.2,-224.8 464,-222.08 498.08,-208.42 539.3,-198.28 565.83,-192.52"/>
+<polygon fill="black" stroke="black" points="566.83,-195.88 575.89,-190.39 565.39,-189.03 566.83,-195.88"/>
+<text text-anchor="middle" x="511" y="-225.88" font-family="Times,serif" font-size="14.00">9,9: #</text>
+</g>
+<!-- 7&#45;&gt;R -->
+<g  class="edge">
+<title>7&#45;&gt;R</title>
+<path fill="none" stroke="steelblue" d="M578.13,-123.36C535.07,-98.69 405.84,-28.63 288,-5.08 232.38,6.04 206.89,-0.84 165,-39.08 152.28,-50.69 143.58,-67.96 138.03,-82.44"/>
+<polygon fill="steelblue" stroke="steelblue" points="134.71,-81.32 134.68,-91.92 141.31,-83.65 134.71,-81.32"/>
+</g>
+<!-- 2 -->
+<g  class="node">
+<title>2</title>
+<ellipse fill="none" stroke="black" cx="760" cy="-186.08" rx="18" ry="18"/>
+<text text-anchor="middle" x="760" y="-182.38" font-family="Times,serif" font-size="14.00">2</text>
+</g>
+<!-- 7&#45;&gt;2 -->
+<g  class="edge">
+<title>7&#45;&gt;2</title>
+<path fill="none" stroke="black" d="M609.96,-141.19C616.03,-144.62 623.2,-148.35 630,-151.08 664.08,-164.73 705.3,-174.88 731.83,-180.63"/>
+<polygon fill="black" stroke="black" points="731.39,-184.12 741.89,-182.76 732.83,-177.27 731.39,-184.12"/>
+<text text-anchor="middle" x="677" y="-181.88" font-family="Times,serif" font-size="14.00">3,9: aabcab#</text>
+</g>
+<!-- 8 -->
+<g  class="node">
+<title>8</title>
+<ellipse fill="none" stroke="black" cx="760" cy="-132.08" rx="18" ry="18"/>
+<text text-anchor="middle" x="760" y="-128.38" font-family="Times,serif" font-size="14.00">8</text>
+</g>
+<!-- 7&#45;&gt;8 -->
+<g  class="edge">
+<title>7&#45;&gt;8</title>
+<path fill="none" stroke="black" d="M612.24,-132.08C640.74,-132.08 697.88,-132.08 731.84,-132.08"/>
+<polygon fill="black" stroke="black" points="731.99,-135.58 741.99,-132.08 731.99,-128.58 731.99,-135.58"/>
+<text text-anchor="middle" x="677" y="-135.88" font-family="Times,serif" font-size="14.00">6,9: cab#</text>
+</g>
+<!-- 11 -->
+<g  class="node">
+<title>11</title>
+<ellipse fill="none" stroke="black" cx="760" cy="-78.08" rx="18" ry="18"/>
+<text text-anchor="middle" x="760" y="-74.38" font-family="Times,serif" font-size="14.00">11</text>
+</g>
+<!-- 7&#45;&gt;11 -->
+<g  class="edge">
+<title>7&#45;&gt;11</title>
+<path fill="none" stroke="black" d="M609.96,-122.96C616.03,-119.53 623.2,-115.8 630,-113.08 664.08,-99.42 705.3,-89.28 731.83,-83.52"/>
+<polygon fill="black" stroke="black" points="732.83,-86.88 741.89,-81.39 731.39,-80.03 732.83,-86.88"/>
+<text text-anchor="middle" x="677" y="-116.88" font-family="Times,serif" font-size="14.00">9,9: #</text>
+</g>
+</g>
+</svg> <figcaption>
             <p>Step 9: abaabcab#|</p>
         </figcaption>
 </figure>

@@ -15,6 +15,10 @@ blockquote {
     font-size: 16px;
 }
 
+svg {
+    fill: currentColor;
+}
+
 /* Footer */
 
 #site-footer {
@@ -65,11 +69,6 @@ ul.right-menu {
 li.menu-item > a {
     text-decoration: none;
     font-weight: bold;
-}
-
-img.icon {
-    height: 32px;
-    width: auto;
 }
 
 /* Headlines */
@@ -129,6 +128,14 @@ figure figcaption {
 }
 
 img {
+    display: block;
+    max-width: 100%;
+    height: auto;
+    margin: auto;
+    border-radius: 4px;
+}
+
+figure.middle svg {
     display: block;
     max-width: 100%;
     height: auto;
