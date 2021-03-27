@@ -1,6 +1,7 @@
 main {
     display: flex;
     flex-direction: column;
+    text-align: left;
 }
 
 a.post {
