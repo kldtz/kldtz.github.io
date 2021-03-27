@@ -3,7 +3,7 @@ g.note.transparent:hover {
 }
 
 g.note {
-    fill: transparent;
+    fill: white;
     stroke-width: 1px;
     stroke: black;
 }
@@ -24,7 +24,7 @@ g.note.transparent {
 
 g.note.visible {
     opacity: 1;
-    fill: transparent;
+    fill: white;
 }
 
 g.note.blue {
