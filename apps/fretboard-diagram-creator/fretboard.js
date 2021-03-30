@@ -478,7 +478,7 @@ svgButton.addEventListener('click', () => {
 const PROPERTIES = ["fill", "stroke", "stroke-width", "text-anchor", "dominant-baseline"]
 
 function inlineCSS(svg) {
-    const svgElements = document.querySelectorAll("svg *");
+    const svgElements = document.querySelectorAll("#fretboard *");
     const clonedSVG = svg.cloneNode(deep = true);
     const clonedElements = clonedSVG.querySelectorAll("*");
     for (let i = 0; i < svgElements.length; i++) {
