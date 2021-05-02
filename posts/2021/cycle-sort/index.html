@@ -108,7 +108,7 @@ cumulative: [0, 2, 3, 6]
 </code></pre>
 <p>The cumulative histogram in this example tells us that the value <code>1</code> first appears at index <code>2</code> in the sorted array, value <code>3</code> first appears in sixth position etc.</p>
 <p>Like in the special case, the algorithm moves over each element from left to right, but the target position does not simply equal the element's value, but is retrieved from the cumulative histogram. Unlike in the special case, we only enter a cycle if the target position is less than the current element's position, so we always move the first element of a cycle to a lower position. This avoids unnecessary writes as I'll show in the example run below. Whenever we encounter an element that is in its final position, we need to update the position for this value in the auxiliary data structure (which then no longer is a cumulative histogram), so that it always points to the next valid position for each value. Here is the Rust implementation:</p>
-<pre><code class="language-rust">pub fn general_cycle_sort(xs: &amp;mut [usize], max_val: usize) -&gt; usize {
+<pre><code class="language-rust">pub fn general_cycle_sort(xs: &amp;mut [usize], max_val: usize) {
     let mut aux = cumulative_histogram(&amp;xs, max_val);
     for i in 0..xs.len() {
         let mut value = xs[i];
