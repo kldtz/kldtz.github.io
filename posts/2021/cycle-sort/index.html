@@ -46,23 +46,27 @@
 <h2>Cycling</h2>
 <p>Any array we might want to sort is simply a permutation of the sorted array. For example, the array [3, 2, 7, 6, 1, 8, 5, 4, 9] is obtained by the following permutation:</p>
 <style>
-circle {
+svg.cycle circle {
     fill: none;
     stroke: black;
 }
 
-path {
+svg.cycle path {
     stroke: black;
     fill: none;
 }
 
-text {
+svg.cycle text {
     stroke: none;
+    fill: black;
+}
+
+svg.cycle marker > path {
     fill: black;
 }
 </style>
 <figure class="middle">
-<svg height="200" width="460" >
+<svg class="cycle" height="200" width="460" >
 <marker id="arrow" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="8" markerHeight="8" orient="auto">
       <path d="M 0 0 L 10 5 L 0 10 z"></path>
 </marker>
@@ -71,7 +75,7 @@ text {
 <p>We can decompose this permutation into two cycles:  <code>1</code> moves in fifth, <code>5</code> in seventh, <code>7</code> in third, and 3 in first position, which closes the first cycle (1, 5, 7, 3); the second cycle is (4, 8, 6). These cyclic permutations are disjoint and thus can be performed in any order. Positions <code>2</code> and <code>9</code> remain unchanged.</p>
 <p>To get back to the sorted array, we can simply reverse the permutation by walking each cycle backwards. I recycled the diagram above, that is, I permuted the elements and reversed the arrows.</p>
 <figure class="middle">
-<svg id="graph2" height="200" width="460">
+<svg class="cycle" height="200" width="460">
 <marker id="arrow" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="8" markerHeight="8" orient="auto">
       <path d="M 0 0 L 10 5 L 0 10 z"></path>
 </marker>
