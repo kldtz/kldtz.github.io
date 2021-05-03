@@ -132,19 +132,19 @@ cumulative: [0, 2, 3, 6]
 }
 </code></pre>
 <p>The following table traces the values of some variables during a sorting run on the example array above. I leave out commas and spaces in the arrays since all numbers are single digits, the results of write operations in the input and the auxiliary array are highlighted.</p>
-<table><thead><tr><th>i</th><th>value</th><th>target</th><th>aux</th><th>xs</th></tr></thead><tbody>
-<tr><td>-</td><td>-</td><td>-</td><td>[0236]</td><td>[03222310]</td></tr>
-<tr><td>0</td><td>0</td><td>0</td><td>[<span class="changed">1</span>236]</td><td></td></tr>
-<tr><td>1</td><td>3</td><td>6</td><td></td><td></td></tr>
-<tr><td>2</td><td>2</td><td>3</td><td></td><td></td></tr>
-<tr><td>3</td><td>2</td><td>3</td><td>[12<span class="changed">4</span>6]</td><td></td></tr>
-<tr><td>4</td><td>2</td><td>4</td><td>[12<span class="changed">5</span>6]</td><td></td></tr>
-<tr><td>5</td><td>3</td><td>6</td><td></td><td></td></tr>
-<tr><td>6</td><td>1</td><td>2</td><td>[1<span class="changed">3</span>56]</td><td>[03<span class="changed">1</span>22310]</td></tr>
-<tr><td>6</td><td>2</td><td>5</td><td>[13<span class="changed">6</span>6]</td><td>[03122<span class="changed">2</span>10]</td></tr>
-<tr><td>6</td><td>3</td><td>6</td><td>[136<span class="changed">7</span>]</td><td>[031222<span class="changed">3</span>0]</td></tr>
-<tr><td>7</td><td>0</td><td>1</td><td>[<span class="changed">2</span>367]</td><td>[0<span class="changed">0</span>122230]</td></tr>
-<tr><td>7</td><td>3</td><td>7</td><td>[236<span class="changed">8</span>]</td><td>[0012223<span class="changed">3</span>]</td></tr>
+<table><thead><tr><th align="center">i</th><th align="center">value</th><th align="center">target</th><th align="center">aux</th><th align="center">xs</th></tr></thead><tbody>
+<tr><td align="center">-</td><td align="center">-</td><td align="center">-</td><td align="center">[0236]</td><td align="center">[03222310]</td></tr>
+<tr><td align="center">0</td><td align="center">0</td><td align="center">0</td><td align="center">[<span class="changed">1</span>236]</td><td align="center"></td></tr>
+<tr><td align="center">1</td><td align="center">3</td><td align="center">6</td><td align="center"></td><td align="center"></td></tr>
+<tr><td align="center">2</td><td align="center">2</td><td align="center">3</td><td align="center"></td><td align="center"></td></tr>
+<tr><td align="center">3</td><td align="center">2</td><td align="center">3</td><td align="center">[12<span class="changed">4</span>6]</td><td align="center"></td></tr>
+<tr><td align="center">4</td><td align="center">2</td><td align="center">4</td><td align="center">[12<span class="changed">5</span>6]</td><td align="center"></td></tr>
+<tr><td align="center">5</td><td align="center">3</td><td align="center">6</td><td align="center"></td><td align="center"></td></tr>
+<tr><td align="center">6</td><td align="center">1</td><td align="center">2</td><td align="center">[1<span class="changed">3</span>56]</td><td align="center">[03<span class="changed">1</span>22310]</td></tr>
+<tr><td align="center">6</td><td align="center">2</td><td align="center">5</td><td align="center">[13<span class="changed">6</span>6]</td><td align="center">[03122<span class="changed">2</span>10]</td></tr>
+<tr><td align="center">6</td><td align="center">3</td><td align="center">6</td><td align="center">[136<span class="changed">7</span>]</td><td align="center">[031222<span class="changed">3</span>0]</td></tr>
+<tr><td align="center">7</td><td align="center">0</td><td align="center">1</td><td align="center">[<span class="changed">2</span>367]</td><td align="center">[0<span class="changed">0</span>122230]</td></tr>
+<tr><td align="center">7</td><td align="center">3</td><td align="center">7</td><td align="center">[236<span class="changed">8</span>]</td><td align="center">[0012223<span class="changed">3</span>]</td></tr>
 </tbody></table>
 <p>In <em>i=0,3,4</em> the value is already found in the right position and we only update the auxiliary data structure. In <em>i=6</em> we have <em>i &gt; target</em> for the first time and we write the elements of this cycle into their final positions until <em>target == i</em>. In <em>i=7</em> we detect the second cycle and move the remaining elements. If we would start moving the elements of the first cycle in <em>i=2</em> (where <em>i &lt; target</em>), we would have to shift all elements of value <em>2</em> by one position, resulting in unnecessary writes to the input array.</p>
 <p>The algorithm for the general case is very similar to <a href="https://en.wikipedia.org/wiki/Counting_sort">counting sort</a>, but it works <em>in-place</em>, avoiding the allocation of an additional output array. A disadvantage compared to counting sort is that cycle sort is <em>unstable</em>.</p>
