@@ -68,7 +68,7 @@ span.changed {
 </style>
 <p>From abstract algebra we know that permutations are either the identity, a single <a href="https://en.wikipedia.org/wiki/Cyclic_permutation">cycle</a>, or a product of disjoint cycles. Haddon (1990) used this insight for a simple sorting algorithm that works with the theoretical minimum of writes.</p>
 <h2>Cycling</h2>
-<p>Any array we might want to sort is simply a permutation of the sorted array. For example, the array [3, 2, 7, 6, 1, 8, 5, 4, 9] is obtained by the following permutation:</p>
+<p>Any array we might want to sort is just a permutation of the sorted array. For example, the array [3, 2, 7, 6, 1, 8, 5, 4, 9] is obtained by the following permutation:</p>
 <figure class="middle">
 <svg class="cycle" height="200" width="460" >
 <marker id="arrow" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="8" markerHeight="8" orient="auto">
@@ -131,23 +131,21 @@ cumulative: [0, 2, 3, 6]
     }
 }
 </code></pre>
-<p>And this is a sample run with some printouts for the input array above (I leave out commas and spaces in the arrays since all numbers are single digits, the results of write operations in the input and the auxiliary array are highlighted):</p>
-<p><strong>Input:</strong> [03222310], <strong>aux:</strong> [0236]</p>
-<ul>
-<li>[03222310]: i=0, value=0, target=0, aux=[<span class="changed">1</span>236]</li>
-<li>[03222310]: i=1, value=3, target=6</li>
-<li>[03222310]: i=2, value=2, target=3</li>
-<li>[03222310]: i=3, value=2, target=3, aux=[12<span class="changed">4</span>6]</li>
-<li>[03222310]: i=4, value=2, target=4, aux=[12<span class="changed">5</span>6]</li>
-<li>[03222310]: i=5, value=3, target=6</li>
-<li>[03222310]: i=6, value=1, target=2, aux=[1<span class="changed">3</span>56]</li>
-<li>[03<span class="changed">1</span>22310]: i=6, value=2, target=5, aux=[13<span class="changed">6</span>6]</li>
-<li>[03122<span class="changed">2</span>10]: i=6, value=3, target=6, aux=[136<span class="changed">7</span>]</li>
-<li>[031222<span class="changed">3</span>0]: i=6</li>
-<li>[03122230]: i=7, value=0, target=1, aux=[<span class="changed">2</span>367]</li>
-<li>[0<span class="changed">0</span>122230]: i=7, value=3, target=7, aux=[236<span class="changed">8</span>]</li>
-<li>[0012223<span class="changed">3</span>]: i=7</li>
-</ul>
+<p>The following table traces the values of some variables during a sorting run on the example array above. I leave out commas and spaces in the arrays since all numbers are single digits, the results of write operations in the input and the auxiliary array are highlighted.</p>
+<table><thead><tr><th>i</th><th>value</th><th>target</th><th>aux</th><th>xs</th></tr></thead><tbody>
+<tr><td>-</td><td>-</td><td>-</td><td>[0236]</td><td>[03222310]</td></tr>
+<tr><td>0</td><td>0</td><td>0</td><td>[<span class="changed">1</span>236]</td><td></td></tr>
+<tr><td>1</td><td>3</td><td>6</td><td></td><td></td></tr>
+<tr><td>2</td><td>2</td><td>3</td><td></td><td></td></tr>
+<tr><td>3</td><td>2</td><td>3</td><td>[12<span class="changed">4</span>6]</td><td></td></tr>
+<tr><td>4</td><td>2</td><td>4</td><td>[12<span class="changed">5</span>6]</td><td></td></tr>
+<tr><td>5</td><td>3</td><td>6</td><td></td><td></td></tr>
+<tr><td>6</td><td>1</td><td>2</td><td>[1<span class="changed">3</span>56]</td><td>[03<span class="changed">1</span>22310]</td></tr>
+<tr><td>6</td><td>2</td><td>5</td><td>[13<span class="changed">6</span>6]</td><td>[03122<span class="changed">2</span>10]</td></tr>
+<tr><td>6</td><td>3</td><td>6</td><td>[136<span class="changed">7</span>]</td><td>[031222<span class="changed">3</span>0]</td></tr>
+<tr><td>7</td><td>0</td><td>1</td><td>[<span class="changed">2</span>367]</td><td>[0<span class="changed">0</span>122230]</td></tr>
+<tr><td>7</td><td>3</td><td>7</td><td>[236<span class="changed">8</span>]</td><td>[0012223<span class="changed">3</span>]</td></tr>
+</tbody></table>
 <p>In <em>i=0,3,4</em> the value is already found in the right position and we only update the auxiliary data structure. In <em>i=6</em> we have <em>i &gt; target</em> for the first time and we write the elements of this cycle into their final positions until <em>target == i</em>. In <em>i=7</em> we detect the second cycle and move the remaining elements. If we would start moving the elements of the first cycle in <em>i=2</em> (where <em>i &lt; target</em>), we would have to shift all elements of value <em>2</em> by one position, resulting in unnecessary writes to the input array.</p>
 <p>The algorithm for the general case is very similar to <a href="https://en.wikipedia.org/wiki/Counting_sort">counting sort</a>, but it works <em>in-place</em>, avoiding the allocation of an additional output array. A disadvantage compared to counting sort is that cycle sort is <em>unstable</em>.</p>
 <p>For simplicity, this post assumed natural numbers as input. This easily extends to elements that have a natural number as a key, see Haddon (1990). For input types with a hash function, an efficient variant can be implemented that sorts the elements according to their hashes. Alternatively, in each iteration we can count the number of elements less or equal to the current element to find its position in the array, resulting in an algorithm with <em>O(n<sup>2</sup>)</em> runtime.</p>
