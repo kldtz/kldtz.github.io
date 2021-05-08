@@ -1,4 +1,4 @@
-d3.json("/data/top-down-tree/a-a-b-b-a-b-lexicographic.json").then(function (data) {
+d3.json("./data/top-down-tree/a-a-b-b-a-b-lexicographic.json").then(function (data) {
     drawTree(data);
 });
 

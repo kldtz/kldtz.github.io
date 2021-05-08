@@ -1,6 +1,6 @@
 
-drawDiagram("/data/top-down-dag/dfs-lexicographic.json", "static-graph", function(_) {});
-drawDiagram("/data/top-down-dag/dfs-lexicographic-reverse.json", "dynamic-graph", function(_) {});
+drawDiagram("./data/top-down-dag/dfs-lexicographic.json", "static-graph", function(_) {});
+drawDiagram("./data/top-down-dag/dfs-lexicographic-reverse.json", "dynamic-graph", function(_) {});
 
 d3.select("#dfs").on("click", dfs);
 d3.select("#bfs").on("click", bfs);
@@ -8,12 +8,12 @@ d3.select("#bfs").on("click", bfs);
 
 function dfs() {
     d3.selectAll("g").interrupt();
-    drawDiagram("/data/top-down-dag/dfs-lexicographic-reverse.json", "dynamic-graph", uncoverEdges);
+    drawDiagram("./data/top-down-dag/dfs-lexicographic-reverse.json", "dynamic-graph", uncoverEdges);
 }
 
 function bfs() {
     d3.selectAll("g").interrupt();
-    drawDiagram("/data/top-down-dag/bfs-lexicographic-reverse.json", "dynamic-graph", uncoverEdges);
+    drawDiagram("./data/top-down-dag/bfs-lexicographic-reverse.json", "dynamic-graph", uncoverEdges);
 }
 
 

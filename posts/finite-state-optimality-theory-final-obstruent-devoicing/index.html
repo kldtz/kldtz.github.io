@@ -68,7 +68,7 @@
 </code></pre>
 <p>The first rule creates all possible deletions and substitutions. The three dots <code>...</code> are a backreference to the input. If <code>S</code> is the set of available segments, for a single input segment we get <code>|S| + 1</code> outputs, one for each segment and one with empty square brackets. The second rule just adds square brackets around its input (identity case). The third rule produces an infinite number of insertions. Square brackets with two dots <code>[..]</code> denote an empty left-hand side (<em>nothing</em> is replaced by something).</p>
 <figure class="middle">
-    <img src="/img/gerdemann-hulden-2012/gen.png"
+    <img src="diagrams/gen.png"
          alt="Generator"/> <figcaption>
             <p>Generator automaton as defined by the three rules above.</p>
         </figcaption>
@@ -152,7 +152,7 @@ def OTGrammar S+ .o. Eval(Eval(Eval(Eval(Eval(Eval(
 </code></pre>
 <p><code>S+</code> restricts the input to non-empty strings over the segments defined above. After compiling the whole grammar, <em>foma</em> outputs this nice graphical representation via the <code>view</code> command.</p>
 <figure class="middle">
-    <img src="/img/gerdemann-hulden-2012/ot-fst-grammar.png"
+    <img src="diagrams/ot-fst-grammar.png"
          alt="Generator"/> <figcaption>
             <p>FST for final obstruent devoicing analysis in OT.</p>
         </figcaption>
@@ -164,7 +164,7 @@ RuleGrammar S+ .o. Rule;
 </code></pre>
 <p>This transducer is weakly equivalent to the OT transducer (produces the same language), but is structurally different, as can be seen from its graphical representation.</p>
 <figure class="middle">
-    <img src="/img/gerdemann-hulden-2012/rule-grammar.png"
+    <img src="diagrams/rule-grammar.png"
          alt="Generator"/> <figcaption>
             <p>FST for final obstruent devoicing from phonological rules.</p>
         </figcaption>

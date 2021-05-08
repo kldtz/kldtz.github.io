@@ -81,7 +81,7 @@
 </tbody></table>
 <p>We see that these ten lemmas alone cover almost 16% of all tokens in the corpus and that most of them are <a href="https://en.wikipedia.org/wiki/Function_word">function words</a>. To get a better overview of the frequency distribution we can plot the absolute frequency of the 10,000 most frequent lemmas against their rank.</p>
 <figure class="middle">
-    <img src="/img/absolute_lemma_frequencies.png"
+    <img src="plots/absolute_lemma_frequencies.png"
          alt="Log-log plot of absolute lemma frequency against rank"/> <figcaption>
             <p>Fig. 1: Log-log plot of actual (blue) and predicted (orange) absolute lemma frequency against rank</p>
         </figcaption>
@@ -94,7 +94,7 @@ $$f(r) = Cr^{-1} $$
 <h3>Estimating the Necessary Passive Vocabulary</h3>
 <p>Based on Fig. 1 we can expect to cover a large share of tokens with only a small number of highly frequent lemmas. To see how our text understanding (or at least token coverage<a id="fn-5"></a><sup><a href="#5">5</a></sup>) varies as a function of the number of most frequent words we know, let's have a look at the cumulative relative frequencies of the 10,000 most frequent lemmas:</p>
 <figure class="middle">
-    <img src="/img/cumulative-relative-freq.png"
+    <img src="plots/cumulative-relative-freq.png"
          alt="Cumulative relative token frequency against rank"/> <figcaption>
             <p>Fig.&nbsp;2: Cumulative relative token frequency against rank</p>
         </figcaption>

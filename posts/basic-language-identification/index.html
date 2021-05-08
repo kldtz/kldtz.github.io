@@ -158,7 +158,7 @@ def iterate_paths(root):
 <p>Most wrong predictions are in the first column (Danish), almost all confusions are below the main diagonal of the matrix. The distribution we see here is mostly an artifact of our tie-breaking strategy: if the text to be classified does not contain any of the previously collected most frequent words, we have a trivial tie between all available languages and the algorithm predicts the first element from our list of lexicographically sorted ISO 639-1 codes (da). In general, if we have a tie between a group of languages, the language whose ISO code appears first in the alphabet is predicted, e.g. Spanish (es) vs. French (fr) or Italian (it).</p>
 <p>Lastly, let's have a look at the influence of text length on accuracy. In the following diagram, the accuracy of both models (blue and orange bars) is plotted for different text lengths in characters. Text lengths are binned into 50-character intervals (except for the first interval, which is shorter, and the last interval, which is much longer). The green bars indicate the number of test instances per bin.</p>
 <figure class="middle">
-    <img src="/img/lang-id-length-effect.png"
+    <img src="plots/lang-id-length-effect.png"
          alt="Effect of sentence length on language identification accuracy"/> 
          <figcaption>
             <p>Effect of sentence length on language identification accuracy</p>
