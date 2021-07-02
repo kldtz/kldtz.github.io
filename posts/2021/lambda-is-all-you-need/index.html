@@ -109,7 +109,7 @@ ARABIC(SUCC(SUCC(ZERO))) # 2
 <pre><code class="language-Python">Y = lambda le: (lambda f: f(f)) (lambda f: le(lambda x: f(f)(x)))
 </code></pre>
 <p>I won't try to explain it here, because a single sentence wouldn't be enough, but I think the <em>The Little Schemer</em> does a good job at that.</p>
-<p>Now we define the function that will fill <code>le</code>. It takes a function <code>length</code> as argument and produces a function that takes a list and evaluates to <code>ZERO</code> if the list is <code>NIL</code> or the successor of <code>length</code> applied to <code>CDR(l)</code>. The function <code>length</code> will be supplied by the Y combinator in terms of <code>LENGTH</code> itself. The definition is quite long, so I adapt a more Lisp-like syntax.</p>
+<p>Now we define the function that will fill <code>le</code>. It takes a function <code>length</code> as argument and produces a function that takes a list and evaluates to <code>ZERO</code> if the list is <code>NIL</code> or the successor of <code>length</code> applied to <code>CDR(l)</code>. The function <code>length</code> will be supplied by the Y combinator in terms of <code>LENGTH</code> itself. The definition is quite long, so I adopt a more Lispy indentation style.</p>
 <pre><code class="language-Python">LENGTH = (lambda length: 
            (lambda l: 
              (IFELSE (ISNIL (l)) 
