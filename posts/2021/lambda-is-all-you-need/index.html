@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    
+    <meta name="description" content="Programming in lambda calculus using Python">
+    
+    <title>Lambda Is All You Need</title>
+    <link rel="alternate" type="application/rss+xml" href="https://proceed-to-decode.com/rss.xml"
+        title="Proceed to Decode">
+    <link rel="stylesheet" href="/css/default.css?version=2">
+    
+    
+    <link rel="stylesheet" href="/lib/highlight.js/styles/default.css">
+<script src="/lib/highlight.js/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+    
+    
+    
+    
+</head>
+
+<body>
+    <nav class="top-menu">
+    <div class="top-menu">
+        <ul class="left-menu">
+            <li class="menu-item"><a href="/">Home</a></li>
+            <li class="menu-item"><a href="/about">About</a></li>
+        </ul>
+        <ul class="right-menu">
+            <li class="menu-item"><a href="https://github.com/kldtz"><svg height="32" role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>GitHub</title><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg></a></li>
+            <li class="menu-item"><a href="/rss.xml"><svg version="1.0" xmlns="http://www.w3.org/2000/svg" height="32" viewBox="0 0 128.000000 128.000000" preserveAspectRatio="xMidYMid meet"><title>RSS</title><g transform="translate(0.000000,128.000000) scale(0.100000,-0.100000)" stroke="none"><path d="M575 1274 c-11 -2 -45 -9 -75 -15 -216 -42 -418 -239 -475 -464 -19 -76 -19 -234 0 -310 55 -218 237 -402 455 -461 103 -28 254 -24 357 10 276 90 456 353 440 642 -18 323 -276 581 -599 598 -46 3 -92 3 -103 0z m-70 -290 c219 -52 417 -239 484 -457 11 -37 23 -97 27 -132 l7 -65 -66 0 c-72 0 -77 4 -77 68 0 49 -41 161 -80 222 -43 66 -132 148 -206 187 -63 34 -165 63 -221 63 l-33 0 0 63 c0 35 3 67 6 70 8 8 82 -1 159 -19z m-28 -232 c147 -46 258 -164 298 -317 26 -103 25 -105 -49 -105 -70 0 -67 -3 -81 70 -23 113 -140 220 -260 237 l-45 6 0 63 0 64 39 0 c22 0 65 -8 98 -18z m18 -266 c35 -35 41 -69 18 -108 -48 -82 -163 -51 -163 42 0 80 91 120 145 66z"/></g></svg></a></li>
+        </ul>
+    </div>
+</nav>
+    <main>
+        <article>
+            <header>
+                <h1>Lambda Is All You Need</h1>
+                <div class="date"><span class="date">Jul  2, 2021</span></div>
+            </header>
+            <p>This is a foray into untyped lambda calculus using Python. The code is entirely impractical, definitely wouldn't recommend using any of this in a real-world program.</p>
+<p>We will assign names to certain expressions and use them to build more complex expressions. However, we'll imagine that these are not functions that can call themselves, but just shorthands that expand to the expression they denote, assuming automatic renaming (α-conversion) to avoid name collisions.</p>
+<h2>Logic</h2>
+<p>We start with some basic Boolean logic. <em>True</em> and <em>false</em> are represented as functions that take two arguments and select the first or second argument respectively.</p>
+<pre><code class="language-Python">TRUE  = lambda x: lambda y: x
+FALSE = lambda x: lambda y: y
+</code></pre>
+<p>These definitions give us a simple conditional <code>if-else</code> construct, which we can make more explicit with another shorthand definition.</p>
+<pre><code class="language-Python">IFELSE = lambda p: lambda x: lambda y: p(x)(y)
+</code></pre>
+<p>To translate these Booleans to the built-in Python Booleans, we just need to apply them to <code>True</code> and <code>False</code>.</p>
+<pre><code class="language-Python">BOOL = lambda b: b(True)(False)
+</code></pre>
+<p>Defining basic operations of Boolean algebra is easy if we think in terms of our first abstractions. For <code>NOT</code> we simply reverse the order of the arguments, so that <code>TRUE</code> selects <code>FALSE</code> and <code>FALSE</code> selects <code>TRUE</code>. In <code>AND</code> the first argument selects the second if it is <code>TRUE</code> and itself if it is <code>FALSE</code>. In <code>OR</code> it's exactly the other way round.</p>
+<pre><code class="language-Python">NOT = lambda p: p(FALSE)(TRUE)
+AND = lambda p: lambda q: p(q)(p)
+OR  = lambda p: lambda q: p(p)(q)
+</code></pre>
+<p>To implement the equality predicate for Boolean values, we can build on these basic Boolean operations.</p>
+<pre><code class="language-Python">EQB = lambda p: lambda q: OR (AND(p)(q)) (AND (NOT(p)) (NOT(q)))
+</code></pre>
+<p>Let's give it a try.</p>
+<pre><code class="language-Python">BOOL(NOT(TRUE)) # False
+BOOL(AND(NOT(FALSE))(NOT(FALSE))) # True
+BOOL(OR(NOT(FALSE))(FALSE)) # True
+BOOL(EQB(NOT(FALSE))(TRUE)) # True
+</code></pre>
+<h2>Lists</h2>
+<p>We continue with <a href="https://en.wikipedia.org/wiki/Church_encoding#Church_pairs">Curch pairs</a> and immutable lists. A pair is just a function that takes a function as argument and applies it to two expressions. I use the Lisp names for the basic operations. Remember that <code>TRUE</code> selects its first argument, <code>FALSE</code> its second argument.</p>
+<pre><code class="language-Python">CONS = lambda x: lambda y: lambda f: f(x)(y)
+CAR  = lambda l: l(TRUE)
+CDR  = lambda l: l(FALSE)
+</code></pre>
+<p>Starting from Church pairs there are different ways to represent lists, let's use the shortest.</p>
+<pre><code class="language-Python">NIL   = FALSE
+ISNIL = lambda l: l(lambda h: lambda t: lambda b: FALSE)(TRUE)
+</code></pre>
+<p>If <code>l</code> is <code>NIL</code> (or <code>FALSE</code>), <code>ISNIL</code> applies it to two arguments, the second of which is <code>TRUE</code>, so <code>ISNIL(NIL)</code> obviously works. Otherwise we eventually end up with <code>(lambda h: lambda t: lambda b: FALSE) (CAR(l)) (CDR(l)) (TRUE)</code>, which is always <code>FALSE</code>.</p>
+<p>Here are some examples involving list operations.</p>
+<pre><code class="language-Python">BOOL(ISNIL(NIL)) # True
+BOOL(ISNIL(CONS(TRUE)(NIL))) # False
+BOOL(CAR(CONS(TRUE)(NIL))) # True
+BOOL(ISNIL(CDR(CONS(TRUE)(NIL)))) # True
+</code></pre>
+<h2>Natural Numbers</h2>
+<p>We use <a href="https://en.wikipedia.org/wiki/Church_encoding#Church_numerals">Church numerals</a> to represent natural numbers. Each Church numeral is a function that accepts a function and an expression. We start with <code>ZERO</code>, which just returns the expression, and obtain the successor by wrapping a numeral into another function. So <em>n</em>-fold composition gives us the natural number <em>n</em>.</p>
+<pre><code class="language-Python">ZERO = lambda f: lambda x: x
+SUCC = lambda n: lambda f: lambda x: f(n(f)(x))
+</code></pre>
+<p>To check for zero, we use the fact that <code>ZERO</code> is equivalent to <code>FALSE</code>, so it just selects the second argument, which hence must be <code>TRUE</code>. Otherwise we pass a function to the numeral that evaluates to <code>FALSE</code>, independent of the argument, so <code>ISZERO</code> evaluates to <code>FALSE</code> for all successors of <code>ZERO</code>.</p>
+<pre><code class="language-Python">ISZERO = lambda n: n(lambda x: FALSE)(TRUE)
+</code></pre>
+<p>It's hard to read Church numerals, so it will be convenient to have a function that translates them to the built-in Python numbers.</p>
+<pre><code class="language-Python">ARABIC = lambda n: n(lambda x: x + 1)(0)
+</code></pre>
+<p>Let's type a few examples again.</p>
+<pre><code class="language-Python">BOOL(ISZERO(ZERO)) # True
+ARABIC(SUCC(ZERO)) # 1
+ARABIC(SUCC(SUCC(ZERO))) # 2
+...
+</code></pre>
+<h2>Recursion</h2>
+<p>We got some basic Boolean logic, we have lists and numbers with nil and zero checks, let's put it together to do something interesting with recursion. How about a length function for lists? It should take a list as its argument and return a Church numeral representing the length of the list. </p>
+<p>In the beginning I said that our definitions are not able to call themselves (in practice they are, but let's pretend). Luckily, after reading chapter 9 of <em>The Little Schemer</em>, I know a neat trick to build recursive functions in lambda calculus: the applicative-order <em>Y combinator</em>.</p>
+<pre><code class="language-Python">Y = lambda le: (lambda f: f(f)) (lambda f: le(lambda x: f(f)(x)))
+</code></pre>
+<p>I won't try to explain it here, because a single sentence wouldn't be enough, but I think the <em>The Little Schemer</em> does a good job at that.</p>
+<p>Now we define the function that will fill <code>le</code>. It takes a function <code>length</code> as argument and produces a function that takes a list and evaluates to <code>ZERO</code> if the list is <code>NIL</code> or the successor of <code>length</code> applied to <code>CDR(l)</code>. The function <code>length</code> will be supplied by the Y combinator in terms of <code>LENGTH</code> itself. The definition is quite long, so I adapt a more Lisp-like syntax.</p>
+<pre><code class="language-Python">LENGTH = (lambda length: 
+           (lambda l: 
+             (IFELSE (ISNIL (l)) 
+                     (ZERO) 
+                     (SUCC (length (CDR (l)))))))
+</code></pre>
+<p>Let's try this on the empty list <code>NIL</code> by evaluating <code>ARABIC(Y(LENGTH)(NIL))</code> to get 0.</p>
+<pre><code>RecursionError: maximum recursion depth exceeded
+</code></pre>
+<p>Oh no, a recursion error on the empty list! This doesn't look good. Is there a mistake in one of our definitions? No, not really. The problem is that Python evaluates function arguments eagerly, so already the first time <code>IFELSE</code> is evaluated, we run into infinite recursion in its third argument.</p>
+<p>What can we do? We are cheating. We convert our Church Boolean to a Python Boolean and use the built-in <em>if-else</em> construct, which only executes one of its branches. </p>
+<pre><code class="language-Python">LENGTH = (lambda length: 
+           (lambda l: 
+             (ZERO) if BOOL(ISNIL(l)) else (SUCC(length(CDR(l))))))
+</code></pre>
+<p>Now it works.</p>
+<pre><code class="language-Python">ARABIC(Y(LENGTH)(NIL)) # 0
+ARABIC(Y(LENGTH)(CONS(TRUE)(NIL))) # 1
+ARABIC(Y(LENGTH)(CONS(TRUE)(CONS(TRUE)(NIL)))) # 2
+...
+</code></pre>
+<hr />
+<p>Friedman, D. P., &amp; Felleisen, M. (1996). <em>The Little Schemer</em>. MIT Press.</p>
+
+        </article>
+    </main>
+    <footer id="site-footer">
+    <a id="footer-name" href="/">&copy; 2018-2021<br>Tobias Kolditz</a>
+</footer>
+    
+</body>
+
+</html>
